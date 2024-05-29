@@ -1,0 +1,86 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Poppins";
+}
+
+.content {
+  display: flex;
+  align-items: center;
+}
+
+.menuLateral {
+  display: inline;
+  background-color: #00164f;
+  max-width: 15vw;
+  height: 100vh;
+  text-align: center;
+}
+
+/* Estilizando o Menu lateral da Dashboard */
+.menuLateral img {
+  max-width: 10vw;
+  margin: 5vh;
+  background-color: #0d308894;
+  border-radius: 80%;
+}
+
+.menuLateral h1 {
+  color: #ffff;
+}
+
+.menuLateral li {
+  margin-top: 3vh;
+  color: #ffff;
+  font-size: larger;
+  background-color: #0d308894;
+  padding: 10px;
+}
+
+.menuLateral li:hover {
+  background-color: #ffb700c5;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.menuLateral .opcao {
+  margin: 13vh 0;
+}
+
+.menuLateral a {
+  color: #ffff;
+  text-decoration: none;
+}
+
+.graficos {
+  display: flex;
+  justify-content: space-around;
+ 
+}
+
+canvas {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+}
+
+h2 {
+  margin: 1vh;
+  color: #3c3c3d;
+}
+
+.graficolm {
+  border: 2px solid #0116494d;
+  border-radius: 20px;
+  margin: 1vw;
+  text-align: center;
+}
+
+.graficochave {
+  border: 2px solid #0116494d;
+  border-radius: 20px;
+  margin: 1vw;
+  text-align: center;
+}

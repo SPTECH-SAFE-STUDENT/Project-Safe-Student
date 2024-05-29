@@ -1,0 +1,162 @@
+<!doctype html>
+<html>
+<link rel="stylesheet" href="style.css">
+<head>
+    <div class="content">
+    <div class="menuLateral">
+        <img src="./img/logo_SS.png">
+        <div>
+            <h1>Bem vindo<br>de volta!</h1>
+        </div>
+    </div>
+
+<div class="graficos">
+    
+    <title>Line Chart</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+    <script src="http://www.chartjs.org/dist/2.7.1/Chart.js"></script>
+    <script src="http://www.chartjs.org/samples/latest/utils.js"></script>
+    <style>
+        canvas {
+            -moz-user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+    </style>
+    </head>
+
+<body>
+        <div class="graficolm">
+        <h2>Sensor LM 35 - Temperatura</h2>
+ 
+            <canvas id="lm35Temperatura"></canvas>
+       </div>
+       <div class="graficochave">
+        <h2>Sensor Chave</h2>
+        
+            <canvas id="chave"></canvas>
+       </div>
+    
+</div>
+
+</div>
+    <script>
+        /* -- lm35Temperatura */
+        var contextoLm35Temperatura = document.getElementById('lm35Temperatura').getContext('2d');
+        contextoLm35Temperatura.canvas.width = 600;
+    contextoLm35Temperatura.canvas.height = 400;
+        var lm35Temperatura = new Chart(
+            contextoLm35Temperatura,
+            {
+                type: 'line',
+                data: {
+                    datasets: [{
+                        label: 'Temperatura',
+                        type: 'line',
+                        borderColor: ['#ffd902'],
+                        backgroundColor: ['#ffe135']
+                    }]
+                },
+                options: {
+                    scales: {
+                        xAxes: [{
+                            distribution: 'series',
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }],
+                        yAxes: [{
+                            scaleLabel: {
+                                display: true,
+                            },
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    },
+                    animation: {
+                        duration: 0
+                    }
+                }
+            }
+        );
+        /* -- chave */
+        var contextoChave = document.getElementById('chave').getContext('2d');
+        contextoChave.canvas.width = 600;
+    contextoChave.canvas.height = 400;
+        var chave = new Chart(
+            contextoChave,
+            {
+                type: 'bar',
+                data: {
+                    datasets: [{
+                        label: 'Chave',
+                        type: 'bar',
+                        borderColor: ['#ffd902'],
+                        backgroundColor: ['#ffe135']
+                    }]
+                },
+                options: {
+                    scales: {
+                        xAxes: [{
+                            distribution: 'linear',
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }],
+                        yAxes: [{
+                            scaleLabel: {
+                                display: true,
+                            },
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    },
+                    animation: {
+                        duration: 0
+                    }
+                }
+            }
+        );
+
+        var paginacao = {};
+        var tempo = {};
+        function obterDados(grafico, endpoint) {
+            var http = new XMLHttpRequest();
+            http.open('GET', 'http://localhost:3300/sensores/' + endpoint, false);
+            http.send(null);
+            var valores = JSON.parse(http.responseText);
+            if (paginacao[endpoint] == null) {
+                paginacao[endpoint] = 0;
+            }
+            if (tempo[endpoint] == null) {
+                tempo[endpoint] = 0;
+            }
+            // Exibir à partir do último elemento exibido anteriormente
+            var ultimaPaginacao = paginacao[endpoint];
+            paginacao[endpoint] = valores.length;
+            var valores = valores.slice(ultimaPaginacao);
+            valores.forEach((valor) => {
+                //Máximo de 60 itens exibidos no gráfico
+                if (grafico.data.labels.length == 10 && grafico.data.datasets[0].data.length == 10) {
+                    grafico.data.labels.shift();
+                    grafico.data.datasets[0].data.shift();
+                }
+
+                grafico.data.labels.push(tempo[endpoint]++);
+                grafico.data.datasets[0].data.push(parseFloat(valor));
+                grafico.update();
+            })
+        }
+
+        setInterval(() => {
+            obterDados(lm35Temperatura, 'lm35/temperatura');
+            obterDados(chave, 'chave');
+        }, 1000);
+
+    </script>
+</body>
+
+</html>
