@@ -1,2 +1,3 @@
-# Project-Safe-Student
-Projeto desenvolvido na SPTech para um sistema de monitoramento de Vans escolares com sensores de presença e temperatura
+<img src="./Project-Safe-Web/public/img/logo_SS.png">
+
+<h1>Projeto-Safe-Student</h1>

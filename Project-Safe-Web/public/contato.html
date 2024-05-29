@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/style.css">
+    <title>Contato</title>
+</head>
+
+<body>
+    <div class="contato_voltar"><a href="./index.html">
+            < Voltar</a>
+    </div>
+    <div class="faleConosco">
+        <div class="container">
+
+            <h1>ENTRE EM CONTATO</h1>
+            <span>
+                Está com alguma dúvida ou deseja contratar nossos serviços?
+                Envie uma mensagem agora mesmo e te respoderemos da melhor maneira possível.
+            </span>
+
+            <form onsubmit="mensagemEnvio()">
+                <p>
+                    Nome:
+                </p>
+                <input type="text" id="input_nomeFaleConosco" required>
+                <br>
+                <p>
+                    Email:
+                </p>
+                <input type="text" id="input_emailFaleConosco" required>
+                <br>
+                <p>
+                    Escreva sua mensagem:
+                </p>
+                <input id="input_mensagemFaleConosco" required />
+                <br>
+
+                <button>
+                    Enviar
+                </button>
+            </form>
+        </div>
+    </div>
+    <script>
+        function mensagemEnvio() {
+            alert('Mensagem enviada! Obrigado por nos contatar.')
+        }
+    </script>
+</body>
+
+
+</html>
