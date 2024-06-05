@@ -14,7 +14,7 @@
   display: inline;
   background-color: #00164f;
   max-width: 15vw;
-  height: 100vh;
+  height: 100%;
   text-align: center;
 }
 
@@ -98,9 +98,7 @@
 .critico {
   background-color: red;
 }
-.ideal {
-  background-color: green;
-}
+
 .media {
   background-color: rgb(255, 136, 0);
 }
@@ -108,6 +106,7 @@
 .text_legenda {
   margin-left: 10vh;
   width: 18vw;
+  margin-top: 2vh;
   font-size: medium;
   text-align: left;
 }
@@ -152,7 +151,7 @@
 .metricas{
   display: flex;
   width: 30vw;
-  margin-top: 40vh;
+  margin-top: 30vh;
   font-size: large;
   justify-content: right;
   flex-direction: column;
