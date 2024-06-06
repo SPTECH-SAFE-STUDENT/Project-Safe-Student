@@ -8,47 +8,48 @@
   <link rel="stylesheet" href="./css/dash.css" />
 
   <style>
-    dialog {
-      border: none;
-      border-radius: 5px;
-      box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
-      padding: 20px;
-      max-width: 369px;
-      height: 60%;
-      width: 60%;
-      margin-top: 9%;
-      margin-left: 39%;
-    }
 
-    dialog::backdrop {
-      background-color: rgba(0, 0, 0, 0.8);
-    }
+    dialog{
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    max-width: 369px;
+    height: 60%;
+    width: 60%;
+    margin-top: 9%;
+    margin-left: 39%;
+  }
 
-    button#closeModalBtn {
-      background: none;
-      border: none;
-      font-size: 70px;
-    }
+  dialog::backdrop{
+    background-color: rgba(0,0,0,0.8);
+  }
+  button#closeModalBtn {
+    background: none;
+    border: none;
+    font-size: 70px;
+  }
 
-    button#acess-btn {
-      padding: 30px;
-      text-align: center;
-      width: 300px;
-      height: auto;
-      background-color: #00164F;
-      border-radius: 16px;
-      border: none;
-      color: #FFB800;
-      font-size: 24px;
-    }
+  button#acess-btn {
+    padding: 30px;
+    text-align: center;
+    width: 300px;
+    height: auto;
+    background-color: #00164F;
+    border-radius: 16px;
+    border: none;
+    color: #FFB800;
+    font-size: 24px;
+  }
+  div#divcenter{
+    text-align: center;
+  }
 
-    div#divcenter {
-      text-align: center;
-    }
+  
   </style>
 </head>
 
-<body>
+<body >
   <div class="content">
     <div class="menuLateral">
       <img src="./img/logo_SS.png" />
@@ -78,28 +79,31 @@
         <span>8</span>
       </div>
       <div id="legenda">
+        <div class="ideal">
+          <h1 class="text_legenda">Bom</h1>
+        </div>
         <div class="media">
           <h1 class="text_legenda">Alerta</h1>
         </div>
-        <div class="critico">
+        <div class="critico"> 
           <h1 class="text_legenda">Crítico</h1>
         </div>
       </div>
     </div>
     <div class="lista_metrica">
       <div class="status_geral" id="div_vans">
-        <h2>Status geral: <span> A situação esta <red style="color: red;">crítica</red> no momento<span></h2>
+        <h2>Status geral: <span> A situação esta <red style="color: red;">crítico</red> no momento<span></h2>
         <div class="lista">
           <div class="van">
-
+            
             <img src="./img/van.png" alt="">
-            <div style="display: flex;">
+<div style="display: flex;">
 
-              <span>Placa: ACD54Y</span>
-              <span>Temperatura 27°C</span>
-              <span>Status: Em serviço</span>
-            </div>
-
+  <span>Placa: ACD54Y</span>
+  <span>Temperatura 27°C</span>
+  <span>Status: Em serviço</span>
+</div>
+            
             <a href="dashboard2.html">IR</a>
           </div>
         </div>
@@ -157,17 +161,17 @@
       <div class="metricas">
         <div class="servico">
           <span><b>Vans em serviço: </b><br>
-            Vans que estão trabalhando no momento
+             Vans que estão trabalhando no momento
           </span>
         </div>
         <div class="estado">
-          <span><b>Vans em estado crítico: </b><br>
-            Vans com alertas contantes ou erros graves no sistema
+          <span><b>Estado crítico: </b><br>
+             Vans com alertas contantes ou erros graves no sistema
           </span>
         </div>
         <div class="alerta">
           <span><b>Alertas do dia: </b><br>
-            Quantidade de alertas no dia atual
+             Quantidade de alertas no dia atual
           </span>
         </div>
       </div>
@@ -176,20 +180,33 @@
 
   <dialog id="modal">
     <div class="modal-content">
-      <button id="closeModalBtn" onclick="closeModal()" class="close">&times;</button>
-      <div id="divcenter">
+        <button id="closeModalBtn" onclick="closeModal()" class="close">&times;</button>
+        <div id="divcenter">
 
-        <h2>Acesse o Portal</h2>
-        <button id="acess-btn" onclick="sendToJira()">Portal Suporte</button>
-        <br><br><br><br><br>
-        <div id="suporte_modal" style="display: none;">
-          <h2>SafeIA para Suporte</h2>
-          <button id="acess-btn" onclick="openSafeIA()">SafeIA</button>
+          <h2>Acesse o Portal</h2>
+          <button id="acess-btn" onclick="sendToJira()">Portal Suporte</button>
+          <br><br><br><br><br>
+          <div id="suporte_modal" style="display: none;">
+            <h2>SafeIA para Suporte</h2>
+            <button id="acess-btn" onclick="openSafeIA()">SafeIA</button>
+          </div>
         </div>
-      </div>
+
+        <div id="container-safeIA" class="modal-safeIA" style="width:30%; background-color: aqua; margin-top: 10%;">
+
+            <center>
+                <h1>BobIA</h1>
+                <textarea id="pergunta" type="text" placeholder="Digite a pergunta..."></textarea>
+                <br><br>
+                <button onclick="gerarResposta()">Gerar Resposta</button>
+                <h3>Resposta da IA:</h3>
+                <div id="resposta"></div>
+            </center>
+
+        </div>
 
     </div>
-  </dialog>
+</dialog>
 
 </body>
 
@@ -206,30 +223,30 @@
 
 
 
-  function openModal() {
+function openModal(){
 
-    let usuarioNaSessao = sessionStorage.NOME_USUARIO
+  let usuarioNaSessao = sessionStorage.NOME_USUARIO
 
     modal.showModal();
-    if (usuarioNaSessao == "Suporte") {
+    if(usuarioNaSessao == "Suporte"){
       suporte_modal.style.display = "block";
     }
-  }
+}
 
-  function openSafeIA() {
-    divcenter.innerHTML = `
+function openSafeIA(){
+  divcenter.innerHTML = `
     <h2>SafeIa</h2>
   `
-  }
+}
 
 
-  function closeModal() {
+function closeModal() {
     modal.close();
-  }
+}
 
-  function exibirVans() {
-    JSON.parse(sessionStorage.AQUARIOS).forEach(item => {
-      document.getElementById("div_vans").innerHTML += `
+function exibirVans() {
+        JSON.parse(sessionStorage.AQUARIOS).forEach(item => {
+            document.getElementById("div_vans").innerHTML += `
             <div class="lista">
                 <div class="van">
                   <img src="./img/van.png" alt="">
@@ -243,20 +260,38 @@
           </div>
 
         `
-    });
-  }
+      });
+    }
 
+      // fazer a chamada do BobIA
+      async function gerarResposta() {
+        const pergunta = document.getElementById('pergunta').value;
 
-  // <div class="card-aquario">
-  //     <div class="title-aquario">
-  //         <h1>${item.descricao}</h1>
-  //     </div>
-  //     <div class="desc-aquario">
-  //     <div class="temperatura">
-  //         <p id="temp_aquario_${item.id}">-°C</p>
-  //     </div>
-  //     <div class="cor-alerta" id="card_${item.id}"></div>
-  //     </div>
-  // </div>
+        const response = await fetch('http://localhost:3333/perguntar', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ pergunta })
+        });
+
+        const data = await response.json();
+
+        resposta.style.display = 'block';
+        document.getElementById('resposta').innerText = data.resultado;
+    }
+    
+    
+    // <div class="card-aquario">
+    //     <div class="title-aquario">
+    //         <h1>${item.descricao}</h1>
+    //     </div>
+    //     <div class="desc-aquario">
+    //     <div class="temperatura">
+    //         <p id="temp_aquario_${item.id}">-°C</p>
+    //     </div>
+    //     <div class="cor-alerta" id="card_${item.id}"></div>
+    //     </div>
+    // </div>
 
 </script>

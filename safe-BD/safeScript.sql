@@ -1,24 +1,28 @@
 
-create database safe_student;
+create database if not exists safe_student;
 
 use safe_student;
 
-CREATE TABLE Usuário (
-   IdCadastro  INT AUTO_INCREMENT PRIMARY KEY,
-   crmc CHAR (5) not null,
-    nome VARCHAR(100),
-    cpf VARCHAR(14),
-    email VARCHAR(100),
-    celular VARCHAR(20)
-);
-
 create table empresa(
 idEmpresa INT PRIMARY KEY AUTO_INCREMENT,
-cnpj VARCHAR(18),
+cnpj VARCHAR(18) UNIQUE KEY,
 rua VARCHAR(255),
 cidade VARCHAR(100),
 estado VARCHAR(50),
 cep VARCHAR(10)
+);
+
+
+CREATE TABLE Usuario (
+	IdUsuario  INT AUTO_INCREMENT PRIMARY KEY,
+	crmc CHAR (10) not null,
+    nome VARCHAR(100),
+    cpf VARCHAR(14),
+    email VARCHAR(100) UNIQUE KEY,
+    celular VARCHAR(20),
+    senha VARCHAR(50),
+    fkCnpj VARCHAR(18),
+    constraint fk_usuario_empresa FOREIGN KEY (fkCnpj) references empresa(cnpj)
 );
 
 
@@ -33,7 +37,7 @@ CREATE TABLE Veiculo (
     fkUsuario INT UNIQUE KEY,
     fkEmpresa INT,
     FOREIGN KEY (fkEmpresa) references empresa(idEmpresa),
-    FOREIGN KEY (fkUsuario) REFERENCES Usuário(idCadastro)
+    FOREIGN KEY (fkUsuario) REFERENCES Usuario(IdCadastro)
 );
 
 CREATE TABLE Sensores (
@@ -44,7 +48,6 @@ CREATE TABLE Sensores (
     fkveiculo INT,
     FOREIGN KEY (fkveiculo) REFERENCES Veiculo(idVeiculo)
 );
-
 
 CREATE TABLE LeituraTemp (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -60,7 +63,6 @@ fksensorProx int,
 FOREIGN KEY (fksensorProx) references Sensores(id)
 );
 
-
 CREATE TABLE Alertas (
     id INT AUTO_INCREMENT PRIMARY KEY,
     tipo VARCHAR(100), -- tipo ou indicar bloqueio ou temperatura
@@ -71,7 +73,7 @@ CREATE TABLE Alertas (
 );
 
 -- Inserindo dados na tabela cadastro
-INSERT INTO  Usuário (crmc, nome, cpf, email, celular)
+INSERT INTO  Usuario (crmc, nome, cpf, email, celular)
 VALUES 
 ('12345', 'João Silva', '123.456.789-00', 'joao@gmail.com', '(99) 97912-0972'),
 ('54321', 'Maria Oliveira', '987.654.321-00', 'maria@gmail.com', '(88) 92146-8128'),
@@ -161,7 +163,7 @@ INSERT INTO Alertas (tipo, descricao, data_hora, fksensores) VALUES
 
 
 -- Selecionar todos os cadastros
-SELECT * FROM Usuário;
+SELECT * FROM Usuario;
 
 -- Selecionar todos os veículos
 SELECT * FROM Veiculo;
@@ -178,11 +180,10 @@ SELECT * FROM LeituraTemp ;
 -- Selecionar a leitura proximidade 
 SELECT * FROM LeituraProx;
 
-
 -- selecionar a tabela cadastro mostrando o veiculo que ela está ligada 
 select *
-from Usuário 
-join veiculo on veiculo.fkUsuario = Usuário.idCadastro;
+from Usuario 
+join veiculo on veiculo.fkUsuario = Usuario.idCadastro;
 
 -- selcionar a tabela sensores e veiculo mostrando a fk 
 select *

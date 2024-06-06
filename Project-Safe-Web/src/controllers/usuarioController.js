@@ -28,7 +28,9 @@ function autenticar(req, res) {
                                     id: usuario.id,
                                     email: usuario.email,
                                     nome: usuario.nome,
-                                    senha: usuario.senha,
+                                    // cnpj: usuario.cnpj,
+                                    // cpf: usuario.cpf,
+                                    senha: usuario.senha
                                     // vans: resultadoVans
                                 });
                             } else {
@@ -62,22 +64,27 @@ function cadastrar(req, res) {
     var nome = req.body.nomeServer;
     var email = req.body.emailServer;
     var senha = req.body.senhaServer;
+    var cnpj = req.body.cnpjServer;
+    var crmc = req.body.crmcServer;
     // var cpf = req.body.cpfServer;
     // var empresaId = req.body.empresaServer;
 
     // Faça as validações dos valores
     if (nome == undefined) {
-        res.status(400).send("Seu nome está undefined!");
+        res.status(400).send("Seu nome está indefinido!");
     } else if (email == undefined) {
-        res.status(400).send("Seu email está undefined!");
+        res.status(400).send("Seu email está indefinido!");
     } else if (senha == undefined) {
-        res.status(400).send("Sua senha está undefined!");
-    // } else if (empresaId == undefined) {
-    //     res.status(400).send("Sua empresa está undefined!");
-    } else {
+        res.status(400).send("Sua senha está indefinido!");
+    } else if(cnpj == undefined){
+        res.status(400).send("Sua senha está indefinido!");
+    } else if(crmc == undefined){
+        res.status(400).send("Seu crmc está indefinido!");
+    }
+    else {
 
         // Passe os valores como parâmetro e vá para o arquivo usuarioModel.js
-        usuarioModel.cadastrar(nome, email, senha)
+        usuarioModel.cadastrar(nome, email, crmc, cnpj, senha)
             .then(
                 function (resultado) {
                     console.log("Erro Aqui")

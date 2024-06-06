@@ -23,14 +23,14 @@
         <p>Nome Completo</p>
         <input id="nome_ipt" type="text" required />
 
-        <p>CPF</p>
-        <input id="cpf_ipt" type="text" required />
-
-        <!-- <p>CRMC</p>
-        <input type="text" id="crmc_ipt"  required /> -->
-
         <p>E-mail</p>
         <input id="email_ipt" type="email" required />
+
+        <p>CRMC</p>
+        <input id="crmc_ipt" type="text" required />
+
+        <p>CNPJ</p>
+        <input type="text" id="cnpj_ipt"  required /> 
 
         <p>Senha</p>
         <input id="senha_ipt" type="password" required>
@@ -196,20 +196,21 @@ function cadastro() {
     //Recupere o valor da nova input pelo nome do id
     // Agora vá para o método fetch logo abaixo
     var nomeVar = nome_ipt.value;
-    var confirmacaoSenhaVar = confirmacao_senha_input.value;
-    var cpfVar = cpf_ipt.value
-    var senhaVar = senha_ipt.value
+    var crmcVar = crmc_ipt.value
+    var cnpjVar = cnpj_ipt.value
     var emailVar = email_ipt.value
+    var senhaVar = senha_ipt.value
+    var confirmacaoSenhaVar = confirmacao_senha_input.value;
     // var crmcVar = crmc_ipt.value
     // var empresaVar = listaEmpresas.value;
     //verica se a campos nulos 
     if (
       nomeVar == "" ||
+      crmcVar == "" ||
+      cnpjVar == "" ||
       emailVar == "" ||
       senhaVar == "" ||
-      confirmacaoSenhaVar == "" ||
-      // empresaVar == ""||
-      cpfVar == ""
+      confirmacaoSenhaVar == "" 
     ) {
       // cardErro.style.display = "block";
       
@@ -232,6 +233,8 @@ function cadastro() {
         // crie um atributo que recebe o valor recuperado aqui
         // Agora vá para o arquivo routes/usuario.js
         nomeServer: nomeVar,
+        crmcServer: crmcVar,
+        cnpjServer: cnpjVar,
         emailServer: emailVar,
         senhaServer: senhaVar
         // empresaServer: empresaVar
