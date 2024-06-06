@@ -19,19 +19,18 @@ function autenticar(req, res) {
 
                 if (resultadoAutenticar.length == 1) {
                     const usuario = resultadoAutenticar[0];
-                    console.log(usuario);
-
-                    aquarioModel.buscarVansPorEmpresa(usuario.empresaId)
-                        .then((resultadoAquarios) => {
-                            if (resultadoAquarios.length > 0) {
+                    console.log(resultadoAutenticar[0].idUsuario + " teste");
+                    
+                    aquarioModel.buscarVansPorEmpresa(resultadoAutenticar[0].fkCnpj)
+                        .then((resultadoVans) => {
+                            if (resultadoVans.length > 0) {
                                 res.json({
-                                    id: usuario.id,
+                                    idUsuario: usuario.ddUsuario,
                                     email: usuario.email,
                                     nome: usuario.nome,
-                                    // cnpj: usuario.cnpj,
-                                    // cpf: usuario.cpf,
-                                    senha: usuario.senha
-                                    // vans: resultadoVans
+                                    fkcnpj: usuario.fkempresa,
+                                    senha: usuario.senha,
+                                    vans: resultadoVans
                                 });
                             } else {
                                 res.status(204).json({ aquarios: [] });
