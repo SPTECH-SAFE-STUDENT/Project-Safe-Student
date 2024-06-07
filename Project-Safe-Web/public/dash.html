@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Document</title>
+  <title>Dashboard</title>
   <link rel="stylesheet" href="./css/dash.css" />
 
   <style>
@@ -13,7 +13,7 @@
   </style>
 </head>
 
-<body onload="exibirVans()">
+<body>
   <div class="content">
     <div class="menuLateral">
       <img src="./img/logo_SS.png" />
@@ -43,9 +43,6 @@
         <span>8</span>
       </div>
       <div id="legenda">
-        <div class="ideal">
-          <h1 class="text_legenda">Bom</h1>
-        </div>
         <div class="media">
           <h1 class="text_legenda">Alerta</h1>
         </div>
@@ -167,7 +164,7 @@
             <div class="van">
               <img src="./img/van.png" alt="">
               <div style="display: flex;">
-                <span>Placa:<br>${item.placa}</span>
+                <span>Placa:${item.descricao}</span>
                 <span id="temp_van_${item.id}">Temperatura 27°C</span>
                 <span id="card_${item.id}">Status: Em serviço</span>
               </div>

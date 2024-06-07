@@ -22,7 +22,7 @@
     max-width: 15vw;
     height: 100vh;
     text-align: center;
-    
+    position: fixed;
 }
 
 
@@ -76,24 +76,63 @@
 .kpis {
     width: 100%;
     display:flex;
-    justify-content: center;
+    justify-content: right;
+    margin-top: 2vh;
+    margin-bottom: 4vh;
+    gap: 4vw;
 }
 
 .kpis div {
     width: 100%;
     max-width: 8%;
-    margin: 2vw;
     border: 2px solid #0116494d;
     border-radius: 20px;
-    padding: 60px 70px;
+    padding: 10px 80px;
     box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.103);
     text-align: center;
+}
+
+#div1{
+    background-color: #00164f;
+}
+
+#div1 p{
+    color: #ffff;
+}
+
+#div1 span{
+    color: #ffff;
+}
+
+#div4{
+    border: none;
+    box-shadow: none;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    padding: 0;
+    margin-right: 10vw;
+}
+
+#botaoFinalizar{
+    background-color: rgb(230, 56, 56);
+    color: #ffff;
+    padding: 20px 60px;
+    font-size: larger;
+    font-weight: bold;
+    border: none;
+    border-radius: 20px;
+    margin-right: 10vw;
+}
+
+#botaoFinalizar:hover{
+    background-color: rgb(180, 45, 45);
+    
 }
 
 .kpis div p{
     color:#00164f;
     font-weight: bold;
-    margin-top: -5vh;
     margin-bottom: 1vh;
     
 }
@@ -110,19 +149,20 @@
 .graficos{
     display: flex;
     width: 100%;
-    
 }
 
 .canvas{
     width: 100%;
     display: flex;
-    justify-content:space-around;
+    justify-content:right;
+    align-items: center;
     
 }
 
 .canvas h2{
-    margin: 1vh;
+    margin: 2vh;
     color: #3c3c3d;
+
 }
 
 .canvas .container-temp{
@@ -131,22 +171,19 @@
     border: 2px solid #0116494d;
     border-radius: 20px;
     height: auto;
-    width: auto;
+    width: 40vw;
 }
 
 .canvas .container-chave{
-    margin: 1vw;
     text-align: center;
     border: 2px solid #0116494d;
     border-radius: 20px;
     height: auto;
-    width: auto;
-    display: flex;
+    width: 40vw;
     justify-content: center;
     flex-wrap: nowrap;
     align-items: center;
     flex-direction: column;
-    align-content: center;
 
 }
 
@@ -154,8 +191,8 @@
     display: flex;
     align-content: center;
     flex-wrap: wrap;
-    /* justify-content: space-around; */
-    gap: 65px;
+    justify-content: space-around;
+    /* gap: 2vw; */
 }
 .grafico_chave{
     display: flex;
@@ -168,7 +205,7 @@
 
 .SelectDiv {
     height: 100px;
-    width: 1219px;
+    width: 100%;
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -183,14 +220,27 @@
     flex-direction: column;
 }
 
+.selecoes input{
+    border: none;
+    background-color: #ebebeb;
+    padding: 20px 40px;
+    border-radius: 20px;
+    font-size: large;
+    outline: none;
+}
+
 .selecoes select {
     cursor: pointer;
-    margin-top: 10px;
+    margin-top: 12px;
     border-color: transparent;
+    background-color: #ebebeb;
+    padding: 20px 40px;
+    border-radius: 20px;
     outline: 0;
     display: flex;
     font-size: 20px;
-    padding-left: 300px;
+    padding-left: 30px;
+    color: #3c3c3d;
 }
 
 .selecoes option {
@@ -206,11 +256,13 @@
     border-color: transparent;
     outline: 0;
     cursor: pointer;
-    color: #00164f;
+    color: #fff;
+    font-weight: bold;
+    background-color: #5dd352;
 }
 
 .selecoes button:hover {
-    background-color: #00164fc6;
+    background-color: #1b6e1fc6;
     color: white;
     transition: all 0.2s;
 }

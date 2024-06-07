@@ -28,7 +28,7 @@
 </head>
 
 <body>
-    <div class="content">
+    <div class="content" >
         <div class="menuLateral">
             <img src="./img/logo_SS.png">
             <div>
@@ -39,7 +39,6 @@
                     <li><a onclick="telaDash()" id="OpcDashboard">Dashboard</a></li>
                     <li><a onclick="telaVeiculo()" id="OpcVeiculos">Veículos</a></li>
                     <li><a onclick="telaHistorico()" id="OpcHistorico">Histórico</a></li>
-                    <li><a id="OpcSair" href="./index.html">Sair</a></li>
                 </ul>
             </div>
         </div>
@@ -47,8 +46,9 @@
         <div id="veiculos" class="SelectDiv">
             <div class="selecoes">
                 <h1> SELECIONE UM VEÍCULO </h1>
+                <input type="text" id="textInput" placeholder="Digite uma placa">
                 <select id="select_placa">
-                    <option value="#">-------</option>
+                    <option value="#">Selecione uma placa</option>
                     <option value="placaUM">FCB1B34</option>
                     <option value="placaDOIS">HPG7G77</option>
                 </select><br>
@@ -63,21 +63,20 @@
         <!-- DASHBOARD DA PLACA UM -->
         <div id="dashFCB1B34" class="visao_dash" style="display: none;">
             <div class="kpis">
-                <div id="1">
+                <div id="div1">
+                    <p>Bancos Ocupados</p>
+                    <span>12</span>
+                </div>
+                <div id="div2">
                     <p>Temperatura Mínima do dia</p>
                     <span>18°C</span>
                 </div>
-                <div id="3">
-                    <p>Temperatura máxima do dia </p>
-                    <span>32°C</span>
-                </div>
-                <div id="2">
-                    <p>Temperatura Média da semana</p>
+                <div id="div3">
+                    <p>Temperatura Máxima do dia</p>
                     <span>30°C</span>
                 </div>
-                <div id="4">
-                    <p>Bancos Ocupados</p><br>
-                    <span>12</span>
+                <div id="div4">
+                    <button id="botaoFinalizar" onclick="voltar()">Finalizar <br> sistema</button>
                 </div>
             </div>
 
@@ -169,6 +168,10 @@
 </html>
 
 <script>
+
+    function voltar(){
+        window.location = './index.html'
+    }
     /* SELEÇÃO DE DASHBOARD */
     function telaVeiculo() {
         opcoes_menu.style = 'display: none'
@@ -194,8 +197,8 @@
             /* DADOS DASHBOARD VEÍCULO UM */
             /* -- lm35Temperatura */
             var contextoLm35Temperatura = document.getElementById('lm35TemperaturaUM').getContext('2d');
-            contextoLm35Temperatura.canvas.width = 650;
-            contextoLm35Temperatura.canvas.height = 400;
+            contextoLm35Temperatura.canvas.width = 700;
+            contextoLm35Temperatura.canvas.height = 500;
             var lm35Temperatura = new Chart(
                 contextoLm35Temperatura,
                 {
@@ -255,8 +258,8 @@
                 let canvas = document.createElement('canvas');
                 canvas.id = `chart${i}`;
                 canvas.className = 'chart-container';
-                canvas.style = "width= 150px; !important";
-                canvas.style = "height = 100px; !important";
+                canvas.style = "width= 100px; !important";
+                canvas.style = "height = 80px; !important";
                 container.appendChild(div);
                 div.appendChild(canvas);
 

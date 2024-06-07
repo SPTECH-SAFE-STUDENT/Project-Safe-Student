@@ -14,8 +14,9 @@
   display: inline;
   background-color: #00164f;
   max-width: 15vw;
-  height: 100vh;
+  height: 100%;
   text-align: center;
+  position: fixed;
 }
 
 .menuLateral img {
@@ -92,6 +93,7 @@
   box-shadow: none;
   display: flex;
   flex-direction: column;
+  margin-top: 1vh;
 }
 
 
@@ -108,8 +110,10 @@
 .text_legenda {
   margin-left: 10vh;
   width: 18vw;
-  font-size: medium;
+  font-size: large;
   text-align: left;
+  color: #292929;
+  margin-top: 2vh;
 }
 
 
@@ -152,7 +156,7 @@
 .metricas{
   display: flex;
   width: 30vw;
-  margin-top: 40vh;
+  margin-top: 30vh;
   font-size: large;
   justify-content: right;
   flex-direction: column;
@@ -171,6 +175,7 @@
   display: flex;
   justify-content: space-around;
   width: 80vw;
+  margin-left: 14vw;
 }
 
 .van{
