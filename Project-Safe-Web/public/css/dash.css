@@ -232,3 +232,88 @@
   flex-direction: row;
   height: 5vh;
 } */
+
+#container-safeIA {
+  width: 350px;
+  height: 150px;
+  border-radius: 20px;
+  display: flex;
+  margin-left: 25vh;
+  background-color: #00164F;
+  margin-top: -5%;
+  margin-left: 27vh;
+}
+
+textarea#pergunta {
+  width: 90%;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #00164F;
+  font-size: 16px;
+}
+
+#button2 {
+  margin-right: -380px;
+  padding: 10px 20px;
+  border-radius: 10px;
+  border: none;
+  background-color: blue;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+#button2:hover {
+  background-color: #FFB800;
+}
+
+h1,
+h3 {
+  color: white;
+}
+
+#resposta {
+  font-size: large;
+  width: 50vh;
+  margin-left: 25vh;
+  margin-top: 100px;
+  color: #000;
+}
+
+dialog {
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+  padding: 20px;
+  height: 70vh;
+  width: 100vh;
+  margin-top: 9%;
+  margin-left: 63vh;
+}
+
+dialog::backdrop {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+button#closeModalBtn {
+  background: none;
+  border: none;
+  font-size: 70px;
+}
+
+button#acess-btn {
+  padding: 30px;
+  text-align: center;
+  width: 300px;
+  height: auto;
+  background-color: #00164F;
+  border-radius: 16px;
+  border: none;
+  color: #FFB800;
+  font-size: 24px;
+}
+
+div#divcenter {
+  text-align: center;
+  margin-top: -80px;
+}
