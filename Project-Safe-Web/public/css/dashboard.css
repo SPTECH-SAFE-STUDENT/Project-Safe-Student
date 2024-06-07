@@ -154,7 +154,8 @@
     display: flex;
     align-content: center;
     flex-wrap: wrap;
-    justify-content: center;
+    /* justify-content: space-around; */
+    gap: 65px;
 }
 .grafico_chave{
     display: flex;

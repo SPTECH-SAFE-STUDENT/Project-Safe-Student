@@ -13,7 +13,7 @@
   </style>
 </head>
 
-<body>
+<body onload="exibirVans()">
   <div class="content">
     <div class="menuLateral">
       <img src="./img/logo_SS.png" />
@@ -167,7 +167,7 @@
             <div class="van">
               <img src="./img/van.png" alt="">
               <div style="display: flex;">
-                <span>Placa:${item.descricao}</span>
+                <span>Placa:<br>${item.placa}</span>
                 <span id="temp_van_${item.id}">Temperatura 27°C</span>
                 <span id="card_${item.id}">Status: Em serviço</span>
               </div>

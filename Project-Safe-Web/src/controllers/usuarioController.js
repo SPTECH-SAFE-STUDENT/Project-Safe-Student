@@ -21,15 +21,15 @@ function autenticar(req, res) {
                     const usuario = resultadoAutenticar[0];
                     console.log(resultadoAutenticar[0].idUsuario + " teste");
                     
-                    aquarioModel.buscarVansPorEmpresa(resultadoAutenticar[0].fkCnpj)
+                    aquarioModel.buscarVansPorEmpresa(resultadoAutenticar[0].IdUsuario)
                         .then((resultadoVans) => {
                             if (resultadoVans.length > 0) {
                                 res.json({
-                                    idUsuario: usuario.ddUsuario,
+                                    idUsuario: usuario.IdUsuario,
                                     email: usuario.email,
                                     nome: usuario.nome,
                                     fkcnpj: usuario.fkempresa,
-                                    senha: usuario.senha,
+                                    senha: usuario.senha,   
                                     vans: resultadoVans
                                 });
                             } else {

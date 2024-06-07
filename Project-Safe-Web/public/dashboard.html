@@ -8,14 +8,22 @@
     <title>Dashboard</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
     <script src="http://www.chartjs.org/dist/2.7.1/Chart.js"></script>
-    <script src="http://www.chartjs.org/samples/latest/utils.js"></script>
+    <!-- <script src="http://www.chartjs.org/samples/latest/utils.js"></script> -->
     <style>
         canvas {
             -moz-user-select: none;
             -webkit-user-select: none;
             -ms-user-select: none;
             user-select: none;
+            width: 150;
+            height: 100;
         }
+        
+        .div-graficos{
+            width: 150px;
+            height: 80px;
+        }
+        
     </style>
 </head>
 
@@ -77,9 +85,9 @@
 
                 <div class="canvas">
                     <div class="container-chave">
-                        <h2>Bancos</h2>
-                        <div class="graficos-alinhamento">
-                            <section class="grafico_chave">
+                        <h2>Bancos Ocupados</h2>
+                        <div class="graficos-alinhamento" id="graficos_bancos">
+                            <!-- <section class="grafico_chave">
                                 <canvas id="chaveUM"></canvas>
                             </section>
                             <section class="grafico_chave">
@@ -90,7 +98,7 @@
                             </section>
                             <section class="grafico_chave">
                                 <canvas id="chave4UM"></canvas>
-                            </section>
+                            </section> -->
 
                         </div>
                     </div>
@@ -234,387 +242,297 @@
                 }
             );
             /* -- chave */
-            var contextoChave = document.getElementById('chaveUM').getContext('2d');
-            contextoChave.canvas.width = 650;
-            contextoChave.canvas.height = 400;
-            var chave = new Chart(
-                contextoChave,
-                {
-                    type: 'bar',
-                    data: {
-                        labels: ['1', '2', '3', '4', '5', '6'],
-                        datasets: [{
-                            label: 'Ocupado',
-                            data: [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0],
-                            type: 'bar',
-                            borderColor: '#FFB800',
-                            backgroundColor: '#FFB800'
-                        }]
-                    },
-                    options: {
-                        scales: {
-                            xAxes: [{
-                                distribution: 'series',
-                                ticks: {
-                                    beginAtZero: true
-                                }
-                            }],
-                            yAxes: [{
-                                scaleLabel: {
-                                    display: true,
-                                },
-                                ticks: {
-                                    beginAtZero: true
-                                }
-                            }]
-                        },
-                        animation: {
-                            duration: 0
-                        }
-                    }
-                }
-            );
+            const bancos = 24
 
-            var contextoChave = document.getElementById('chave2UM').getContext('2d');
-            contextoChave.canvas.width = 650;
-            contextoChave.canvas.height = 400;
-            var chave = new Chart(
-                contextoChave,
-                {
-                    type: 'bar',
-                    data: {
-                        labels: ['7', '8', '9', '10', '11', '12'],
-                        datasets: [{
-                            label: 'Ocupado',
-                            data: [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0],
-                            type: 'bar',
-                            borderColor: '#FFB800',
-                            backgroundColor: '#FFB800'
-                        }]
-                    },
-                    options: {
-                        scales: {
-                            xAxes: [{
-                                distribution: 'series',
-                                ticks: {
-                                    beginAtZero: true
-                                }
-                            }],
-                            yAxes: [{
-                                scaleLabel: {
-                                    display: true,
-                                },
-                                ticks: {
-                                    beginAtZero: true
-                                }
+            const container = document.getElementById('graficos_bancos');
+
+            const chave = {};
+
+
+            for (let i = 1; i <= bancos; i++) {
+                let div = document.createElement('div');
+                div.className = 'div-graficos'
+                let canvas = document.createElement('canvas');
+                canvas.id = `chart${i}`;
+                canvas.className = 'chart-container';
+                canvas.style = "width= 150px; !important";
+                canvas.style = "height = 100px; !important";
+                container.appendChild(div);
+                div.appendChild(canvas);
+
+                let ctx = canvas.getContext('2d');
+
+                // contextoChave.canvas.width = 650;
+                // contextoChave.canvas.height = 400;
+                chave[`chart${i}`] = new Chart(
+                    ctx,
+                    {
+                        type: 'bar',
+                        data: {
+                            labels: [`'${i}'`],
+                            datasets: [{
+                                label: `Banco ${i}`,
+                                data: [1],
+                                type: 'bar',
+                                borderColor: '#FFB800',
+                                backgroundColor: '#FFB800'
                             }]
                         },
-                        animation: {
-                            duration: 0
-                        }
-                    }
-                }
-            );
-            var contextoChave = document.getElementById('chave3UM').getContext('2d');
-            contextoChave.canvas.width = 650;
-            contextoChave.canvas.height = 400;
-            var chave = new Chart(
-                contextoChave,
-                {
-                    type: 'bar',
-                    data: {
-                        labels: ['13', '14', '15', '16', '17', '18'],
-                        datasets: [{
-                            label: 'Ocupado',
-                            data: [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0],
-                            type: 'bar',
-                            borderColor: '#FFB800',
-                            backgroundColor: '#FFB800'
-                        }]
-                    },
-                    options: {
-                        scales: {
-                            xAxes: [{
-                                distribution: 'series',
-                                ticks: {
-                                    beginAtZero: true
-                                }
-                            }],
-                            yAxes: [{
-                                scaleLabel: {
+                        options: {
+                           
+                            scales: {
+                                xAxes: [{
+                                    distribution: 'series',
+                                    display: false,
+                                    ticks: {
+                                        beginAtZero: true
+                                    }
+                                }],
+                                yAxes: [{
+                                    distribution: 'series',
                                     display: true,
-                                },
-                                ticks: {
-                                    beginAtZero: true
-                                }
-                            }]
-                        },
-                        animation: {
-                            duration: 0
-                        }
-                    }
-                }
-            );
-            var contextoChave = document.getElementById('chave4UM').getContext('2d');
-            contextoChave.canvas.width = 650;
-            contextoChave.canvas.height = 400;
-            var chave = new Chart(
-                contextoChave,
-                {
-                    type: 'bar',
-                    data: {
-                        labels: ['19', '20', '21', '22', '23', '24'],
-                        datasets: [{
-                            label: 'Ocupado',
-                            data: [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0],
-                            type: 'bar',
-                            borderColor: '#FFB800',
-                            backgroundColor: '#FFB800'
-                        }]
-                    },
-                    options: {
-                        scales: {
-                            xAxes: [{
-                                distribution: 'series',
-                                ticks: {
-                                    beginAtZero: true
-                                }
-                            }],
-                            yAxes: [{
-                                scaleLabel: {
+                                    ticks: {
+                                        beginAtZero: true
+                                    }
+                                }]
+                            },
+                            animation: {
+                                duration: 0
+                            },
+                            plugins: {
+                                legend: {
                                     display: true,
+                                    label: {
+                                        color: '#000000'
+                                    }
                                 },
-                                ticks: {
-                                    beginAtZero: true
-                                }
-                            }]
-                        },
-                        animation: {
-                            duration: 0
+                            }
                         }
                     }
-                }
-            );
+                );
+
+            }
+
         } else if (placa == 'placaDOIS') {
             veiculos.style = 'display: none'
             dashHPG7G77.style = 'display: block'
             dashFCB1B34.style = 'display: none'
             opcoes_menu.style = 'display: block;'
-
-            /* DADOS DASHBOARD VEICULO DOIS */
-            /* -- lm35Temperatura */
-            var contextoLm35Temperatura = document.getElementById('lm35TemperaturaDOIS').getContext('2d');
-            contextoLm35Temperatura.canvas.width = 650;
-            contextoLm35Temperatura.canvas.height = 400;
-            var lm35Temperatura = new Chart(
-                contextoLm35Temperatura,
-                {
-                    type: 'line',
-                    data: {
-                        labels: [1, 2, 3, 4, 5, 6],
-                        datasets: [{
-                            label: 'Sensor 1',
-                            borderColor: '#FFF348',
-                            backgroundColor: '#FFF348',
-                            fill: false,
-                            data: [20, 21, 22, 24, 23.5, 22.5]
-                        },
-                        {
-                            label: 'Sensor 2',
-                            borderColor: '#123456',
-                            backgroundColor: '#123456',
-                            fill: false,
-                            data: [22, 24, 25, 24, 26.5, 27.5]
-                        }]
-                    },
-                    options: {
-                        scales: {
-                            xAxes: [{
-                                distribution: 'series',
-                                ticks: {
-                                    beginAtZero: true
-                                }
-                            }],
-                            yAxes: [{
-                                scaleLabel: {
-                                    display: true,
-
-                                },
-                                ticks: {
-                                    beginAtZero: true
-                                }
-                            }]
-                        },
-                        animation: {
-                            duration: 0
-                        }
-                    }
-                }
-            );
-            /* -- chave */
-            var contextoChave = document.getElementById('chaveDOIS').getContext('2d');
-            contextoChave.canvas.width = 650;
-            contextoChave.canvas.height = 400;
-            var chave = new Chart(
-                contextoChave,
-                {
-                    type: 'bar',
-                    data: {
-                        labels: ['1', '2', '3', '4', '5', '6'],
-                        datasets: [{
-                            label: 'Ocupado',
-                            data: [1, 1, 1, 1, 1, 1, 1],
-                            type: 'bar',
-                            borderColor: '#FFB800',
-                            backgroundColor: '#FFB800'
-                        }]
-                    },
-                    options: {
-                        scales: {
-                            xAxes: [{
-                                distribution: 'series',
-                                ticks: {
-                                    beginAtZero: true
-                                }
-                            }],
-                            yAxes: [{
-                                scaleLabel: {
-                                    display: true,
-                                },
-                                ticks: {
-                                    beginAtZero: true
-                                }
-                            }]
-                        },
-                        animation: {
-                            duration: 0
-                        }
-                    }
-                }
-            );
-
-            var contextoChave = document.getElementById('chave2DOIS').getContext('2d');
-            contextoChave.canvas.width = 650;
-            contextoChave.canvas.height = 400;
-            var chave = new Chart(
-                contextoChave,
-                {
-                    type: 'bar',
-                    data: {
-                        labels: ['7', '8', '9', '10', '11', '12'],
-                        datasets: [{
-                            label: 'Ocupado',
-                            data: [0, 0, 0, 0, 1, 0],
-                            type: 'bar',
-                            borderColor: '#FFB800',
-                            backgroundColor: '#FFB800'
-                        }]
-                    },
-                    options: {
-                        scales: {
-                            xAxes: [{
-                                distribution: 'series',
-                                ticks: {
-                                    beginAtZero: true
-                                }
-                            }],
-                            yAxes: [{
-                                scaleLabel: {
-                                    display: true,
-                                },
-                                ticks: {
-                                    beginAtZero: true
-                                }
-                            }]
-                        },
-                        animation: {
-                            duration: 0
-                        }
-                    }
-                }
-            );
-            var contextoChave = document.getElementById('chave3DOIS').getContext('2d');
-            contextoChave.canvas.width = 650;
-            contextoChave.canvas.height = 400;
-            var chave = new Chart(
-                contextoChave,
-                {
-                    type: 'bar',
-                    data: {
-                        labels: ['13', '14', '15', '16', '17', '18'],
-                        datasets: [{
-                            label: 'Ocupado',
-                            data: [1, 1, 1, 0, 1, 0],
-                            type: 'bar',
-                            borderColor: '#FFB800',
-                            backgroundColor: '#FFB800'
-                        }]
-                    },
-                    options: {
-                        scales: {
-                            xAxes: [{
-                                distribution: 'series',
-                                ticks: {
-                                    beginAtZero: true
-                                }
-                            }],
-                            yAxes: [{
-                                scaleLabel: {
-                                    display: true,
-                                },
-                                ticks: {
-                                    beginAtZero: true
-                                }
-                            }]
-                        },
-                        animation: {
-                            duration: 0
-                        }
-                    }
-                }
-            );
-            var contextoChave = document.getElementById('chave4DOIS').getContext('2d');
-            contextoChave.canvas.width = 650;
-            contextoChave.canvas.height = 400;
-            var chave = new Chart(
-                contextoChave,
-                {
-                    type: 'bar',
-                    data: {
-                        labels: ['19', '20', '21', '22', '23', '24'],
-                        datasets: [{
-                            label: 'Ocupado',
-                            data: [1, 0, 0, 0, 1, 1],
-                            type: 'bar',
-                            borderColor: '#FFB800',
-                            backgroundColor: '#FFB800'
-                        }]
-                    },
-                    options: {
-                        scales: {
-                            xAxes: [{
-                                distribution: 'series',
-                                ticks: {
-                                    beginAtZero: true
-                                }
-                            }],
-                            yAxes: [{
-                                scaleLabel: {
-                                    display: true,
-                                },
-                                ticks: {
-                                    beginAtZero: true
-                                }
-                            }]
-                        },
-                        animation: {
-                            duration: 0
-                        }
-                    }
-                }
-            );
-
         }
+        /* DADOS DASHBOARD VEICULO DOIS */
+        /* -- lm35Temperatura */
+        //         var contextoLm35Temperatura = document.getElementById('lm35TemperaturaDOIS').getContext('2d');
+        //         contextoLm35Temperatura.canvas.width = 650;
+        //         contextoLm35Temperatura.canvas.height = 400;
+        //         var lm35Temperatura = new Chart(
+        //             contextoLm35Temperatura,
+        //             {
+        //                 type: 'line',
+        //                 data: {
+        //                     labels: [1, 2, 3, 4, 5, 6],
+        //                     datasets: [{
+        //                         label: 'Sensor 1',
+        //                         borderColor: '#FFF348',
+        //                         backgroundColor: '#FFF348',
+        //                         fill: false,
+        //                         data: [20, 21, 22, 24, 23.5, 22.5]
+        //                     },
+        //                     {
+        //                         label: 'Sensor 2',
+        //                         borderColor: '#123456',
+        //                         backgroundColor: '#123456',
+        //                         fill: false,
+        //                         data: [22, 24, 25, 24, 26.5, 27.5]
+        //                     }]
+        //                 },
+        //                 options: {
+        //                     scales: {
+        //                         xAxes: [{
+        //                             distribution: 'series',
+        //                             ticks: {
+        //                                 beginAtZero: true
+        //                             }
+        //                         }],
+        //                         yAxes: [{
+        //                             scaleLabel: {
+        //                                 display: true,
+
+        //                             },
+        //                             ticks: {
+        //                                 beginAtZero: true
+        //                             }
+        //                         }]
+        //                     },
+        //                     animation: {
+        //                         duration: 0
+        //                     }
+        //                 }
+        //             }
+        //         );
+        //         /* -- chave */
+        //         var contextoChave = document.getElementById('chaveDOIS').getContext('2d');
+        //         contextoChave.canvas.width = 650;
+        //         contextoChave.canvas.height = 400;
+        //         var chave = new Chart(
+        //             contextoChave,
+        //             {
+        //                 type: 'bar',
+        //                 data: {
+        //                     labels: ['1', '2', '3', '4', '5', '6'],
+        //                     datasets: [{
+        //                         label: 'Ocupado',
+        //                         data: [1, 1, 1, 1, 1, 1, 1],
+        //                         type: 'bar',
+        //                         borderColor: '#FFB800',
+        //                         backgroundColor: '#FFB800'
+        //                     }]
+        //                 },
+        //                 options: {
+        //                     scales: {
+        //                         xAxes: [{
+        //                             distribution: 'series',
+        //                             ticks: {
+        //                                 beginAtZero: true
+        //                             }
+        //                         }],
+        //                         yAxes: [{
+        //                             scaleLabel: {
+        //                                 display: true,
+        //                             },
+        //                             ticks: {
+        //                                 beginAtZero: true
+        //                             }
+        //                         }]
+        //                     },
+        //                     animation: {
+        //                         duration: 0
+        //                     }
+        //                 }
+        //             }
+        //         );
+
+        //         var contextoChave = document.getElementById('chave2DOIS').getContext('2d');
+        //         contextoChave.canvas.width = 650;
+        //         contextoChave.canvas.height = 400;
+        //         var chave = new Chart(
+        //             contextoChave,
+        //             {
+        //                 type: 'bar',
+        //                 data: {
+        //                     labels: ['7', '8', '9', '10', '11', '12'],
+        //                     datasets: [{
+        //                         label: 'Ocupado',
+        //                         data: [0, 0, 0, 0, 1, 0],
+        //                         type: 'bar',
+        //                         borderColor: '#FFB800',
+        //                         backgroundColor: '#FFB800'
+        //                     }]
+        //                 },
+        //                 options: {
+        //                     scales: {
+        //                         xAxes: [{
+        //                             distribution: 'series',
+        //                             ticks: {
+        //                                 beginAtZero: true
+        //                             }
+        //                         }],
+        //                         yAxes: [{
+        //                             scaleLabel: {
+        //                                 display: true,
+        //                             },
+        //                             ticks: {
+        //                                 beginAtZero: true
+        //                             }
+        //                         }]
+        //                     },
+        //                     animation: {
+        //                         duration: 0
+        //                     }
+        //                 }
+        //             }
+        //         );
+        //         var contextoChave = document.getElementById('chave3DOIS').getContext('2d');
+        //         contextoChave.canvas.width = 650;
+        //         contextoChave.canvas.height = 400;
+        //         var chave = new Chart(
+        //             contextoChave,
+        //             {
+        //                 type: 'bar',
+        //                 data: {
+        //                     labels: ['13', '14', '15', '16', '17', '18'],
+        //                     datasets: [{
+        //                         label: 'Ocupado',
+        //                         data: [1, 1, 1, 0, 1, 0],
+        //                         type: 'bar',
+        //                         borderColor: '#FFB800',
+        //                         backgroundColor: '#FFB800'
+        //                     }]
+        //                 },
+        //                 options: {
+        //                     scales: {
+        //                         xAxes: [{
+        //                             distribution: 'series',
+        //                             ticks: {
+        //                                 beginAtZero: true
+        //                             }
+        //                         }],
+        //                         yAxes: [{
+        //                             scaleLabel: {
+        //                                 display: true,
+        //                             },
+        //                             ticks: {
+        //                                 beginAtZero: true
+        //                             }
+        //                         }]
+        //                     },
+        //                     animation: {
+        //                         duration: 0
+        //                     }
+        //                 }
+        //             }
+        //         );
+        //         var contextoChave = document.getElementById('chave4DOIS').getContext('2d');
+        //         contextoChave.canvas.width = 650;
+        //         contextoChave.canvas.height = 400;
+        //         var chave = new Chart(
+        //             contextoChave,
+        //             {
+        //                 type: 'bar',
+        //                 data: {
+        //                     labels: ['19', '20', '21', '22', '23', '24'],
+        //                     datasets: [{
+        //                         label: 'Ocupado',
+        //                         data: [1, 0, 0, 0, 1, 1],
+        //                         type: 'bar',
+        //                         borderColor: '#FFB800',
+        //                         backgroundColor: '#FFB800'
+        //                     }]
+        //                 },
+        //                 options: {
+        //                     scales: {
+        //                         xAxes: [{
+        //                             distribution: 'series',
+        //                             ticks: {
+        //                                 beginAtZero: true
+        //                             }
+        //                         }],
+        //                         yAxes: [{
+        //                             scaleLabel: {
+        //                                 display: true,
+        //                             },
+        //                             ticks: {
+        //                                 beginAtZero: true
+        //                             }
+        //                         }]
+        //                     },
+        //                     animation: {
+        //                         duration: 0
+        //                     }
+        //                 }
+        //             }
+        //         );
+
+        //     }
     }
 
 

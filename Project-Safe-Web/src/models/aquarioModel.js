@@ -1,8 +1,8 @@
 var database = require("../database/config");
 
-function buscarVansPorEmpresa(fkCnpj) {
+function buscarVansPorEmpresa(IdUsuario) {
   // console.log(usuario.idUsuario)
-  var instrucaoSql = `SELECT * FROM  where idUsuario = ${fkCnpj}`;
+  var instrucaoSql = `SELECT * FROM Veiculo where fkEmpresa = '${IdUsuario}'`;
 
   console.log("Executando a instrução SQL: \n" + instrucaoSql);
   return database.executar(instrucaoSql);
