@@ -27,23 +27,22 @@
     </style>
 </head>
 
-<body>
-    <div class="content" >
+<body onload="dashboardEscolhida()">
+    <div class="content">
         <div class="menuLateral">
             <img src="./img/logo_SS.png">
             <div>
                 <h1>Bem vindo<br>de volta!</h1>
             </div>
-            <div id="opcoes_menu" class="opcao" style="display: none;">
+            <div id="opcoes_menu" class="opcao">
                 <ul>
                     <li><a onclick="telaDash()" id="OpcDashboard">Dashboard</a></li>
-                    <li><a onclick="telaVeiculo()" id="OpcVeiculos">Veículos</a></li>
                     <li><a onclick="telaHistorico()" id="OpcHistorico">Histórico</a></li>
                 </ul>
             </div>
         </div>
 
-        <div id="veiculos" class="SelectDiv">
+        <!-- <div id="veiculos" class="SelectDiv">
             <div class="selecoes">
                 <h1> SELECIONE UM VEÍCULO </h1>
                 <input type="text" id="textInput" placeholder="Digite uma placa">
@@ -58,10 +57,10 @@
                     </span>
                 </div>
             </div>
-        </div>
+        </div> -->
 
         <!-- DASHBOARD DA PLACA UM -->
-        <div id="dashFCB1B34" class="visao_dash" style="display: none;">
+        <div id="dashFCB1B34" class="visao_dash" >
             <div class="kpis">
                 <div id="div1">
                     <p>Bancos Ocupados</p>
@@ -112,7 +111,7 @@
         </div>
 
         <!-- DASHBOARD PLACA DOIS -->
-        <div id="dashHPG7G77" class="visao_dash" style="display: none;">
+        <!-- <div id="dashHPG7G77" class="visao_dash" style="display: none;">
             <div class="kpis">
                 <div id="1">
                     <p>Temperatura Mínima do dia</p>
@@ -130,9 +129,9 @@
                     <p>Bancos Ocupados</p><br>
                     <span>14</span>
                 </div>
-            </div>
+            </div> -->
 
-            <div class="graficos">
+            <!-- <div class="graficos">
 
                 <div class="canvas">
                     <div class="container-chave">
@@ -160,7 +159,7 @@
                         </section>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
 </body>
@@ -173,26 +172,26 @@
         window.location = './index.html'
     }
     /* SELEÇÃO DE DASHBOARD */
-    function telaVeiculo() {
-        opcoes_menu.style = 'display: none'
-        dashFCB1B34.style = 'display: none'
-        dashHPG7G77.style = 'display: none'
-        veiculos.style = 'display: block'
-    }
+    // function telaVeiculo() {
+    //     opcoes_menu.style = 'display: none'
+    //     dashFCB1B34.style = 'display: none'
+    //     dashHPG7G77.style = 'display: none'
+    //     veiculos.style = 'display: block'
+    // }
 
     function dashboardEscolhida() {
-        let placa = select_placa.value
-        if (placa == '#') {
-            div_erro.style.display = 'block'
-            span_mensagem_erro.innerHTML = "SELECIONE UM VEÍCULO PARA ACESSAR A DASHBOARD!"
-            setTimeout(function () {
-                div_erro.style.display = 'none'
-            }, 2000);
-        } else if (placa == 'placaUM') {
-            veiculos.style = 'display: none'
-            dashHPG7G77.style = 'display: none'
-            dashFCB1B34.style = 'display: block;'
-            opcoes_menu.style = 'display: block;'
+        // let placa = select_placa.value
+        // if (placa == '#') {
+        //     div_erro.style.display = 'block'
+        //     span_mensagem_erro.innerHTML = "SELECIONE UM VEÍCULO PARA ACESSAR A DASHBOARD!"
+        //     setTimeout(function () {
+        //         div_erro.style.display = 'none'
+        //     }, 2000);
+        // } else if (placa == 'placaUM') {
+        //     veiculos.style = 'display: none'
+        //     dashHPG7G77.style = 'display: none'
+        //     dashFCB1B34.style = 'display: block;'
+        //     opcoes_menu.style = 'display: block;'
 
             /* DADOS DASHBOARD VEÍCULO UM */
             /* -- lm35Temperatura */
@@ -316,12 +315,12 @@
 
             }
 
-        } else if (placa == 'placaDOIS') {
-            veiculos.style = 'display: none'
-            dashHPG7G77.style = 'display: block'
-            dashFCB1B34.style = 'display: none'
-            opcoes_menu.style = 'display: block;'
-        }
+        // } else if (placa == 'placaDOIS') {
+        //     veiculos.style = 'display: none'
+        //     dashHPG7G77.style = 'display: block'
+        //     dashFCB1B34.style = 'display: none'
+        //     opcoes_menu.style = 'display: block;'
+        // }
         /* DADOS DASHBOARD VEICULO DOIS */
         /* -- lm35Temperatura */
         //         var contextoLm35Temperatura = document.getElementById('lm35TemperaturaDOIS').getContext('2d');

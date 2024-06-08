@@ -163,6 +163,37 @@
   
 }
 
+.metricas .campoPesquisa {
+  height: auto;
+}
+
+
+.campoPesquisa input{
+  width: 16vw;
+  height: 5vh;
+  margin-top: 1rem;
+  border-radius: 20px;
+  border: 2px solid #7e7e7e;
+  outline: none;
+  font-size: large;
+  text-align: center;
+}
+
+.campoPesquisa img{
+  height: 30px;
+  margin-right: 1rem;
+}
+
+.campoPesquisa button{
+  padding: 5px 20px;
+  margin-top: 1rem;
+  font-size: large;
+  color: #dbdbdb;
+  background-color: #00164F;
+  border-radius: 20px;
+  border: none;
+}
+
 .metricas div{
   margin-bottom: 5vh;
   border-radius: 20px;
@@ -200,43 +231,6 @@
   text-decoration: none;
   margin-right: 20px;
 }
-/* .campos{
-  display: flex;
-  justify-content: space-around;
-}
-
-.pesquisa{
-  display: flex;
-  flex-direction: column;
-}
-
-.pesquisa span{
-  text-align: left;
-  margin-bottom: 2vh;
-}
-
-.pesquisa input{
-  padding: 15px 100px;
-  font-size: large;
-  border: none;
-  text-align: left;
-}
-
-.pesquisaPlaca{
-  display: flex;
-  flex-direction: row;
-  border: 1px solid #887d7d;
-  border-radius: 20px;
-  padding: 5px ;
-  justify-content: center;
-  align-items: center;
-}
-
-.pesquisaPlaca img{
-  display: flex;
-  flex-direction: row;
-  height: 5vh;
-} */
 
 #container-safeIA {
   width: 350px;

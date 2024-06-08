@@ -212,6 +212,8 @@
     justify-content: center;
     padding: 20%;
     color: #00164f;
+    text-align: center;
+    margin-left: 10vw;
 } 
 
 .selecoes {
@@ -248,17 +250,19 @@
 }
 
 .selecoes button {
-    font-size: 20px;
+    font-size: 30px;
     border-radius: 20px;
-    height: 45px;
-    width: 400px;
-    margin-left: 150px;
+    height: 60px;
+    width: 450px;
+    margin-left: 12vw;
+    margin-top: 10vh;
     border-color: transparent;
     outline: 0;
     cursor: pointer;
     color: #fff;
     font-weight: bold;
     background-color: #5dd352;
+    text-align: center;
 }
 
 .selecoes button:hover {
