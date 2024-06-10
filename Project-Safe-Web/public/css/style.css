@@ -312,13 +312,14 @@ St {
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    margin-top: -80px;
 }
 
 .faleConosco .container span {
     color: white;
-    width: 70vh;
+    width: 80vh;
     margin-top: 0;
-    font-size: 17px;
+    font-size: 22px;
     text-align: center;
 }
 
@@ -336,13 +337,13 @@ St {
 .faleConosco .container form p {
     text-align: left;
     font-weight: bold;
-    font-size: medium;
+    font-size: 20px;
     color: white;
 }
 
 .faleConosco .container input {
     width: 70vh;
-    height: 5vh;
+    height: 10vh;
     border-radius: 10px;
     background-color: #cfcdcd;
     opacity: 0.5;
@@ -363,7 +364,7 @@ St {
 
 }
 
-.faleConosco .container button {
+.faleConosco .container button  {
 
     background-color: #FFB800;
     color: #00164F;
@@ -372,8 +373,16 @@ St {
     padding: 10px 40px;
     border-radius: 5px;
     border: none;
+    cursor: pointer;
+    text-decoration: none;
+    margin-top: 20px;
 
 
+}
+
+
+.a{
+    text-decoration: none;
 }
 
 /* ESTILIZAÇÃO FOOTER */
@@ -534,4 +543,12 @@ St {
     color: #00164F;
     cursor: pointer;
     margin-bottom: 2vh;
+}
+
+#corpo{
+    width: 70vh;
+    height: 11vh;
+    border-radius: 10px;
+    background-color: #cfcdcd;
+    opacity: 0.5;
 }
