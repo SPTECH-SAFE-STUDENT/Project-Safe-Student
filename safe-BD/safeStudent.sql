@@ -15,11 +15,7 @@ cep VARCHAR(10)
 
 CREATE TABLE Usuario (
 	idUsuario  INT AUTO_INCREMENT PRIMARY KEY,
-<<<<<<< HEAD
-	crmc CHAR (10) not null,
-=======
 	crmc CHAR (10),
->>>>>>> 6d0975742d8f119ea9fc85de497d2c59e7aa7053
     nome VARCHAR(100),
     cpf VARCHAR(14),
     email VARCHAR(100) UNIQUE KEY,
@@ -192,7 +188,6 @@ SELECT * FROM Veiculo;
 
 
 -- Selecionar todos os alertas
-SELECT * FROM Alertas;
 
 select * from empresa;
 -- Selecionar todos os sensores
@@ -223,10 +218,6 @@ from LeituraTemp as leitura
 join sensores on leitura.fksensorTemp = sensores.id;
 
 
--- selecionar a tabela alertas e suas fks
-select *
-from alertas as alert
-join sensores on alert.fksensores = sensores.id;
 
 -- Select com case para verificar se a temperatura está ou não em alerta
 create view alertaMaximo as
