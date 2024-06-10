@@ -1,5 +1,5 @@
-
-create database if not exists safe_student;
+drop database if exists safe_student;
+create database safe_student;
 
 use safe_student;
 
@@ -15,29 +15,37 @@ cep VARCHAR(10)
 
 CREATE TABLE Usuario (
 	idUsuario  INT AUTO_INCREMENT PRIMARY KEY,
+<<<<<<< HEAD
 	crmc CHAR (10) not null,
+=======
+	crmc CHAR (10),
+>>>>>>> 6d0975742d8f119ea9fc85de497d2c59e7aa7053
     nome VARCHAR(100),
     cpf VARCHAR(14),
     email VARCHAR(100) UNIQUE KEY,
     celular VARCHAR(20),
     senha VARCHAR(50),
     fkCnpj VARCHAR(18),
+    cargo VARCHAR(15),
+    constraint ck_cargo check (cargo in ('dono', 'motorista', 'suporte')),
     constraint fk_usuario_empresa FOREIGN KEY (fkCnpj) references empresa(cnpj)
 );
 
 
 
 CREATE TABLE Veiculo (
-    idVeiculo INT AUTO_INCREMENT PRIMARY KEY,
-    chassi VARCHAR(50),
+    placa CHAR(7) PRIMARY KEY,
+    chassi CHAR(17),
     ano INT,
     marca VARCHAR(100),
-    placa VARCHAR(20),
     categoria VARCHAR(50),  
+    qtdBancos INT,
     fkUsuario INT UNIQUE KEY,
     fkEmpresa INT,
+    statusVan INT,
+    constraint ck_statusVan check (statusVan in (0, 1)),
     FOREIGN KEY (fkEmpresa) references empresa(idEmpresa),
-    FOREIGN KEY (fkUsuario) REFERENCES Usuario(IdCadastro)
+    FOREIGN KEY (fkUsuario) REFERENCES Usuario(idUsuario)
 );
 
 CREATE TABLE Sensores (
@@ -45,8 +53,8 @@ CREATE TABLE Sensores (
     nome VARCHAR(100),
     localizacao VARCHAR(100),
     tipo VARCHAR(50),
-    fkveiculo INT,
-    FOREIGN KEY (fkveiculo) REFERENCES Veiculo(idVeiculo)
+    fkveiculo CHAR(7),
+    FOREIGN KEY (fkveiculo) REFERENCES Veiculo(placa)
 );
 
 CREATE TABLE LeituraTemp (
@@ -63,6 +71,8 @@ fksensorProx int,
 FOREIGN KEY (fksensorProx) references Sensores(id)
 );
 
+
+/*
 CREATE TABLE Alertas (
     id INT AUTO_INCREMENT PRIMARY KEY,
     tipo VARCHAR(100), -- tipo ou indicar bloqueio ou temperatura
@@ -71,11 +81,14 @@ CREATE TABLE Alertas (
     fksensores INT,
 	FOREIGN KEY (fksensores) REFERENCES Sensores(id) 
 );
+*/
 
 -- Inserindo dados na tabela cadastro
-INSERT INTO  Usuario (crmc, nome, cpf, email, celular)
+
+ INSERT INTO  Usuario (crmc, nome, cpf, email, celular)
 VALUES 
-('12345', 'João Silva', '123.456.789-00', 'joao@gmail.com', '(99) 97912-0972'),
+('12345', 'João Silva', '123.456.789-00', 'joao@gmail.com', '(99) 97912-0972');
+/*
 ('54321', 'Maria Oliveira', '987.654.321-00', 'maria@gmail.com', '(88) 92146-8128'),
 ('67890', 'Carlos Souza', '456.789.123-00', 'carlos@gmail.com', '(77) 98721-9856'),
 ('24680', 'Ana Santos', '789.123.456-00', 'ana@gmail.com', '(66) 91823-7654'),
@@ -85,36 +98,37 @@ VALUES
 ('78901', 'Fernanda Santos', '654.987.321-00', 'fernanda@gmail.com', '(22) 98564-0122'),
 ('75319', 'Gabriel Costa', '321.987.654-00', 'gabriel@gmail.com', '(11) 91541-0121'),
 ('01234', 'Aline Pereira', '987.123.456-00', 'aline@gmail.com', '(21) 98214-0923');
-
+*/
 insert into empresa(cnpj, rua, cidade, estado, cep)
 values ('12.345.678-0001-00', 'Haddock lobo', 'São Paulo', 'SP','1414001');
 
 -- Inserindo dados na tabela Veiculo
-INSERT INTO Veiculo (chassi, ano,  marca, placa, categoria, fkUsuario, fkEmpresa)
+INSERT INTO Veiculo (placa, chassi, ano,  marca, categoria, qtdBancos, fkUsuario, fkEmpresa, statusVan)
 VALUES 
-('ABC123', 2020, 'Mercedes-Benz', 'ABC-1234', 'VAN', 1, 1),
-('DEF456', 2019, 'Fiat', 'DEF-4567', 'VAN', 2, 1),
-('GHI789', 2018, 'Peugeot', 'GHI-7890', 'VAN', 3, 1),
-('JKL012', 2017, 'Ford', 'JKL-0123', 'VAN', 4, 1),
-('MNO345', 2016,  'Renault', 'MNO-3456', 'VAN', 5, 1),
-('PQR678', 2021,  'Citroën', 'PQR-6789', 'VAN', 6, 1),
-('STU901', 2020, 'Volkswagen', 'STU-9012', 'VAN', 7, 1),
-('VWX234', 2019,  'Iveco', 'VWX-2345', 'VAN', 8, 1),
-('YZA567', 2018, 'Hyundai', 'YZA-5678', 'VAN', 9, 1),
-('BCD890', 2017, 'Fiat', 'BCD-8901', 'VAN', 10, 1);
-
+('ABC1234', '9BM111060T5002146', 2020, 'Mercedes', 'VAN', 16, 1, 1, 0);
+/*
+('DEF4567', '9BF112060T5002136', 2019, 'Fiat', 'VAN', 2, 1),
+('GHI7890', '9BP113060T5002126', 2018, 'Peugeot', 'VAN', 3, 1),
+('JKL0123', '9BF114060T5002166', 2017, 'Ford', 'VAN', 4, 1),
+('MNO3456', '9BR115060T5002157', 2016,  'Renault', 'VAN', 5, 1),
+('PQR6789', '9BC116060T5002158', 2021,  'Citroën', 'VAN', 6, 1),
+('STU9012', '9BV117060T5002159', 2020, 'Volkswagen', 'VAN', 7, 1),
+('VWX2345', '9BI118060T5002150', 2019,  'Iveco', 'VAN', 8, 1),
+('YZA5678', '9BD119060T5002156', 2018, 'Hyundai', 'VAN', 9, 1),
+('BCD8901', '9BF110060T5002156', 2017, 'Fiat',  'VAN', 10, 1);
+*/
 -- inserindo dados na tabela sensores 
 INSERT INTO Sensores (nome, localizacao, tipo, fkveiculo) VALUES
-('Sensor1', 'Banco', 'bloqueio', 1),
-('Sensor2', 'Frente', 'temperatura', 2),
-('Sensor3', 'Interio', 'temperatura', 3),
-('Sensor4', 'Banco', 'bloqueio', 4),
-('Sensor5', 'Teto', 'temperatura', 5),
-('Sensor6', 'Frente', 'temperatura', 6),
-('Sensor7', 'Banco', 'bloqueio', 7),
-('Sensor8', 'central', 'temperatura', 8),
-('Sensor9', 'interior', 'temperatura', 9),
-('Sensor10', 'Banco', 'bloqueio', 10);
+('Sensor1', 'Frente', 'temperatura', 'ABC1234'),
+('Sensor2', 'Fundo', 'temperatura', 'ABC1234'),
+('Sensor3', 'Banco 1 ', 'bloqueio', 'ABC1234'),
+('Sensor4', 'Banco 2', 'bloqueio', 'ABC1234'),
+('Sensor5', 'Banco 3', 'bloqueio', 'ABC1234'),
+('Sensor6', 'Banco 4', 'bloqueio', 'ABC1234'),
+('Sensor7', 'Banco 5', 'bloqueio', 'ABC1234'),
+('Sensor8', 'Banco 6', 'bloqueio', 'ABC1234'),
+('Sensor9', 'Banco 7', 'bloqueio', 'ABC1234'),
+('Sensor10', 'Banco 8', 'bloqueio', 'ABC1234');
 
 -- Inserindo dados na tabel leitura 
 -- 0 e 1 representam se o lugar está ocupado ou não 
@@ -122,33 +136,34 @@ INSERT INTO LeituraTemp (fksensorTemp, temperatura)
 VALUES 
     (1, 25.50),
     (2, 26.75),
-    (1, 24.80),
-    (3, 27.30),
-    (2, 25.00),
-    (1, 26.20),
-    (3, 24.90),
-    (2, 17.80),
+    (2, 24.80),
+    (1, 27.30),
+    (1, 25.00),
+    (2, 26.20),
+    (2, 24.90),
+    (1, 17.80),
     (1, 15.75),
-    (3, 18.40);
+    (2, 18.40);
 
 -- Inserindo dados na tabela leitura 
 INSERT INTO LeituraProx (fksensorProx, chave) 
 VALUES 
-    (1, 1),
-    (2, 0),
     (3, 1),
-    (1, 0),
-    (2, 1),
-    (3, 0),
-    (1, 1),
-    (2, 0),
+    (4, 0),
+    (5, 1),
+    (6, 0),
+    (7, 1),
+    (8, 0),
+    (9, 1),
+    (10, 0),
     (3, 1),
-    (1, 0);
+    (4, 0);
 
 
 -- inserindo dados na tabela alertas 
 -- Inserir dados de exemplo na tabela Alertas com números de 1 a 10 nas FKs
 -- Inserir 10 linhas na tabela Alertas
+/*
 INSERT INTO Alertas (tipo, descricao, data_hora, fksensores) VALUES
 ('bloqueio', 'Alerta de bloqueio no Sensor 1.', NOW(), 1),
 ('temperatura', 'Alerta de temperatura alta no Sensor 2.', NOW(), 2),
@@ -160,6 +175,12 @@ INSERT INTO Alertas (tipo, descricao, data_hora, fksensores) VALUES
 ('temperatura', 'Alerta de temperatura baixa no Sensor 8.', NOW(), 8),
 ('bloqueio', 'Alerta de bloqueio no Sensor 9.', NOW(), 9),
 ('temperatura', 'Alerta de temperatura alta no Sensor 10.', NOW(), 10);
+*/
+-- testes para API 
+
+SELECT idUsuario, nome, email, fkcnpj, fkempresa FROM usuario 
+join Veiculo 
+WHERE email = 'bryan@gmail.com' AND senha = '12345678';
 
 
 -- Selecionar todos os cadastros
@@ -168,9 +189,12 @@ SELECT * FROM Usuario;
 -- Selecionar todos os veículos
 SELECT * FROM Veiculo;
 
+
+
 -- Selecionar todos os alertas
 SELECT * FROM Alertas;
 
+select * from empresa;
 -- Selecionar todos os sensores
 SELECT * FROM Sensores;
 
@@ -183,12 +207,12 @@ SELECT * FROM LeituraProx;
 -- selecionar a tabela cadastro mostrando o veiculo que ela está ligada 
 select *
 from Usuario 
-join veiculo on veiculo.fkUsuario = Usuario.idCadastro;
+join veiculo on veiculo.fkUsuario = Usuario.idUsuario;
 
 -- selcionar a tabela sensores e veiculo mostrando a fk 
 select *
 from sensores
-join veiculo on sensores.fkveiculo = veiculo .idVeiculo;
+join veiculo on sensores.fkveiculo = veiculo.placa;
 -- selecionar a tabela leitura mostrando sua ligação 
 select *
 from LeituraProx as leitura
@@ -197,6 +221,7 @@ join sensores on leitura.fksensorProx = sensores.id;
 select *
 from LeituraTemp as leitura
 join sensores on leitura.fksensorTemp = sensores.id;
+
 
 -- selecionar a tabela alertas e suas fks
 select *
@@ -224,5 +249,54 @@ select * from alertaMinimo;
 select * from alertaMaximo;
 
 -- os dois tipos de alertas
+
 select * from alertaMinimo
 join alertaMaximo;
+
+select *
+from LeituraProx as leitura
+join sensores on leitura.fksensorProx = sensores.id;
+
+-- Select para qtd de bancos ocupados
+select count(prox.chave) as bancosOcupados from LeituraProx as prox
+where prox.chave = 1;
+
+-- Select de temperatura mínima do dia
+create view viewTempMinima as
+select min(temp.temperatura) from leituratemp as temp;
+
+select * from viewTempMinima;
+
+-- Select para temperatura máxima do dia
+create view viewTempMaxima as
+select max(temp.temperatura) from leituratemp as temp;
+
+select * from viewTempMaxima;
+
+-- Select para quantidade de alertas do dia
+-- alertas maximos
+select sens.id, sens.nome, sens.tipo, sens.fkveiculo, temp.temperatura
+from sensores as sens
+join leituratemp as temp on temp.fksensorTemp = sens.id
+where temp.temperatura > 24;
+
+-- alertas minimos
+select sens.id, sens.nome, sens.tipo, sens.fkveiculo, temp.temperatura
+from sensores as sens
+join leituratemp as temp on temp.fksensorTemp = sens.id
+where temp.temperatura <= 18;
+
+-- Select para vans em estado crítico
+select sens.id, sens.nome, sens.tipo, sens.fkveiculo, temp.temperatura
+from sensores as sens
+join leituratemp as temp on temp.fksensorTemp = sens.id
+where temp.temperatura > 28;
+
+-- Select para vans em serviço 
+select vei.placa, vei.fkUsuario as motorista, vei.statusVan from veiculo as vei;
+
+-- qtd de vans em serviço
+select count(vei.statusVan) from veiculo as vei
+where vei.statusVan = 1;
+
+
