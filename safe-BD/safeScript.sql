@@ -14,7 +14,7 @@ cep VARCHAR(10)
 
 
 CREATE TABLE Usuario (
-	IdUsuario  INT AUTO_INCREMENT PRIMARY KEY,
+	idUsuario  INT AUTO_INCREMENT PRIMARY KEY,
 	crmc CHAR (10) not null,
     nome VARCHAR(100),
     cpf VARCHAR(14),

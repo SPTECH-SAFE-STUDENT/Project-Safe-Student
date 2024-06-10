@@ -203,8 +203,20 @@
                     sessionStorage.EMAIL_USUARIO = json.email;
                     sessionStorage.NOME_USUARIO = json.nome;
                     sessionStorage.ID_USUARIO = json.idUsuario;
-                    sessionStorage.AQUARIOS = JSON.stringify(json.vans)
+                    sessionStorage.CARGO_USUARIO = json.cargo;
+                    sessionStorage.VANS_EM_ALERTA = JSON.stringify(json.vans)
 
+                    // aqui faremos a verificação para saber para qual tela vai ir cada usuario.
+                    if(json.cargo == 'motorista'){
+                        // usuario for motorista faça um select
+                        console.log("login com motorista")
+                    }else if(json.cargo == 'dono'){
+                        //usuario for um dono faça outro select
+                        console.log("login com dono")
+                    }else if(json.cargo == 'suprote'){
+                        //usuario for um suporte faça outro select
+                        console.log("login com suporte")
+                    }
                     setTimeout(function () {
                         window.location = "/dash.html";
                     }, 1000); // apenas para exibir o loading

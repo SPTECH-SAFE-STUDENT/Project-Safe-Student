@@ -1,12 +1,45 @@
 var database = require("../database/config");
 
-function buscarVansPorEmpresa(IdUsuario) {
+function buscarVansPorEmpresa(fkcnpj) {
   // console.log(usuario.idUsuario)
-  var instrucaoSql = `SELECT * FROM Veiculo where fkEmpresa = '${IdUsuario}'`;
+  var instrucaoSql = `SELECT 
+    v.placa, 
+    v.marca, 
+    v.categoria,
+    s.nome AS sensor_nome,
+    s.localizacao,
+    s.tipo,
+    lt.temperatura AS ultima_temperatura,
+    lt.id AS leitura_id
+FROM 
+    Veiculo v
+JOIN 
+    Sensores s ON v.placa = s.fkveiculo
+LEFT JOIN 
+    (SELECT 
+         id, temperatura, fksensorTemp
+     FROM 
+         LeituraTemp
+     WHERE 
+         id IN (SELECT MAX(id) FROM LeituraTemp GROUP BY fksensorTemp)
+         ) lt ON s.id = lt.fksensorTemp
+where 
+ v.fkCnpj = '${fkcnpj}'
+-- fkEmpresa = 1
+and s.tipo = 'temperatura'
+ORDER BY 
+    ultima_temperatura desc;
+    `;
+  // var instrucaoSql = `SELECT * FROM Veiculo where fkEmpresa = '${idUsuario}'`;
 
   console.log("Executando a instrução SQL: \n" + instrucaoSql);
   return database.executar(instrucaoSql);
 }
+
+function buscarVansPorMotorista(){
+
+}
+
 
 function cadastrar(empresaId, descricao) {
   

@@ -19,16 +19,28 @@ function autenticar(req, res) {
 
                 if (resultadoAutenticar.length == 1) {
                     const usuario = resultadoAutenticar[0];
-                    console.log(resultadoAutenticar[0].idUsuario + " teste");
-                    
-                    aquarioModel.buscarVansPorEmpresa(resultadoAutenticar[0].IdUsuario)
+
+                    console.log(usuario.fkcnpj + " teste idUsuario");
+
+                    if(usuario.cargo == 'motorista'){
+                        // usuario for motorista faça um select
+                        console.log("login com motorista")
+                   
+                    }else if(usuario.cargo == 'dono'){
+                        //usuario for um dono faça outro select
+                        console.log("login com dono")
+                        aquarioModel.buscarVansPorEmpresa(resultadoAutenticar[0].fkcnpj)
                         .then((resultadoVans) => {
+
+                            // if para guardar os dados pego tanto no select do usuario quanto no select das vans
                             if (resultadoVans.length > 0) {
                                 res.json({
-                                    idUsuario: usuario.IdUsuario,
+                                    idUsuario: usuario.idUsuario,
                                     email: usuario.email,
                                     nome: usuario.nome,
-                                    fkcnpj: usuario.fkempresa,
+                                    cargo: usuario.cargo,
+                                    fkcnpj: usuario.fkcnpj,
+                                    fkempresa: usuario.fkempresa,
                                     senha: usuario.senha,   
                                     vans: resultadoVans
                                 });
@@ -41,9 +53,14 @@ function autenticar(req, res) {
                             console.log("\nHouve um erro ao buscar vans! Erro: ", erro.sqlMessage);
                             res.status(500).json(erro.sqlMessage);
                         });
+                    }else if(usuario.cargo == 'suporte'){
+                        //usuario for um suporte faça outro select
+                        console.log("login com suporte")
+                    }
+                    
                 } else if (resultadoAutenticar.length == 0) {
                     res.status(403).send("Email e/ou senha inválido(s)");
-                } else {
+                } else{
                     res.status(403).send("Mais de um usuário com o mesmo login e senha!");
                 }
             }

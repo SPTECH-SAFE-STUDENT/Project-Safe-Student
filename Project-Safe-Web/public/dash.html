@@ -13,7 +13,7 @@
   </style>
 </head>
 
-<body>
+<body onload="exibirVans()">
   <div class="content">
     <div class="menuLateral">
       <img src="./img/logo_SS.png" />
@@ -24,7 +24,7 @@
         <ul>
           <li>Principal</li>
           <li>Perfil</li>
-          <li><a href="./index.html">Sair</a></li><br><br>
+          <li onclick="limparSessao()">Sair</a></li><br><br>
           <li onclick="openModal()">Suporte</li>
         </ul>
       </div>
@@ -54,10 +54,10 @@
     <div class="lista_metrica">
       <div class="status_geral" id="div_vans">
         <h2>Status geral: <span> A situação esta <red style="color: red;">crítica</red> no momento<span></h2>
-        <div class="lista">
+        <div class="lista" style="display: flex;">
           <div class="van">
 
-            <img src="./img/van.png" alt="">
+            <img src="./img/vanCritica.png" alt="">
             <div style="display: flex;">
 
               <span>Placa: ACD54Y</span>
@@ -145,6 +145,11 @@
       `;
     }
 
+    function limparSessao(){
+      sessionStorage.clear();
+      window.location = "index.html" 
+    }
+
     async function gerarResposta() {
       const pergunta = document.getElementById('pergunta').value;
 
@@ -163,20 +168,35 @@
     }
 
     function exibirVans() {
-      JSON.parse(sessionStorage.AQUARIOS).forEach(item => {
+      var Cor = 'Normal'
+      var aparecerCard = 'block'
+      JSON.parse(sessionStorage.VANS_EM_ALERTA).forEach(item => {
+        var temperatura = Number(item.ultima_temperatura)
+        console.log(item)
+        console.log(temperatura)
+        
+        if( temperatura >= 28){
+          Cor = 'Critica'
+        }else if(temperatura >=25){
+          Cor = 'Alerta'
+        }else{
+          aparecerCard = 'none'
+        }
+        
         document.getElementById("div_vans").innerHTML += `
-          <div class="lista">
+          <div class="lista" style="display: ${aparecerCard};">
             <div class="van">
-              <img src="./img/van.png" alt="">
-              <div style="display: flex;">
-                <span>Placa:${item.descricao}</span>
-                <span id="temp_van_${item.id}">Temperatura 27°C</span>
-                <span id="card_${item.id}">Status: Em serviço</span>
+              <img src="./img/van${Cor}.png" alt="">
+              <div style="display: flex; gap: 20px;">
+                <span>Placa:<br>${item.placa}</span>
+                <span id="temp_van_${item.placa}">Temperatura ${item.ultima_temperatura}°C</span>
+                <span id="card_${item.placa}">Status: Em serviço</span>
               </div>
               <a href="dashboard2.html">IR</a>
             </div>
           </div>
         `;
+
       });
     }
   </script>

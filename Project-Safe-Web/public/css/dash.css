@@ -236,7 +236,7 @@
   width: 350px;
   height: 150px;
   border-radius: 20px;
-  display: flex;
+  /* display: flex; */
   margin-left: 25vh;
   background-color: #00164F;
   margin-top: -5%;
