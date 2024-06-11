@@ -85,78 +85,201 @@
 </html>
 
 <script>
-// JUNTAR COM A VERIFICAçAO DO AQUATECH PARA CAMPOS NULOS PARA VERIFICAR A SENHA*****
-//   let quantidadeCadastros = 0
+  function proximaAba(tela) {
 
-//   function MensagemFor() {
+    if (tela == 1) {
 
-//     let cpf = cpf_ipt.value
-//     let senha = senha_ipt.value
-//     let email = email_ipt.value
-//     let validador = false
-//     let arrobaEmail = email.indexOf('@')
-//     let pontoEmail = email.indexOf('.')
+      erro_nome.innerHTML = '';
+      erro_email.innerHTML = '';
+      erro_crmc.innerHTML = '';
 
-//     for (let contadorSenha = 0; contadorSenha <= 9; contadorSenha++) {
-//       if (senha.indexOf(contadorSenha) >= 0) { validador = true }
-//     }
-//     if (arrobaEmail == -1) {
-//       alert("O e-mail deve conter um @")
-//     } else if (pontoEmail == -1) {
-//       alert("O e-mail deve conter um ponto")
-//     } else if (cpf.length != 11 && cpf.length != 14) {
-//       alert("O campo cpf deve ser preenchido com 11 ou 14 caracteres")
-//     } else if (senha.length < 8) {
-//       alert("A senha deve ter no mínimo 8 caracteres ")
-//     } else if (validador == false) {
-//       alert("A senha deve conter números ")
-//     } else { 
-//       quantidadeCadastros++
+      let nomeVar = nome_ipt.value;
+      let emailVar = email_ipt.value;
+      let crmcVar = crmc_ipt.value;
+      let hifenCRMC = crmcVar.indexOf('-');
+      let validacaoCRMC = true;
 
-//       for (let contador = 0; contador <= quantidadeCadastros; contador++) {
-//         div_mensagemFor.style.display = "block";
-//         div_mensagemFor.innerHTML = (`Parabéns! Você é nosso usuário N° ${contador} cadastrado, aguarde um momento que você será redirecionado para pagina de Login...`)
-//       }
-//       setTimeout(function(){
-//         window.location.href = "./login.html"
-//       },6600);  
-//     }
-// }
 
-function cadastro() {
-    // aguardar();
+      if (nomeVar == '') {
+        erro_nome.innerHTML = "PREENCHA TODOS OS CAMPOS PARA CONTINUAR"
+        return false;
+      } else if (emailVar == '') {
+        erro_email.innerHTML = "PREENCHA TODOS OS CAMPOS PARA CONTINUAR"
+        return false;
+      } else if (crmcVar == '') {
+        erro_crmc.innerHTML = "PREENCHA TODOS OS CAMPOS PARA CONTINUAR"
+        return false;
+      } else {
+        let arrobaEmail = emailVar.indexOf('@')
+        let pontoEmail = emailVar.indexOf('.')
+        if (arrobaEmail == -1 || pontoEmail == -1) {
+          erro_email.innerHTML = "INSIRA UM E-MAIL VÁLIDO, COM '@' E '.'"
+          return false;
+        }
+
+        if (crmcVar.length == 9) {
+          for (let i = 0; i < crmcVar.length; i++) {
+            let caractereAtual = crmcVar[i];
+
+            if (i == 6) {
+              if (caractereAtual !== '-') {
+                erro_crmc.innerHTML = "CRMC INVÁLIDO";
+                validacaoCRMC = false;
+                break;
+                return false;
+              }
+            } else {
+              if (caractereAtual < '0' || caractereAtual > '9') {
+                erro_crmc.innerHTML = "CRMC INVÁLIDO";
+                validacaoCRMC = false;
+                break;
+                return false;
+              }
+            }
+          }
+        } else {
+          erro_crmc.innerHTML = "CRMC INVÁLIDO";
+          return false;
+        }
+
+        if (validacaoCRMC == true) {
+          p1.style.display = 'none';
+          p2.style.display = 'flex';
+        }
+      }
+
+    } else if (tela == 2) {
+
+      let caracteresEspeciais = ['@', '.', '*', '#', '$', '&']
+      let letrasMaiusculas = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
+
+      erro_cnpj.innerHTML = ''
+      erro_senha.innerHTML = ''
+      erro_conf_senha.innerHTML = ''
+
+      let cnpjVar = cnpj_ipt.value;
+      let senhaVar = senha_ipt.value;
+      let confirmacaosenhaVar = confirmacao_senha_input.value;
+      let validacaoCNPJ = true;
+      let validacaoSenha = false
+      let tamanhoCnpj = cnpjVar.length
+
+
+      if (cnpjVar == '') {
+        erro_cnpj.innerHTML = "PREENCHA TODOS OS CAMPOS PARA CONTINUAR"
+        return false;
+      } else if (senhaVar == '') {
+        erro_senha.innerHTML = "PREENCHA TODOS OS CAMPOS PARA CONTINUAR"
+        return false;
+      } else if (confirmacaosenhaVar == '') {
+        erro_conf_senha.innerHTML = "PREENCHA TODOS OS CAMPOS PARA CONTINUAR"
+        return false;
+      } else {
+        if (tamanhoCnpj == 18) {
+          for (let i = 0; i < cnpjVar.length; i++) {
+            let caractereAtual = cnpjVar[i];
+
+            if ((i == 2 || i == 6) && caractereAtual !== '.') {
+              validacaoCNPJ = false;
+              break;
+            } else if (i == 10 && caractereAtual !== '/') {
+              validacaoCNPJ = false;
+              break;
+            } else if (i == 15 && caractereAtual !== '-') {
+              validacaoCNPJ = false;
+              break;
+            } else if ((i != 2 && i != 6 && i != 10 && i != 15) && caractereAtual < '0' || caractereAtual > '9') {
+              validacaoCNPJ = false;
+              break;
+            }
+          }
+        }
+
+        else if (cnpjVar.length == 14) {
+          for (let i = 0; i < cnpjVar.length; i++) {
+            let caractereAtual = cnpjVar[i];
+            if (caractereAtual < '0' || caractereAtual > '9') {
+              validacaoCNPJ = false;
+              break;
+            }
+          }
+        } else {
+          validacaoCNPJ = false;
+          erro_cnpj.innerHTML = "CNPJ INCORRETO";
+          return false;
+        }
+
+        if (validacaoCNPJ == false) {
+          erro_cnpj.innerHTML = "CNPJ INCORRETO";
+          return false;
+        }
+
+        if (senhaVar != confirmacaosenhaVar) {
+          erro_senha.innerHTML = "SENHAS INCOMPATÍVEIS!"
+          return false;
+        } else {
+          for (let caractereAtual = 0; caractereAtual < caracteresEspeciais.length; caractereAtual++) {
+            if (senhaVar.indexOf(caracteresEspeciais[caractereAtual]) !== -1) {
+              validacaoSenha = true
+              break;
+            }
+          }
+          if (validacaoSenha == false) {
+            erro_senha.innerHTML = "A SENHA PRECISA CONTER AO MENOS UM CARACTER ESPECIAL!"
+            return false;
+          }
+
+          validacaoSenha = false;
+          for (let caractereAtual = 0; caractereAtual < letrasMaiusculas.length; caractereAtual++) {
+            if (senhaVar.indexOf(letrasMaiusculas[caractereAtual]) !== -1) {
+              validacaoSenha = true
+              break;
+            }
+          }
+          if (validacaoSenha == false) {
+            erro_senha.innerHTML = "A SENHA PRECISA CONTER UMA LETRA MAIUSCULA!"
+            return false;
+          }
+
+          validacaoSenha = false;
+          for (let numAtual = 0; numAtual <= 9; numAtual++) {
+            if (senhaVar.indexOf(numAtual) !== -1) {
+              validacaoSenha = true
+              break;
+            }
+          }
+          if (validacaoSenha == false) {
+            erro_senha.innerHTML = "A SENHA PRECISA CONTER UM NÚMERO!"
+            return false;
+          }
+
+        }
+        if (validacaoSenha == true && validacaoCNPJ == true) {
+          cadastro()
+        }
+      }
+
+    }
+
+  }
+
+
+
+  function cadastro() {
+    aguardar();
+
 
     //Recupere o valor da nova input pelo nome do id
     // Agora vá para o método fetch logo abaixo
-    var nomeVar = nome_ipt.value;
-    var crmcVar = crmc_ipt.value
-    var cnpjVar = cnpj_ipt.value
-    var emailVar = email_ipt.value
-    var senhaVar = senha_ipt.value
-    var confirmacaoSenhaVar = confirmacao_senha_input.value;
-    // var crmcVar = crmc_ipt.value
-    // var empresaVar = listaEmpresas.value;
-    //verica se a campos nulos 
-    if (
-      nomeVar == "" ||
-      crmcVar == "" ||
-      cnpjVar == "" ||
-      emailVar == "" ||
-      senhaVar == "" ||
-      confirmacaoSenhaVar == "" 
-    ) {
-      // cardErro.style.display = "block";
-      
-        alert("Mensagem de erro para todos os campos em branco");
+    let nomeVar = nome_ipt.value;
+    let crmcVar = crmc_ipt.value
+    let cnpjVar = cnpj_ipt.value
+    let emailVar = email_ipt.value
+    let senhaVar = senha_ipt.value
+    let confirmacaoSenhaVar = confirmacao_senha_input.value;
 
-      // finalizarAguardar();
-      return false;
-    } else {
-      alert("teste else verificação dos campos nulos ou validos")
-      // setInterval(sumirMensagem, 5000);
-    }
 
-    // Enviando o valor da nova input
+  
     fetch("/usuarios/cadastrar", {
       method: "POST",
       headers: {
@@ -200,5 +323,5 @@ function cadastro() {
 
     return false;
   }
-  
+
 </script>
