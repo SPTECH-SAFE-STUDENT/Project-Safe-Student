@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Dashboard</title>
   <link rel="stylesheet" href="./css/dash.css" />
+  <script src="./js/sessao.js"></script>
 
   <style>
     
@@ -13,7 +14,7 @@
   </style>
 </head>
 
-<body onload="exibirVans()">
+<body onload="exibirVans(), validarSessao()">
   <div class="content">
     <div class="menuLateral">
       <img src="./img/logo_SS.png" />
@@ -54,7 +55,7 @@
     <div class="lista_metrica">
       <div class="status_geral" id="div_vans">
         <h2>Status geral: <span> A situação esta <red style="color: red;">crítica</red> no momento<span></h2>
-        <div class="lista" style="display: flex;">
+        <!-- <div class="lista" style="display: flex;">
           <div class="van">
 
             <img src="./img/vanCritica.png" alt="">
@@ -67,7 +68,7 @@
 
             <a href="dashboard2.html">IR</a>
           </div>
-        </div>
+        </div> -->
       </div>
       <div class="metricas">
         <div class="campoPesquisa">
@@ -145,11 +146,6 @@
       `;
     }
 
-    function limparSessao(){
-      sessionStorage.clear();
-      window.location = "index.html" 
-    }
-
     async function gerarResposta() {
       const pergunta = document.getElementById('pergunta').value;
 
@@ -174,7 +170,7 @@
         var temperatura = Number(item.ultima_temperatura)
         console.log(item)
         console.log(temperatura)
-        
+
         if( temperatura >= 28){
           Cor = 'Critica'
         }else if(temperatura >=25){

@@ -36,13 +36,23 @@ ORDER BY
   return database.executar(instrucaoSql);
 }
 
-function buscarVansPorMotorista(){
+function buscarVanPorMotorista(idUsuario) {
+
+  var instrucaoSql = `select idUsuario, email, cargo, v.placa, qtdBancos, v.fkCnpj , fkUsuario
+from veiculo v
+join usuario on idUsuario = fkUsuario
+where fkUsuario = ${idUsuario};
+      `;
+
+  console.log("Executando a instrução SQL: \n" + instrucaoSql);
+  return database.executar(instrucaoSql);
 
 }
 
 
+
 function cadastrar(empresaId, descricao) {
-  
+
   var instrucaoSql = `INSERT INTO (descricao, fk_empresa) aquario VALUES (${descricao}, ${empresaId})`;
 
   console.log("Executando a instrução SQL: \n" + instrucaoSql);
@@ -52,5 +62,6 @@ function cadastrar(empresaId, descricao) {
 
 module.exports = {
   buscarVansPorEmpresa,
+  buscarVanPorMotorista,
   cadastrar
 }
