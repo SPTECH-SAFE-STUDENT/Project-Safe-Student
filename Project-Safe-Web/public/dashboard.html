@@ -18,12 +18,11 @@
             width: 150;
             height: 100;
         }
-        
-        .div-graficos{
+
+        .div-graficos {
             width: 150px;
             height: 80px;
         }
-        
     </style>
 </head>
 
@@ -60,7 +59,7 @@
         </div> -->
 
         <!-- DASHBOARD DA PLACA UM -->
-        <div id="dashFCB1B34" class="visao_dash" >
+        <div id="dashFCB1B34" class="visao_dash">
             <div class="kpis">
                 <div id="div1">
                     <p>Bancos Ocupados</p>
@@ -131,7 +130,7 @@
                 </div>
             </div> -->
 
-            <!-- <div class="graficos">
+        <!-- <div class="graficos">
 
                 <div class="canvas">
                     <div class="container-chave">
@@ -160,7 +159,7 @@
                     </div>
                 </div>
             </div> -->
-        </div>
+    </div>
     </div>
 </body>
 
@@ -168,7 +167,7 @@
 
 <script>
 
-    function voltar(){
+    function voltar() {
         window.location = './index.html'
     }
     /* SELEÇÃO DE DASHBOARD */
@@ -178,6 +177,86 @@
     //     dashHPG7G77.style = 'display: none'
     //     veiculos.style = 'display: block'
     // }
+
+    function buscarTemperatura() {
+
+        const idVan = sessionStorage.PLACA_VAN;
+
+        if (!idVan) {
+            console.error('Van do usuário não está definida');
+            return;
+        }
+
+        fetch(`/dashboard/buscarTemperatura/${idVan}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            }
+        })
+            .then(function (resposta) {
+                if (resposta.ok) {
+                    return resposta.json();
+                } else {
+                    throw new Error("Houve um erro ao tentar trazer o resultado");
+                }
+            })
+            .then(function (data) {
+                if (data.length === 0) {
+                    console.warn("Nenhum resultado encontrado");
+                    return;
+                }
+
+                atualizarGrafico(data);
+            })
+            .catch(function (erro) {
+                console.error(`#ERRO: ${erro}`);
+            });
+    }
+
+
+    function atualizarGrafico(dadosTemp) {
+        const ctx = document.getElementById('lm35Temperatura').getContext('2d');
+
+        if (graficoTemperatura) {
+            graficoTemperatura.destroy();
+        }
+
+        // Extrai as quantidades do objeto de resultados
+        let sensores = dados.map(item => item.lt);
+
+        graficoTemperatura = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Sensor 1', 'Sensor 2'],
+                datasets: [{
+                    label: 'Temperatura',
+                    data: sensores,
+                    borderColor: 'transparent',
+                    backgroundColor: '#1B1A1A',
+                }]
+            },
+            options: {
+                animation: false,
+                scales: {
+                    x: {
+                        display: false,
+                        beginAtZero: true,
+                    },
+                    y: {
+                        display: false,
+                        beginAtZero: true,
+                    }
+                },
+                animation: {
+                    duration: 0
+                },
+            }
+        });
+    }
+
+    buscarTemperatura()
+    setInterval(buscarTemperatura, 5000)
+
 
     function dashboardEscolhida() {
         // let placa = select_placa.value
@@ -193,45 +272,106 @@
         //     dashFCB1B34.style = 'display: block;'
         //     opcoes_menu.style = 'display: block;'
 
-            /* DADOS DASHBOARD VEÍCULO UM */
-            /* -- lm35Temperatura */
-            var contextoLm35Temperatura = document.getElementById('lm35TemperaturaUM').getContext('2d');
-            contextoLm35Temperatura.canvas.width = 700;
-            contextoLm35Temperatura.canvas.height = 500;
-            var lm35Temperatura = new Chart(
-                contextoLm35Temperatura,
+        /* DADOS DASHBOARD VEÍCULO UM */
+        /* -- lm35Temperatura */
+        var contextoLm35Temperatura = document.getElementById('lm35TemperaturaUM').getContext('2d');
+        contextoLm35Temperatura.canvas.width = 700;
+        contextoLm35Temperatura.canvas.height = 500;
+        var lm35Temperatura = new Chart(
+            contextoLm35Temperatura,
+            {
+                type: 'line',
+                data: {
+                    labels: [1, 2, 3, 4, 5, 6],
+                    datasets: [{
+                        label: 'Sensor 1',
+                        borderColor: '#FFF348',
+                        backgroundColor: '#FFF348',
+                        fill: false,
+                        data: [30, 32, 31, 30, 31.5, 29.5]
+                    },
+                    {
+                        label: 'Sensor 2',
+                        borderColor: '#123456',
+                        backgroundColor: '#123456',
+                        fill: false,
+                        data: [20, 28, 26, 27, 26.5, 27.5]
+                    }]
+                },
+                options: {
+                    scales: {
+                        xAxes: [{
+                            distribution: 'series',
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }],
+                        yAxes: [{
+                            scaleLabel: {
+                                display: true,
+
+                            },
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    },
+                    animation: {
+                        duration: 0
+                    }
+                }
+            }
+        );
+        /* -- chave */
+        const bancos = 24
+
+        const container = document.getElementById('graficos_bancos');
+
+        const chave = {};
+
+
+        for (let i = 1; i <= bancos; i++) {
+            let div = document.createElement('div');
+            div.className = 'div-graficos'
+            let canvas = document.createElement('canvas');
+            canvas.id = `chart${i}`;
+            canvas.className = 'chart-container';
+            canvas.style = "width= 100px; !important";
+            canvas.style = "height = 80px; !important";
+            container.appendChild(div);
+            div.appendChild(canvas);
+
+            let ctx = canvas.getContext('2d');
+
+            // contextoChave.canvas.width = 650;
+            // contextoChave.canvas.height = 400;
+            chave[`chart${i}`] = new Chart(
+                ctx,
                 {
-                    type: 'line',
+                    type: 'bar',
                     data: {
-                        labels: [1, 2, 3, 4, 5, 6],
+                        labels: [`'${i}'`],
                         datasets: [{
-                            label: 'Sensor 1',
-                            borderColor: '#FFF348',
-                            backgroundColor: '#FFF348',
-                            fill: false,
-                            data: [30, 32, 31, 30, 31.5, 29.5]
-                        },
-                        {
-                            label: 'Sensor 2',
-                            borderColor: '#123456',
-                            backgroundColor: '#123456',
-                            fill: false,
-                            data: [20, 28, 26, 27, 26.5, 27.5]
+                            label: `Banco ${i}`,
+                            data: [1],
+                            type: 'bar',
+                            borderColor: '#FFB800',
+                            backgroundColor: '#FFB800'
                         }]
                     },
                     options: {
+
                         scales: {
                             xAxes: [{
                                 distribution: 'series',
+                                display: false,
                                 ticks: {
                                     beginAtZero: true
                                 }
                             }],
                             yAxes: [{
-                                scaleLabel: {
-                                    display: true,
-
-                                },
+                                distribution: 'series',
+                                display: true,
                                 ticks: {
                                     beginAtZero: true
                                 }
@@ -239,81 +379,20 @@
                         },
                         animation: {
                             duration: 0
+                        },
+                        plugins: {
+                            legend: {
+                                display: true,
+                                label: {
+                                    color: '#000000'
+                                }
+                            },
                         }
                     }
                 }
             );
-            /* -- chave */
-            const bancos = 24
 
-            const container = document.getElementById('graficos_bancos');
-
-            const chave = {};
-
-
-            for (let i = 1; i <= bancos; i++) {
-                let div = document.createElement('div');
-                div.className = 'div-graficos'
-                let canvas = document.createElement('canvas');
-                canvas.id = `chart${i}`;
-                canvas.className = 'chart-container';
-                canvas.style = "width= 100px; !important";
-                canvas.style = "height = 80px; !important";
-                container.appendChild(div);
-                div.appendChild(canvas);
-
-                let ctx = canvas.getContext('2d');
-
-                // contextoChave.canvas.width = 650;
-                // contextoChave.canvas.height = 400;
-                chave[`chart${i}`] = new Chart(
-                    ctx,
-                    {
-                        type: 'bar',
-                        data: {
-                            labels: [`'${i}'`],
-                            datasets: [{
-                                label: `Banco ${i}`,
-                                data: [1],
-                                type: 'bar',
-                                borderColor: '#FFB800',
-                                backgroundColor: '#FFB800'
-                            }]
-                        },
-                        options: {
-                           
-                            scales: {
-                                xAxes: [{
-                                    distribution: 'series',
-                                    display: false,
-                                    ticks: {
-                                        beginAtZero: true
-                                    }
-                                }],
-                                yAxes: [{
-                                    distribution: 'series',
-                                    display: true,
-                                    ticks: {
-                                        beginAtZero: true
-                                    }
-                                }]
-                            },
-                            animation: {
-                                duration: 0
-                            },
-                            plugins: {
-                                legend: {
-                                    display: true,
-                                    label: {
-                                        color: '#000000'
-                                    }
-                                },
-                            }
-                        }
-                    }
-                );
-
-            }
+        }
 
         // } else if (placa == 'placaDOIS') {
         //     veiculos.style = 'display: none'
