@@ -494,27 +494,31 @@ St {
     display: flex;
     justify-content: space-around;
     align-items: center;
-    margin-top: 5vh;
+    height: 100vh;
+    /* margin-bottom: 5vh; */
 }
 
 .formcadastre {
     display: flex;
     flex-direction: column;
     background-color: white;
-    padding: 10px 70px;
+    width: 580px;
+    height: 580px;
     text-align: center;
     border-radius: 40px;
-
+    padding: 10px;
 }
 
 .formcadastre h1 {
     color: #00164f;
+    margin-bottom: -10px;
 }
 
 .formcadastre h3 {
     font-size: larger;
     font-weight: bold;
     color: #636060;
+    margin-bottom: 25px;
 }
 
 .formcadastre p {
@@ -522,13 +526,16 @@ St {
     font-size: medium;
     color: #8d8a8a;
     font-weight: bold;
+    margin-left: 50px;
 }
+
 
 .formcadastre input {
     border: none;
+    outline: none;
     border-bottom: 1px solid #252525;
     padding: 5px;
-    width: 100%;
+    width: 80%;
     font-size: large;
 }
 
@@ -538,11 +545,47 @@ St {
     padding: 10px 50px;
     border: none;
     font-size: 30px;
-    margin-top: 2vh;
+    margin-top: 3.5vh;
     font-weight: bolder;
-    color: #00164F;
+    color: #00164fc8;
     cursor: pointer;
-    margin-bottom: 2vh;
+}
+
+.formcadastre button:hover {
+    color: #00164f;
+    background-color: #e3a200;
+    transition: all 0.5s;
+}
+
+.loading-div {
+    width: 50px;
+    display: none;
+}
+
+.loading-div img {
+    height: 50px;
+    width: 50px;
+}
+
+#div_erros_login {
+    display: none
+}
+
+.voltar {
+    font-size: 90px;
+    position: relative;
+    bottom: 25rem;
+    right: 5rem;
+    }
+    
+    .voltar a {
+    color: #ffff;
+    text-decoration: none;
+}
+
+.voltar a:hover {
+    color: #c99616;
+    transition: all 0.5s;
 }
 
 #corpo{
