@@ -192,6 +192,7 @@
     align-content: center;
     flex-wrap: wrap;
     justify-content: space-around;
+    gap: 5px;
     /* gap: 2vw; */
 }
 .grafico_chave{

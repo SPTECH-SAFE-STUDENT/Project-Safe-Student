@@ -6,9 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./css/dashboard.css">
     <title>Pesquisa</title>
+    <script src="./js/sessao.js"></script>
 </head>
 
-<body>
+<body onload="validarSessao()">
     <div class="content">
         <div class="menuLateral">
             <img src="./img/logo_SS.png">
@@ -17,7 +18,7 @@
             </div>
             <div id="opcoes_menu" class="opcao">
                 <ul>
-                    <li><a id="OpcSair" href="./index.html">Sair</a></li>
+                    <li><a id="OpcSair" onclick="limparSessao()">Sair</a></li>
                 </ul>
             </div>
         </div>

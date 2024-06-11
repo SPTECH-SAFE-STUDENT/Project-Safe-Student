@@ -161,7 +161,7 @@
 
     // }
 
-    
+
     function entrar() {
         // aguardar();
 
@@ -204,22 +204,25 @@
                     sessionStorage.NOME_USUARIO = json.nome;
                     sessionStorage.ID_USUARIO = json.idUsuario;
                     sessionStorage.CARGO_USUARIO = json.cargo;
+                    sessionStorage.PLACA_VAN = json.placa;
+                    sessionStorage.QTDBANCOS_VAN = json.qtdBancos;
                     sessionStorage.VANS_EM_ALERTA = JSON.stringify(json.vans)
 
                     // aqui faremos a verificação para saber para qual tela vai ir cada usuario.
-                    if(json.cargo == 'motorista'){
-                        // usuario for motorista faça um select
-                        console.log("login com motorista")
-                    }else if(json.cargo == 'dono'){
-                        //usuario for um dono faça outro select
-                        console.log("login com dono")
-                    }else if(json.cargo == 'suprote'){
-                        //usuario for um suporte faça outro select
-                        console.log("login com suporte")
+                    if (json.cargo == ('dono' || 'suporte')) {
+                        setTimeout(function () {
+                            window.location = "/dash.html";
+                        }, 1000);
+
+                        console.log("login com dono ou suporte, Indo para tela da Dash Geral")
+
+                    } else {
+                        setTimeout(function () {
+                            window.location = "/iniciar.html";
+                        }, 1000);
+                        console.log("login com motorista, indo para tela INICIAR VIAGEM")
+
                     }
-                    setTimeout(function () {
-                        window.location = "/dash.html";
-                    }, 1000); // apenas para exibir o loading
 
                 });
 

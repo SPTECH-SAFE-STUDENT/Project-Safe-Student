@@ -27,10 +27,10 @@ const serial = async (
             // altere!
             // Credenciais do banco de dados
             host: 'localhost',
-            user: 'safe_student',
-            password: 'Safe@321',
+            user: 'safe_user',
+            password: 'Safe@123',
             database: 'safe_student',
-            port: 3307
+            port: 3306
         }
     ).promise();
 
@@ -78,9 +78,10 @@ const serial = async (
                 
             );
         }
+        
         for(let fkChave = 3; fkChave <= 16; fkChave ++){
             await poolBancoDados.execute(
-                'INSERT INTO leituraprox (chave, fksensorProx) VALUES (?, ?)',
+                'INSERT INTO LeituraProx (chave, fksensorProx) VALUES (?, ?)',
                 [chave, fkChave]
                 
             );
