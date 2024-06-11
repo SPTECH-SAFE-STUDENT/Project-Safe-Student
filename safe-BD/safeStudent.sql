@@ -263,6 +263,11 @@ SELECT * FROM Veiculo;
 
 
 
+<<<<<<< HEAD:safe-BD/safeScript.sql
+=======
+-- Selecionar todos os alertas
+
+>>>>>>> 45874019698e9c147a461d643202c8a7845e4953:safe-BD/safeStudent.sql
 select * from empresa;
 -- Selecionar todos os sensores
 SELECT * FROM Sensores;
@@ -305,7 +310,10 @@ from LeituraTemp as leitura
 join sensores on leitura.fksensorTemp = sensores.id;
 
 
+<<<<<<< HEAD:safe-BD/safeScript.sql
 -- selecionar a tabela alertas e suas fks
+=======
+>>>>>>> 45874019698e9c147a461d643202c8a7845e4953:safe-BD/safeStudent.sql
 
 -- Select com case para verificar se a temperatura está ou não em alerta
 create view alertaMaximo as

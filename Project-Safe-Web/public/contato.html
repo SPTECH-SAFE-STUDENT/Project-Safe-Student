@@ -14,40 +14,60 @@
     </div>
     <div class="faleConosco">
         <div class="container">
-
+            
             <h1>ENTRE EM CONTATO</h1>
             <span>
                 Está com alguma dúvida ou deseja contratar nossos serviços?
                 Envie uma mensagem agora mesmo e te respoderemos da melhor maneira possível.
-            </span>
-
-            <form onsubmit="mensagemEnvio()">
-                <p>
-                    Nome:
+                </span>
+                
+                <form>
+            <p>
+                Email Para:
+            </p>
+            <input type="text" id="emailPara" value="support@safestudent.atlassian.net" required disabled>
+            <br>
+            <p>
+                Assunto:
                 </p>
-                <input type="text" id="input_nomeFaleConosco" required>
-                <br>
-                <p>
-                    Email:
-                </p>
-                <input type="text" id="input_emailFaleConosco" required>
+                <input type="text" id="assunto" required>
                 <br>
                 <p>
                     Escreva sua mensagem:
                 </p>
-                <input id="input_mensagemFaleConosco" required />
+                <textarea id="corpo"required> </textarea>
                 <br>
-
-                <button>
-                    Enviar
-                </button>
+                <button onclick="enviarEmail()"><a class="a" href="mailto:gustavomenez48@gmail.com">
+                    Enviar e-mail
+                  </a>
+                  </button>
             </form>
         </div>
     </div>
     <script>
-        function mensagemEnvio() {
-            alert('Mensagem enviada! Obrigado por nos contatar.')
-        }
+        // function mensagemEnvio() {
+        //     alert('Mensagem enviada! Obrigado por nos contatar.')
+        // }
+
+        function enviarEmail() {
+        // Pegando os valores dos campos do formulário
+        var emailPara = document.getElementById("emailPara").value;
+        var assunto = document.getElementById("assunto").value;
+        var corpo = document.getElementById("corpo").value;
+
+        // Criando a URL do mailto
+        var mailtoLink =
+          "mailto:" +
+          emailPara +
+          "?subject=" +
+          encodeURIComponent(assunto) +
+          "&body=" +
+          encodeURIComponent(corpo);
+
+        // Abrindo o cliente de e-mail com os valores preenchidos
+        window.location.href = mailtoLink;
+      }
+    </script>
     </script>
 </body>
 
