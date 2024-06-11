@@ -9,8 +9,7 @@
   <script src="./js/sessao.js"></script>
 
   <style>
-    
-    
+
   </style>
 </head>
 
@@ -33,15 +32,16 @@
     <div class="kpis">
       <div id="1">
         <p>Vans em serviço</p>
-        <span>10/18</span>
+        <span id="kpiBanco">0</span>
+        <span id="kpiEmSeviço"></span>
       </div>
       <div id="2">
         <p>Vans em estado crítico</p>
-        <span>1</span>
+        <span id="alertaCritico">1</span>
       </div>
       <div id="3">
         <p>Alertas do dia</p>
-        <span>8</span>
+        <span id="alertasDia">8</span>
       </div>
       <div id="legenda">
         <div class="media">
@@ -73,8 +73,8 @@
       <div class="metricas">
         <div class="campoPesquisa">
           <span><img src="./img/lupa.png" alt=""><b>Pesquise por uma van</b><br>
-          <input type="search" placeholder="Digite a placa">
-          <button>Buscar</button>
+            <input type="search" placeholder="Digite a placa">
+            <button>Buscar</button>
         </div>
         <div class="servico">
           <span><b>Vans em serviço: </b><br>
@@ -120,8 +120,9 @@
         </div>
       </div>
       <div class="bordaDiv">
-      <div id="resposta"></div>
-    </div></div>
+        <div id="resposta"></div>
+      </div>
+    </div>
   </dialog>
 
   <script>
@@ -162,23 +163,26 @@
       document.getElementById('resposta').style.display = 'block';
       document.getElementById('resposta').innerText = data.resultado;
     }
+    let quantidadeDeVans = 0;
 
     function exibirVans() {
       var Cor = 'Normal'
       var aparecerCard = 'block'
       JSON.parse(sessionStorage.VANS_EM_ALERTA).forEach(item => {
         var temperatura = Number(item.ultima_temperatura)
+        quantidadeDeVans++
+
         console.log(item)
         console.log(temperatura)
 
-        if( temperatura >= 28){
+        if (temperatura >= 28) {
           Cor = 'Critica'
-        }else if(temperatura >=25){
+        } else if (temperatura >= 25) {
           Cor = 'Alerta'
-        }else{
-          aparecerCard = 'none'
+        } else {
+          Cor = 'Normal'
         }
-        
+
         document.getElementById("div_vans").innerHTML += `
           <div class="lista" style="display: ${aparecerCard};">
             <div class="van">
@@ -186,7 +190,7 @@
               <div style="display: flex; gap: 20px;">
                 <span>Placa:<br>${item.placa}</span>
                 <span id="temp_van_${item.placa}">Temperatura ${item.ultima_temperatura}°C</span>
-                <span id="card_${item.placa}">Status: Em serviço</span>
+                <span id="card_${item.placa}">Status: ${item.statusVan}</span>
               </div>
               <a href="dashboard2.html">IR</a>
             </div>
@@ -194,7 +198,136 @@
         `;
 
       });
+
+      kpiEmSeviço.innerHTML = `/ ${quantidadeDeVans}`
+
+      kpisFetchsServico();
+      kpisFetchsCritico();
+      kpisFetchsAlerta();
     }
+
+    let fkCnpj = sessionStorage.CNPJ_EMPRESA
+
+    function kpisFetchsServico() {
+
+      fetch(`/aquarios/kpiVansServico`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          fkCnpj: fkCnpj
+        })
+      })
+        .then(function (resposta) {
+          if (resposta.ok) {
+            return resposta.json();
+          } else {
+            throw new Error("Houve um erro ao tentar trazer o resultado");
+          }
+        })
+        .then(function (data) {
+          if (data.length === 0) {
+            console.warn("Nenhum resultado encontrado");
+            return;
+          }
+          data.forEach(element => {
+            
+            console.log(element.VansServico + " VANS SERVIÇO")
+            kpiBanco.innerHTML = element.VansServico
+            
+          });
+        })
+        .catch(function (erro) {
+          console.error(`#ERRO: ${erro}`);
+        });
+
+        setInterval(() => {
+          kpisFetchsServico()
+        }, 14000);
+    }
+
+    function kpisFetchsAlerta() {
+
+      fetch(`/aquarios/kpiAlertas`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          fkCnpj: fkCnpj
+        })
+      })
+        .then(function (resposta) {
+          if (resposta.ok) {
+            return resposta.json();
+          } else {
+            throw new Error("Houve um erro ao tentar trazer o resultado");
+          }
+        })
+        .then(function (data) {
+          if (data.length === 0) {
+            console.warn("Nenhum resultado encontrado");
+            return;
+          }
+          data.forEach(element => {
+
+            console.log(element)
+            console.log(element.qtdAlertas + " ALERTAS DIA")
+
+            alertasDia.innerHTML = element.qtdAlertas
+
+          });
+        })
+        .catch(function (erro) {
+          console.error(`#ERRO: ${erro}`);
+        });
+
+        setInterval(() => {
+          kpisFetchsAlerta()
+        }, 10000);
+    }
+
+    function kpisFetchsCritico() {
+
+      fetch(`/aquarios/kpiCriticos`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          fkCnpj: fkCnpj
+        })
+      })
+        .then(function (resposta) {
+          if (resposta.ok) {
+            return resposta.json();
+          } else {
+            throw new Error("Houve um erro ao tentar trazer o resultado");
+          }
+        })
+        .then(function (data) {
+          if (data.length === 0) {
+            console.warn("Nenhum resultado encontrado");
+            return;
+          }
+          data.forEach(element => {
+            
+            console.log(element + " ALERTAS CRITICOS")
+            alertaCritico.innerHTML = element.ultima_temperatura
+          });
+        })
+        .catch(function (erro) {
+          console.error(`#ERRO: ${erro}`);
+        });
+
+        setInterval(() => {
+          kpisFetchsCritico()
+        }, 12000);
+    }
+
+
+
   </script>
 </body>
 

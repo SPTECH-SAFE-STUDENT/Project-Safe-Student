@@ -198,7 +198,10 @@
                 console.log(resposta);
 
                 resposta.json().then(json => {
-                    console.log(json);
+                    console.log(json.fkcnpj
+                        + " esse é o cnpj"
+                    );
+
                     console.log(JSON.stringify(json));
                     sessionStorage.EMAIL_USUARIO = json.email;
                     sessionStorage.NOME_USUARIO = json.nome;
@@ -206,6 +209,7 @@
                     sessionStorage.CARGO_USUARIO = json.cargo;
                     sessionStorage.PLACA_VAN = json.placa;
                     sessionStorage.QTDBANCOS_VAN = json.qtdBancos;
+                    sessionStorage.CNPJ_EMPRESA = json.fkcnpj;
                     sessionStorage.VANS_EM_ALERTA = JSON.stringify(json.vans)
 
                     // aqui faremos a verificação para saber para qual tela vai ir cada usuario.
