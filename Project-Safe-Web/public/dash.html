@@ -77,7 +77,7 @@
     </div>
     <div class="lista_metrica">
       <div class="status_geral" id="div_vans">
-        <h2>Status geral: <span> A situação esta <red style="color: red;">crítica</red> no momento<span></h2>
+        <h2>Status geral: <span> A situação esta <red id="situacaoVan"></red> no momento<span></h2>
         <!-- <div class="lista" style="display: flex;">
           <div class="van">
 
@@ -299,8 +299,9 @@
             </div>
           </div>
         `;
-
       });
+
+      // situacaoVan
 
       kpisFetchsServico();
       kpisFetchsCritico();
@@ -338,6 +339,24 @@
             kpiBanco.innerHTML = element.VansServico;
             kpiEmSeviço.innerHTML = element.qtdVans;
             console.log(element.qtdVans + " Quantidade de Vans")
+
+            kpisFetchsAlerta();
+
+            let porcentagemCriticidade = (element.qtdVansEmAlerta / element.qtdVans) *100
+
+            if(porcentagemCriticidade >= 65){
+              document.getElementById("situacaoVan").innerHTML = "Crítica";
+              document.getElementById("situacaoVan").style.color = "red";
+
+            }else if(porcentagemCriticidade >= 15){
+              document.getElementById("situacaoVan").innerHTML = "Alerta";
+              document.getElementById("situacaoVan").style.color = "orange";
+
+            }else{
+              document.getElementById("situacaoVan").innerHTML = "Normal";
+              document.getElementById("situacaoVan").style.color = "green";
+
+            }
 
           });
         })
@@ -379,7 +398,6 @@
 
             console.log(element)
             console.log(element.qtdAlertas + " ALERTAS DIA")
-
             alertasDia.innerHTML = element.qtdAlertas
 
           });

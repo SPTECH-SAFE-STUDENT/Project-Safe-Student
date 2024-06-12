@@ -55,12 +55,12 @@ function buscarVanPorMotorista(idUsuario) {
 function kpiAlertas(fkCnpj){
 
   var instrucaoSql = `select 
-count(temperatura) as qtdAlertas
-from veiculo 
-join sensores on fkveiculo = placa
-join leituratemp on fksensorTemp = sensores.id
-where temperatura > 25 
-and fkCnpj = '${fkCnpj}';
+  count(temperatura) as qtdAlertas, count(distinct placa) as qtdVansEmAlerta
+  from veiculo 
+  join sensores on fkveiculo = placa
+  join leituratemp on fksensorTemp = sensores.id
+  where temperatura > 25 
+  and fkCnpj = '${fkCnpj}';
   `;
 
 console.log("Executando a instrução SQL: \n" + instrucaoSql);
@@ -70,7 +70,7 @@ return database.executar(instrucaoSql);
 
 function kpiCriticos(fkCnpj){
 
-  var instrucaoSql = `    SELECT 
+  var instrucaoSql = ` SELECT 
           count(lt.temperatura) AS ultima_temperatura
       FROM 
           Veiculo v
