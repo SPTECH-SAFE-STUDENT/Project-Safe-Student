@@ -48,13 +48,14 @@
             </div>
           </div>
         </div>
-        <img class="interrogacao" src="../public/img/interrogacao.jpeg" alt="" onclick="mostrarPergunta()">
+        <img class="interrogacao" src="./img/interrogacao.jpeg" alt="" onclick="mostrarPergunta()">
       </div>
     </div>
     <div class="kpis">
       <div id="1">
         <p>Vans em serviço</p>
-        <span id="kpiBanco">0</span>
+        <span id="kpiBanco">/</span>
+        <span>/</span>
         <span id="kpiEmSeviço"></span>
       </div>
       <div id="2">
@@ -224,6 +225,7 @@
 
     // FIM FUNCAO DO FAQ
 
+    // Aqui temos a estrutura do safeIA nossa inteligência artificial
     var modal = document.getElementById("modal");
     var closeBtn = document.getElementById("closeModalBtn");
 
@@ -261,6 +263,9 @@
       document.getElementById('resposta').style.display = 'block';
       document.getElementById('resposta').innerText = data.resultado;
     }
+
+
+    // Começo do funcionamento dos cards do estado da van
     let quantidadeDeVans = 0;
 
     function exibirVans() {
@@ -297,8 +302,6 @@
 
       });
 
-      kpiEmSeviço.innerHTML = `/ ${quantidadeDeVans}`
-
       kpisFetchsServico();
       kpisFetchsCritico();
       kpisFetchsAlerta();
@@ -332,7 +335,9 @@
           data.forEach(element => {
 
             console.log(element.VansServico + " VANS SERVIÇO")
-            kpiBanco.innerHTML = element.VansServico
+            kpiBanco.innerHTML = element.VansServico;
+            kpiEmSeviço.innerHTML = element.qtdVans;
+            console.log(element.qtdVans + " Quantidade de Vans")
 
           });
         })
@@ -340,11 +345,13 @@
           console.error(`#ERRO: ${erro}`);
         });
 
-      setInterval(() => {
-        kpisFetchsServico()
-      }, 14000);
-    }
+        }
+    setInterval(() => {
+      kpisFetchsServico()
+    }, 24000);
 
+    kpisFetchsServico()
+        
     function kpisFetchsAlerta() {
 
       fetch(`/aquarios/kpiAlertas`, {
@@ -381,11 +388,14 @@
           console.error(`#ERRO: ${erro}`);
         });
 
-      setInterval(() => {
-        kpisFetchsAlerta()
-      }, 10000);
-    }
+        }
 
+    setInterval(() => {
+      kpisFetchsAlerta()
+    }, 20000);
+
+    kpisFetchsAlerta()
+        
     function kpisFetchsCritico() {
 
       fetch(`/aquarios/kpiCriticos`, {
@@ -411,20 +421,23 @@
           }
           data.forEach(element => {
 
+            console.log(element)
             console.log(element + " ALERTAS CRITICOS")
             alertaCritico.innerHTML = element.ultima_temperatura
+
           });
         })
         .catch(function (erro) {
           console.error(`#ERRO: ${erro}`);
         });
 
-      setInterval(() => {
+        }
+        
+        setInterval(() => {
+          kpisFetchsCritico()
+        }, 22000);
+
         kpisFetchsCritico()
-      }, 12000);
-    }
-
-
 
   </script>
 </body>

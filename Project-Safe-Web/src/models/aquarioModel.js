@@ -101,7 +101,7 @@ return database.executar(instrucaoSql);
 function kpiVansServico(fkCnpj){
 
   var instrucaoSql = `
-    select count(statusVan) as VansServico from veiculo
+    select count(statusVan) as VansServico, count(placa) as qtdVans from veiculo
     where statusVan = 'rodando'
     and fkCnpj = '${fkCnpj}';
   `;
@@ -110,6 +110,9 @@ console.log("Executando a instrução SQL: \n" + instrucaoSql);
 return database.executar(instrucaoSql);
 
 }
+
+
+
 
 function cadastrar(empresaId, descricao) {
 
