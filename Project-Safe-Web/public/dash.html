@@ -9,24 +9,46 @@
   <script src="./js/sessao.js"></script>
 
   <style>
-
   </style>
 </head>
 
 <body onload="exibirVans(), validarSessao()">
   <div class="content">
-    <div class="menuLateral">
-      <img src="./img/logo_SS.png" />
-      <div>
-        <h1>Bem vindo<br />de volta!</h1>
+    <div class="menuLateral" id="menuLateral">
+      <div class="divisao">
+        <img src="./img/logo_SS.png" />
+        <div>
+          <h1>Bem vindo<br />de volta!</h1>
+        </div>
+        <div class="opcao">
+          <ul>
+            <li>Principal</li>
+            <li>Perfil</li>
+            <li onclick="limparSessao()">Sair</a></li><br><br>
+            <li onclick="openModal()">Suporte</li>
+          </ul>
+        </div>
       </div>
-      <div class="opcao">
-        <ul>
-          <li>Principal</li>
-          <li>Perfil</li>
-          <li onclick="limparSessao()">Sair</a></li><br><br>
-          <li onclick="openModal()">Suporte</li>
-        </ul>
+      <div class="faq">
+        <div class="questionario" id="questionario" style="display: none;">
+          <span class="fechar" onclick="fechar()">X</span>
+          <div class="conteudo">
+            <h3>Perguntas frequentes</h3>
+            <select name="perguntas" id="perguntas" onchange="mostrarResposta()">
+              <option value="#">Selecione...</option>
+              <option value="1">Por que não consigo realizar login?</option>
+              <option value="2">Onde posso adquirir mais sensores?</option>
+              <option value="3">Um dos meus sensores está com defeito.</option>
+              <option value="4">Como posso cadastrar mais uma van?</option>
+              <option value="5">Por que não consigo pesquisar uma van?</option>
+              <option value="6">Por que só vejo as vans em alerta na minha dahsboard?</option>
+              <option value="7">Não resolvi meu problema.</option>
+            </select>
+            <div id="div_resposta" style="display: none;">
+            </div>
+          </div>
+        </div>
+        <img class="interrogacao" src="../public/img/interrogacao.jpeg" alt="" onclick="mostrarPergunta()">
       </div>
     </div>
     <div class="kpis">
@@ -95,6 +117,8 @@
     </div>
   </div>
 
+
+
   <dialog id="modal">
     <div class="modal-content">
       <button id="closeModalBtn" onclick="closeModal()" class="close">x</button>
@@ -126,6 +150,80 @@
   </dialog>
 
   <script>
+
+    // INICIO FUNCAO DO FAQ
+
+    function mostrarPergunta() {
+      questionario.style.display = 'block';
+      
+      menuLateral.style.gap = '50vw';
+    }
+
+    function fechar() {
+      questionario.style.display = 'none';
+
+      menuLateral.style.gap = '74vw';
+    }
+
+    function mostrarResposta() {
+
+      let resposta;
+
+      let pergunta = perguntas.value;
+
+      if(pergunta == '#'){
+
+        resposta = `Selecione uma pergunta.`
+
+      }else if (pergunta == '1') {
+        resposta = `<b>Possíveis soluções:</b><br> <br>
+           <b> 1.</b> Tente verificar a conexão com a internet.<br>
+           <b> 2.</b> Verifique se as informações estão corretas.`
+
+
+      } else if (pergunta == '2') {
+        resposta = `Para adquirir mais sensores, será 
+            necessário entrar em contato com nossa empresa,abrindo um chamado na 
+            aba "Suporte", para que nossa equipe possa fornecer o sensores e realizar
+            a instalação.`
+
+      } else if (pergunta == '3') {
+        resposta = `Caso seus sensores não funcionem como deverião, você deve
+            abrir um chamado na aba "Suporte" para relatar sua situação. Depois de aberto, 
+            nossa equipe fará a análise do seu problema para resolve-lo o mais rápido possível.`
+
+      } else if (pergunta == '4') {
+        resposta = `Para cadastrar mais um veículo na sua dashboard, será 
+            necessário entrar em contato com nossa empresa, abrindo um chamado na 
+            aba "Suporte", para que nossa equipe realize o cadastro.`
+
+      } else if (pergunta == '5') {
+        resposta = `<b>Possíveis soluções:</b> <br> <br>
+            <b>1.</b> Verifique se essa van possuí o sistema de sensores <b>Safe Student</b>.<br>
+            <b>2.</b> Verifique se os dados da placa estão corretos.`
+
+      } else if (pergunta == '6') {
+        resposta = `Nossa dashboard foi feita com o intuito de te ajudar
+            a resolver problemas de maneira rápida. Ver somente as vans em alerta
+            te mostra exatamente onde está o problema facilitando o seu trabalho, o tornando mais objetivo.`
+
+
+      } else if (pergunta == '7') {
+        resposta = `Caso suas perguntas não tenham sido respondidas, recomendamos que você abra 
+            um chamado na aba "Suporte" e relate seu problema para nossa equipe. Após a análise, faremos 
+            o possível para lhe ajudar o mais rápido possível `
+
+      }
+
+
+      div_resposta.style.display = 'block';
+
+      div_resposta.innerHTML = `
+        ${resposta}`;
+    }
+
+    // FIM FUNCAO DO FAQ
+
     var modal = document.getElementById("modal");
     var closeBtn = document.getElementById("closeModalBtn");
 
@@ -232,19 +330,19 @@
             return;
           }
           data.forEach(element => {
-            
+
             console.log(element.VansServico + " VANS SERVIÇO")
             kpiBanco.innerHTML = element.VansServico
-            
+
           });
         })
         .catch(function (erro) {
           console.error(`#ERRO: ${erro}`);
         });
 
-        setInterval(() => {
-          kpisFetchsServico()
-        }, 14000);
+      setInterval(() => {
+        kpisFetchsServico()
+      }, 14000);
     }
 
     function kpisFetchsAlerta() {
@@ -283,9 +381,9 @@
           console.error(`#ERRO: ${erro}`);
         });
 
-        setInterval(() => {
-          kpisFetchsAlerta()
-        }, 10000);
+      setInterval(() => {
+        kpisFetchsAlerta()
+      }, 10000);
     }
 
     function kpisFetchsCritico() {
@@ -312,7 +410,7 @@
             return;
           }
           data.forEach(element => {
-            
+
             console.log(element + " ALERTAS CRITICOS")
             alertaCritico.innerHTML = element.ultima_temperatura
           });
@@ -321,9 +419,9 @@
           console.error(`#ERRO: ${erro}`);
         });
 
-        setInterval(() => {
-          kpisFetchsCritico()
-        }, 12000);
+      setInterval(() => {
+        kpisFetchsCritico()
+      }, 12000);
     }
 
 
