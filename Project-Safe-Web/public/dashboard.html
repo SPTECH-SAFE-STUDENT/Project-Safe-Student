@@ -167,7 +167,18 @@
 
 <script>
 
+    function telaDash(){
+        let cargo = sessionStorage.CARGO_USUARIO
+        if(cargo == 'suporte' || cargo == 'dono'){
+            window.location = "./dash.html"
+        }else{
+            window.location = "./dashboard.html"
+        }
+    }
+   
+
     function voltar() {
+        sessionStorage.clear()
         window.location = './index.html'
     }
     /* SELEÇÃO DE DASHBOARD */

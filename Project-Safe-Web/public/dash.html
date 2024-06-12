@@ -96,7 +96,7 @@
       <div class="metricas">
         <div class="campoPesquisa">
           <span><img src="./img/lupa.png" alt=""><b>Pesquise por uma van</b><br>
-            <input type="search" placeholder="Digite a placa">
+            <input id="search_input" onkeyup="search_vans()" type="search" placeholder="Digite a placa">
             <button>Buscar</button>
         </div>
         <div class="servico">
@@ -295,8 +295,9 @@
                 <span id="temp_van_${item.placa}">Temperatura ${item.ultima_temperatura}°C</span>
                 <span id="card_${item.placa}">Status: ${item.statusVan}</span>
               </div>
-              <a href="dashboard2.html">IR</a>
-            </div>
+              <buttom class="button-placa" data-value="${item.qtdBancos}" value="${item.placa}" onclick="dashboardindividual()">IR</buttom>
+                
+              </div>
           </div>
         `;
       });
@@ -337,26 +338,11 @@
 
             console.log(element.VansServico + " VANS SERVIÇO")
             kpiBanco.innerHTML = element.VansServico;
-            kpiEmSeviço.innerHTML = element.qtdVans;
+            kpiEmSeviço.innerHTML = quantidadeDeVans;
             console.log(element.qtdVans + " Quantidade de Vans")
 
             kpisFetchsAlerta();
 
-            let porcentagemCriticidade = (element.qtdVansEmAlerta / element.qtdVans) *100
-
-            if(porcentagemCriticidade >= 65){
-              document.getElementById("situacaoVan").innerHTML = "Crítica";
-              document.getElementById("situacaoVan").style.color = "red";
-
-            }else if(porcentagemCriticidade >= 15){
-              document.getElementById("situacaoVan").innerHTML = "Alerta";
-              document.getElementById("situacaoVan").style.color = "orange";
-
-            }else{
-              document.getElementById("situacaoVan").innerHTML = "Normal";
-              document.getElementById("situacaoVan").style.color = "green";
-
-            }
 
           });
         })
@@ -443,6 +429,22 @@
             console.log(element + " ALERTAS CRITICOS")
             alertaCritico.innerHTML = element.ultima_temperatura
 
+            let porcentagemCriticidade = (Number(element.ultima_temperatura) / quantidadeDeVans)*100
+
+            if(porcentagemCriticidade >= 65){
+              document.getElementById("situacaoVan").innerHTML = "Crítica";
+              document.getElementById("situacaoVan").style.color = "red";
+
+            }else if(porcentagemCriticidade >= 15){
+              document.getElementById("situacaoVan").innerHTML = "Alerta";
+              document.getElementById("situacaoVan").style.color = "orange";
+
+            }else{
+              document.getElementById("situacaoVan").innerHTML = "Normal";
+              document.getElementById("situacaoVan").style.color = "green";
+
+            }
+
           });
         })
         .catch(function (erro) {
@@ -456,6 +458,60 @@
         }, 22000);
 
         kpisFetchsCritico()
+
+
+        function dashboardindividual(){
+      const buttons = document.querySelectorAll('.button-placa');
+
+    // Adiciona um event listener a cada botão
+    buttons.forEach(botao => {
+
+        // botao.addEventListener('click', (event) => {
+            // Obtém o valor do atributo data-value do botão clicado
+            const value = event.target.getAttribute('value');
+            const bancos = event.target.getAttribute('data-value');
+            // Chama a função e passa o valor do botão
+            botaoVanClicado(value, bancos);
+
+        // });
+
+    });
+
+}
+
+// Função que será chamada quando qualquer botão for clicado
+function botaoVanClicado(value, bancos) {
+    console.log(`Botão com valor ${value} foi clicado. bancos ${bancos}`);
+
+    sessionStorage.PLACA_VAN = value
+    sessionStorage.QTDBANCOS_VAN = bancos
+    alert("pausa")
+    window.location = "dashboard.html"
+    // Adicione aqui a lógica que você deseja executar com o valor
+}
+
+function search_vans() {
+  // Executa essa função toda vez que o usuario digita no input Search por ser ONKEYUP
+  let input = document.getElementById('search_input').value
+  // Pegamos o valor do input
+  input = input.toLowerCase();
+  // Definimos o valor do input para caixa baixa para simplificar a verificação
+  let arrayLista = document.getElementsByClassName('lista');
+  // Basicamente cria uma array contendo todos os cards que possuem a class lista no HTML
+
+  for (let itemArray = 0; itemArray < arrayLista.length; itemArray++) {
+    // Percorre a arrayLista e verifica com includes se possue 
+    // oque está no search com o conteudo do HTML
+    if (!arrayLista[itemArray].innerHTML.toLowerCase().includes(input)) {
+      //Oculta com o card que nn possue oque foi pesquisado
+      arrayLista[itemArray].style.display = "none";
+    }
+    else {
+      //Exibe apenas os que contem o conteudo pesquisado
+      arrayLista[itemArray].style.display = "list-item";
+    }
+  }
+}
 
   </script>
 </body>
