@@ -22,13 +22,10 @@ function autenticar(req, res) {
 
                     console.log(usuario.fkcnpj + " teste idUsuario");
 
-                    if(usuario.cargo == 'motorista'){
-                        // usuario for motorista faça um select
-                        console.log("login com motorista")
-                   
-                    }else if(usuario.cargo == 'dono'){
+                   if(usuario.cargo == ('dono' || 'suporte')){
                         //usuario for um dono faça outro select
                         console.log("login com dono")
+
                         aquarioModel.buscarVansPorEmpresa(resultadoAutenticar[0].fkcnpj)
                         .then((resultadoVans) => {
 
@@ -53,9 +50,44 @@ function autenticar(req, res) {
                             console.log("\nHouve um erro ao buscar vans! Erro: ", erro.sqlMessage);
                             res.status(500).json(erro.sqlMessage);
                         });
-                    }else if(usuario.cargo == 'suporte'){
-                        //usuario for um suporte faça outro select
-                        console.log("login com suporte")
+                    }else {
+
+                        aquarioModel.buscarVanPorMotorista(resultadoAutenticar[0].idUsuario)
+                        .then((resultadoVans) => {
+                            let placaVan;
+                            let qtdBancosVan;
+                            resultadoVans.forEach(element => {
+                                placaVan = element.placa
+                                qtdBancosVan = element.qtdBancos
+                                
+                            });
+                            // if para guardar os dados pego tanto no select do usuario quanto no select das vans
+                            if (resultadoVans.length > 0) {
+                                res.json({
+                                    placa:placaVan,
+                                    qtdBancos:qtdBancosVan,
+                                    fkCnpj:usuario.fkCnpj,
+                                    fkUsuario:usuario.fkUsuario,
+                                    idUsuario: usuario.idUsuario,
+                                    email: usuario.email,
+                                    nome: usuario.nome,
+                                    cargo: usuario.cargo,
+                                    fkcnpj: usuario.fkcnpj,
+                                    fkempresa: usuario.fkempresa,
+                                    senha: usuario.senha
+                                });
+                            } else {
+                                res.status(204).json({ van: [] });
+                            }
+                        })
+                        .catch((erro) => {
+                            console.log(erro);
+                            console.log("\nHouve um erro ao buscar vans! Erro: ", erro.sqlMessage);
+                            res.status(500).json(erro.sqlMessage);
+                        });
+
+                        //usuario for um moto faça outro select
+                        console.log("login com Motorista")
                     }
                     
                 } else if (resultadoAutenticar.length == 0) {

@@ -11,12 +11,19 @@
 }
 
 .menuLateral {
-  display: inline;
+  display:flex;
   background-color: #00164f;
-  max-width: 15vw;
+  max-width: 16vw;
   height: 100%;
   text-align: center;
+  gap: 74vw; 
+  justify-content: space-between;
+  align-items: end;
   position: fixed;
+}
+
+.menuLateral .divisao{
+  width: 100%;
 }
 
 .menuLateral img {
@@ -222,7 +229,7 @@
   margin-left: 20px;
 }
 
-.van a{
+.van .button-placa{
   padding: 10px 60px;
   color: #ffff;
   background-color: #920707;
@@ -328,7 +335,85 @@ button#acess-btn {
 div#divcenter {
   text-align: center;
   margin-top: -80px;
+<<<<<<< HEAD
   align-items: center;
   justify-content: center;
 }
 
+=======
+}
+
+/* ESTILZACAO FAQ */
+
+ .faq {
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+}
+
+.interrogacao {
+  max-height: 8vh;
+  max-width: 5vw;
+  cursor: pointer;
+} 
+
+.interrogacao:hover {
+  opacity: 70%;
+  transition: 1ms;
+}
+
+
+.questionario {
+  display: flex;
+  text-align: left;
+  height: auto;
+  width: 30vw;
+  border-radius: 20px;
+  background-color:#00164F;
+}
+
+.conteudo {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.conteudo span {
+  color: #00164F;
+}
+
+.conteudo h3 {
+  color: #ffff;
+  margin-bottom: 1rem;
+}
+
+#perguntas {
+  width: 25vw;
+  height: 5vh;
+  border-radius: 20px;
+  outline: none;
+  border: none;
+  font-family: Poppins;
+  font-size: medium;
+  margin-bottom: 1rem;
+}
+
+
+#div_resposta {
+  margin: 1rem;
+  font-family: Poppins;
+  text-align: justify;
+  font-size: medium;
+  background-color: #fff;
+  padding: 6px;
+  border-radius: 20px;
+}
+
+.fechar {
+  font-size: x-large;
+  margin-left: 0.5rem;
+  cursor: pointer;
+  color: #ffff;
+}
+>>>>>>> 53e8386a62de45c41103727dc73f61dd313fb24d

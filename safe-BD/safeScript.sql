@@ -40,12 +40,12 @@ CREATE TABLE Veiculo (
     fkUsuario INT UNIQUE KEY,
     fkEmpresa INT,
     fkCnpj varchar(18),
-    statusVan INT,
-    constraint ck_statusVan check (statusVan in (0, 1)),
+    statusVan varchar(15),
     FOREIGN KEY (fkCnpj) references empresa(cnpj),
     FOREIGN KEY (fkEmpresa) references empresa(idEmpresa),
     FOREIGN KEY (fkUsuario) REFERENCES Usuario(idUsuario)
 );
+
 
 CREATE TABLE Sensores (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -78,8 +78,6 @@ INSERT INTO empresa (nome , cnpj, rua, cidade, estado, cep) VALUES
 ('FrizzaVans', '12.345.678/0001-00', 'Av. consolação', 'São Paulo', 'SP', '12345-678'),
 ('Bryantur', '87.654.321/0001-00', 'Av. Paulista', 'São Paulo', 'SP', '87654-321');
 
-select * from empresa;
-
 /*
 select idUsuario, nome, email, fkcnpj, cargo , fkEmpresa from empresa
 inner join usuario on fkCnpj = cnpj
@@ -87,19 +85,17 @@ join veiculo on fkEmpresa = idEmpresa
 where email = 'motoristaa1@empresaA.com' AND senha = 'senhaC';*/
 
 INSERT INTO Usuario (crmc, nome, cpf, email, celular, senha, fkCnpj, cargo) VALUES 
-('051.302-00', 'Claudio Frizza', '111.111.111-11', 'dono@A.com', '(11) 11111-1111', 'frizza@123', '12.345.678/0001-00', 'dono'),
-('0000000001','Bruna Karen', '222.222.222-22', 'support@safestudent.atlassian.net', '(11) 22222-2222', 'bruna@123', '12.345.678/0001-00', 'suporte'),
-('987.654-32', 'Luiz Moraes', '333.333.333-33', 'luiz@frizzaVans.com', '(11) 33333-3333', 'luiz@123', '12.345.678/0001-00', 'motorista'),
-('001.234-56', 'maykon Nogueira', '444.444.444-44', 'maykon@frizzaVans.com', '(11) 44444-4444', 'maykon@123', '12.345.678/0001-00', 'motorista'),
-('876.543-21', 'Bryan Ferro', '555.555.555-55', 'bryan@bryantur.com', '(11) 55555-5555', 'bryan@123', '87.654.321/0001-00', 'dono');
+('051.302-00', 'Claudio Frizza', '111.111.111-11', 'frizaClaudio@frizzaVans.com', '(11) 11111-1111', 'Frizza@123', '12.345.678/0001-00', 'dono'),
+('0000000001','Bruna Karen', '222.222.222-22', 'support@safestudent.atlassian.net', '(11) 22222-2222', 'Bruna@123', '12.345.678/0001-00', 'suporte'),
+('987.654-32', 'Luiz Moraes', '333.333.333-33', 'luiz@frizzaVans.com', '(11) 33333-3333', 'Luiz@123', '12.345.678/0001-00', 'motorista'),
+('001.234-56', 'maykon Nogueira', '444.444.444-44', 'maykon@frizzaVans.com', '(11) 44444-4444', 'Maykon@123', '12.345.678/0001-00', 'motorista'),
+('876.543-21', 'Bryan Ferro', '555.555.555-55', 'bryan@bryantur.com', '(11) 55555-5555', 'Bryan@123', '87.654.321/0001-00', 'dono');
 
 /*
 update usuario 
 set fkCnpj = '87.654.321/0001-00'
 where idUsuario = 2;
 */
-
-select * from usuario;
 
 -- Empresa Frizza
 INSERT INTO Veiculo (placa, chassi, ano, marca, categoria, fkUsuario, fkEmpresa, fkCnpj, qtdBancos) VALUES 
@@ -109,8 +105,6 @@ INSERT INTO Veiculo (placa, chassi, ano, marca, categoria, fkUsuario, fkEmpresa,
 -- Empresa Bryan
 INSERT INTO Veiculo (placa, chassi, ano, marca, categoria, fkUsuario, fkEmpresa, fkCnpj, qtdBancos) VALUES 
 ('AXC1111', '1HGBH41JXMN109186', 2020, 'Volkswagen', 'Ônibus', 5, 1, '87.654.321/0001-00' , 20);
-
-select * from veiculo;
 
 /*
 
@@ -201,15 +195,15 @@ VALUES ('SensorP1', 'Banco 1', 'Proximidade', 'AXC1111'),
        ('SensorP20', 'Banco 20', 'Proximidade', 'AXC1111');
 
 
-select * from sensores;
-select * from leituraTemp;
-select * from leituraProx;
-/*
 INSERT INTO LeituraTemp (temperatura, fksensorTemp) VALUES 
-(26.5 , 11);
+(26.5 , 17),
+(25.5 , 18);
 
 INSERT INTO LeituraProx (chave, fksensorProx) VALUES 
 (0, 10);
+
+
+/*
 
 truncate table leituraTemp;
 truncate table leituraProx;
@@ -247,12 +241,14 @@ and s.tipo = 'temperatura'
 ORDER BY 
     ultima_temperatura desc;
     */
+    
 -- testes para API 
 
+/*
 SELECT idUsuario, nome, email, Veiculo.fkcnpj, fkempresa FROM usuario 
 join Veiculo 
 WHERE email = 'bryan@gmail.com' AND senha = '12345678';
-
+*/
 
 -- Selecionar todos os cadastros
 SELECT * FROM Usuario;
@@ -261,14 +257,9 @@ SELECT * FROM Usuario;
 -- Selecionar todos os veículos
 SELECT * FROM Veiculo;
 
-
-
-<<<<<<< HEAD:safe-BD/safeScript.sql
-=======
--- Selecionar todos os alertas
-
->>>>>>> 45874019698e9c147a461d643202c8a7845e4953:safe-BD/safeStudent.sql
+-- Selecionar todas as empresas
 select * from empresa;
+
 -- Selecionar todos os sensores
 SELECT * FROM Sensores;
 
@@ -283,17 +274,10 @@ select *
 from Usuario 
 join veiculo on veiculo.fkUsuario = Usuario.idUsuario;
 
-select *
-from usuario;
-
 select idUsuario, email, cargo, placa, qtdBancos, v.fkCnpj , fkUsuario
 from veiculo v
 join usuario 
 where fkUsuario = 9;
-
-SELECT idUsuario, nome, email, fkcnpj, cargo FROM usuario
-        WHERE email = 'l@g.com' AND senha = 'senha123';
-        
     
 
 -- selcionar a tabela sensores e veiculo mostrando a fk 
@@ -310,10 +294,7 @@ from LeituraTemp as leitura
 join sensores on leitura.fksensorTemp = sensores.id;
 
 
-<<<<<<< HEAD:safe-BD/safeScript.sql
 -- selecionar a tabela alertas e suas fks
-=======
->>>>>>> 45874019698e9c147a461d643202c8a7845e4953:safe-BD/safeStudent.sql
 
 -- Select com case para verificar se a temperatura está ou não em alerta
 create view alertaMaximo as
@@ -349,17 +330,10 @@ select count(prox.chave) as bancosOcupados from LeituraProx as prox
 where prox.chave = 1;
 
 -- Select de temperatura mínima do dia
-create view viewTempMinima as
 select min(temp.temperatura) from leituratemp as temp;
 
-select * from viewTempMinima;
-
 -- Select para temperatura máxima do dia
-create view viewTempMaxima as
 select max(temp.temperatura) from leituratemp as temp;
-
-select * from viewTempMaxima;
-
 
 -- select das temperaturas de uma van especifica
 select sens.id, sens.nome, sens.tipo, sens.fkveiculo, temp.temperatura
@@ -404,4 +378,181 @@ select vei.placa, vei.fkUsuario as motorista, vei.statusVan from veiculo as vei;
 select count(vei.statusVan) from veiculo as vei
 where vei.statusVan = 1;
 
+-- Select para verificar quantas vans estão em serviço
+select count(statusVan) as VansServico from veiculo
+where statusVan = 'rodando'
+and fkCnpj = '12.345.678/0001-00';
 
+-- update para fazer com que a van esteja rodando ou não
+update Veiculo
+set statusVan = 'rodando'
+where placa = 'BAB2222';
+
+
+-- Quantidade de alertas
+select count(temperatura) as qtdAlertas
+from veiculo 
+join sensores on fkveiculo = placa
+join leituratemp on fksensorTemp = sensores.id
+where temperatura > 25 
+and fkCnpj = '12.345.678/0001-00';
+
+-- Quantidade de vans em estado crítico
+select count(temperatura) as qtdAlertasCriticos 
+from veiculo 
+join sensores on fkveiculo = placa
+join leituratemp on fksensorTemp = sensores.id
+where temperatura > 28 
+and fkCnpj = '12.345.678/0001-00'
+order by leituratemp.id desc;
+
+/*
+
+update veiculo
+set fkCnpj = '12.345.678/0001-00'
+where fkEmpresa = 1;
+
+update veiculo 
+set qtdBancos = 16
+where fkEmpresa = 1;
+
+*/
+
+
+SELECT 
+    v.placa,
+    v.marca,
+    v.categoria,
+    v.qtdBancos,
+    MAX(lt.temperatura) AS max_temperatura
+FROM 
+    veiculo v
+JOIN 
+    sensores s ON v.placa = s.fkveiculo
+JOIN 
+    LeituraTemp lt ON s.id = lt.fksensorTemp
+WHERE 
+    v.fkCnpj = '12.345.678/0001-00' AND
+    s.nome IN ('SensorA', 'SensorB')
+GROUP BY 
+    v.placa, v.marca, v.categoria, v.qtdBancos;
+    
+    
+    
+SELECT 
+    v.placa,
+    v.marca,
+    v.categoria,
+    v.qtdBancos,
+    v.statusVan,
+    MAX(lt.temperatura) AS ultima_temperatura
+FROM 
+    veiculo v
+JOIN 
+    sensores s ON v.placa = s.fkveiculo
+JOIN 
+    LeituraTemp lt ON s.id = lt.fksensorTemp
+WHERE 
+    v.fkCnpj = '12.345.678/0001-00' AND
+    s.nome IN ('SensorA', 'SensorB') AND
+    lt.id IN (
+        SELECT id
+        FROM (
+            SELECT lt.id
+            FROM LeituraTemp lt
+            JOIN sensores s ON lt.fksensorTemp = s.id
+            WHERE s.fkveiculo = v.placa AND s.nome IN ('SensorA', 'SensorB')
+            ORDER BY lt.id DESC
+            LIMIT 2
+        ) subquery
+    )
+GROUP BY 
+    v.placa, v.marca, v.categoria, v.qtdBancos
+    order by ultima_temperatura desc;
+
+
+-- select para pegar as últimas temperaturas
+    SELECT 
+    count(lt.temperatura) AS ultima_temperatura
+FROM 
+    Veiculo v
+JOIN 
+    Sensores s ON v.placa = s.fkveiculo
+LEFT JOIN 
+    (SELECT 
+         id, temperatura, fksensorTemp
+     FROM 
+         LeituraTemp
+     WHERE 
+         id IN (SELECT MAX(id) FROM LeituraTemp GROUP BY fksensorTemp)
+         ) lt ON s.id = lt.fksensorTemp
+where 
+ v.fkCnpj = '12.345.678/0001-00'
+-- fkEmpresa = 1
+and s.tipo = 'temperatura'
+and lt.temperatura > 28
+ORDER BY 
+    ultima_temperatura desc;
+    
+       
+    SELECT 
+    v.placa, 
+    v.marca, 
+    v.categoria,
+    s.nome AS sensor_nome,
+    s.localizacao,
+    s.tipo,
+    lt.temperatura AS ultima_temperatura,
+    lt.id AS leitura_id
+FROM 
+    Veiculo v
+JOIN 
+    Sensores s ON v.placa = s.fkveiculo
+LEFT JOIN 
+    (SELECT 
+         id, temperatura, fksensorTemp
+     FROM 
+         LeituraTemp
+     WHERE 
+         id IN (SELECT MAX(id) FROM LeituraTemp GROUP BY fksensorTemp)
+         ) lt ON s.id = lt.fksensorTemp
+where 
+ v.fkCnpj = '12.345.678/0001-00'
+-- fkEmpresa = 1
+and s.tipo = 'temperatura'
+ORDER BY 
+    ultima_temperatura desc;
+
+SELECT MAX(id) FROM LeituraTemp GROUP BY fksensorTemp;
+
+SELECT 
+    v.placa, 
+    v.marca, 
+    v.categoria,
+    GROUP_CONCAT(s.nome ORDER BY s.nome SEPARATOR ', ') AS sensores_nomes,
+    GROUP_CONCAT(s.localizacao ORDER BY s.nome SEPARATOR ', ') AS sensores_localizacoes,
+    GROUP_CONCAT(s.tipo ORDER BY s.nome SEPARATOR ', ') AS sensores_tipos,
+    GROUP_CONCAT(lt.temperatura ORDER BY s.nome SEPARATOR ', ') AS ultimas_temperaturas,
+    GROUP_CONCAT(lt.id ORDER BY s.nome SEPARATOR ', ') AS leituras_ids
+FROM 
+    Veiculo v
+JOIN 
+    Sensores s ON v.placa = s.fkveiculo
+LEFT JOIN 
+    (SELECT 
+         id, temperatura, fksensorTemp
+     FROM 
+         LeituraTemp
+     WHERE 
+         id IN (SELECT MAX(id) FROM LeituraTemp GROUP BY fksensorTemp)
+         ) lt ON s.id = lt.fksensorTemp
+WHERE 
+    v.fkCnpj = '12.345.678/0001-00'
+    -- fkEmpresa = 1
+    AND s.tipo = 'temperatura'
+GROUP BY 
+    v.placa, 
+    v.marca, 
+    v.categoria
+ORDER BY 
+    MAX(lt.temperatura) DESC;

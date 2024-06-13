@@ -441,21 +441,31 @@ St {
     display: flex;
     justify-content: space-around;
     align-items: center;
+    height: 100vh;
+    width: 100%;
+}
+
+.login-body .voltar a {
+    position: relative;
+    bottom: 5rem;
 }
 
 .form-login {
     display: flex;
     flex-direction: column;
     background-color: white;
-    padding: 20px 50px;
+    width: 510px;
+    height: 550px;
     text-align: center;
     border-radius: 40px;
-    justify-content: center;
-    align-items: center;
+    padding: 10px;
+    position: relative;
+    right: 200px;
 }
 
 .form-login h1 {
     color: #00164F;
+    /* font-size: 35px; */
 }
 
 .form-login h3 {
@@ -473,6 +483,7 @@ St {
 
 .form-login input {
     border: none;
+    outline: none;
     border-bottom: 1px solid #252525;
     padding: 5px;
     width: 100%;
@@ -483,18 +494,49 @@ St {
 .form-login button {
     background-color: #FFB800;
     border-radius: 50px;
-    padding: 10px 50px;
+    padding: 8px 45px;
     border: none;
     font-size: 30px;
-    margin-top: 5vh;
+    margin-top: 3vh;
     font-weight: bolder;
-    color: #00164F;
+    color: #00164fc8;
     cursor: pointer;
 }
 
-.login-body .img {
-    margin-top: -5vh;
+.form-login button:hover {
+    color: #00164f;
+    background-color: #e3a200;
+    transition: all 0.5s;
+}
 
+.login-body .img {
+    position: relative;
+    right: 15vh;
+
+}
+
+.form-login #erro_email {
+    font-size: 15px;
+    color: #ff0000;
+}
+
+.form-login #erro_senha {
+    font-size: 15px;
+    color: #ff0000;
+
+}
+
+.mensagem_login {
+    background-color: #e3a300e7;
+    height: 70px;
+    width: 28.5rem;
+    position: relative;
+    top: 2rem;
+    /* bottom: 5rem; */
+    border-radius: 1.2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 /* ESTILIZACAO CADASTRO */
@@ -502,27 +544,31 @@ St {
     display: flex;
     justify-content: space-around;
     align-items: center;
-    margin-top: 5vh;
+    height: 100vh;
+    /* margin-bottom: 5vh; */
 }
 
 .formcadastre {
     display: flex;
     flex-direction: column;
     background-color: white;
-    padding: 10px 70px;
+    width: 580px;
+    height: 580px;
     text-align: center;
     border-radius: 40px;
-
+    padding: 10px;
 }
 
 .formcadastre h1 {
     color: #00164f;
+    margin-bottom: -10px;
 }
 
 .formcadastre h3 {
     font-size: larger;
     font-weight: bold;
     color: #636060;
+    margin-bottom: 25px;
 }
 
 .formcadastre p {
@@ -530,13 +576,16 @@ St {
     font-size: medium;
     color: #8d8a8a;
     font-weight: bold;
+    margin-left: 50px;
 }
+
 
 .formcadastre input {
     border: none;
+    outline: none;
     border-bottom: 1px solid #252525;
     padding: 5px;
-    width: 100%;
+    width: 80%;
     font-size: large;
 }
 
@@ -546,14 +595,50 @@ St {
     padding: 10px 50px;
     border: none;
     font-size: 30px;
-    margin-top: 2vh;
+    margin-top: 3.5vh;
     font-weight: bolder;
-    color: #00164F;
+    color: #00164fc8;
     cursor: pointer;
-    margin-bottom: 2vh;
 }
 
-#corpo{
+.formcadastre button:hover {
+    color: #00164f;
+    background-color: #e3a200;
+    transition: all 0.5s;
+}
+
+.loading-div {
+    width: 50px;
+    display: none;
+}
+
+.loading-div img {
+    height: 50px;
+    width: 50px;
+}
+
+#div_erros_login {
+    display: none
+}
+
+.voltar {
+    font-size: 90px;
+    position: relative;
+    bottom: 20rem;
+    right: 5rem;
+}
+
+.voltar a {
+    color: #ffff;
+    text-decoration: none;
+}
+
+.voltar a:hover {
+    color: #c99616;
+    transition: all 0.5s;
+}
+
+#corpo {
     width: 70vh;
     height: 11vh;
     border-radius: 10px;

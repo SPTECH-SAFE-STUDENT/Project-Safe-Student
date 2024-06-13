@@ -43,7 +43,67 @@ function cadastrar(req, res) {
   }
 }
 
+function kpiAlertas(req, res) {
+
+  var fkCnpj = req.body.fkCnpj;
+
+  console.log(`Buscando dados  da Kpi alertas`);
+
+  aquarioModel.kpiAlertas(fkCnpj).then(function (resultado) {
+      if (resultado.length > 0) {
+          res.status(200).json(resultado); /*resposta que o bd traz*/
+      } else {
+          res.status(204).send("Nenhum resultado encontrado!")
+      }
+  }).catch(function (erro) {
+      console.log(erro);
+      console.log("Houve um erro ao buscar as ultimos resultados.", erro.sqlMessage);
+      res.status(500).json(erro.sqlMessage);
+  });
+}
+
+function kpiCriticos(req, res) {
+
+  var fkCnpj = req.body.fkCnpj;
+
+  console.log(`Buscando dados da Kpi alertas Criticos`);
+
+  aquarioModel.kpiCriticos(fkCnpj).then(function (resultado) {
+      if (resultado.length > 0) {
+          res.status(200).json(resultado); /*resposta que o bd traz*/
+      } else {
+          res.status(204).send("Nenhum resultado encontrado!")
+      }
+  }).catch(function (erro) {
+      console.log(erro);
+      console.log("Houve um erro ao buscar as ultimos resultados.", erro.sqlMessage);
+      res.status(500).json(erro.sqlMessage);
+  });
+}
+
+function kpiVansServico(req, res) {
+
+  var fkCnpj = req.body.fkCnpj;
+
+  console.log(`Buscando dados de proximidade da van pelo id`);
+
+  aquarioModel.kpiVansServico(fkCnpj).then(function (resultado) {
+      if (resultado.length > 0) {
+          res.status(200).json(resultado); /*resposta que o bd traz*/
+      } else {
+          res.status(204).send("Nenhum resultado encontrado!")
+      }
+  }).catch(function (erro) {
+      console.log(erro);
+      console.log("Houve um erro ao buscar as ultimos resultados.", erro.sqlMessage);
+      res.status(500).json(erro.sqlMessage);
+  });
+}
+
 module.exports = {
   buscarVansPorEmpresa,
-  cadastrar
+  cadastrar,
+  kpiAlertas,
+  kpiCriticos,
+  kpiVansServico
 }

@@ -6,41 +6,65 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Dashboard</title>
   <link rel="stylesheet" href="./css/dash.css" />
+  <script src="./js/sessao.js"></script>
 
   <style>
-    
-    
   </style>
 </head>
 
-<body onload="exibirVans()">
+<body onload="exibirVans(), validarSessao()">
   <div class="content">
-    <div class="menuLateral">
-      <img src="./img/logo_SS.png" />
-      <div>
-        <h1>Bem vindo<br />de volta!</h1>
+    <div class="menuLateral" id="menuLateral">
+      <div class="divisao">
+        <img src="./img/logo_SS.png" />
+        <div>
+          <h1>Bem vindo<br />de volta!</h1>
+        </div>
+        <div class="opcao">
+          <ul>
+            <li>Principal</li>
+            <li>Perfil</li>
+            <li onclick="limparSessao()">Sair</a></li><br><br>
+            <li onclick="openModal()">Suporte</li>
+          </ul>
+        </div>
       </div>
-      <div class="opcao">
-        <ul>
-          <li>Principal</li>
-          <li>Perfil</li>
-          <li onclick="limparSessao()">Sair</a></li><br><br>
-          <li onclick="openModal()">Suporte</li>
-        </ul>
+      <div class="faq">
+        <div class="questionario" id="questionario" style="display: none;">
+          <span class="fechar" onclick="fechar()">X</span>
+          <div class="conteudo">
+            <h3>Perguntas frequentes</h3>
+            <select name="perguntas" id="perguntas" onchange="mostrarResposta()">
+              <option value="#">Selecione...</option>
+              <option value="1">Por que não consigo realizar login?</option>
+              <option value="2">Onde posso adquirir mais sensores?</option>
+              <option value="3">Um dos meus sensores está com defeito.</option>
+              <option value="4">Como posso cadastrar mais uma van?</option>
+              <option value="5">Por que não consigo pesquisar uma van?</option>
+              <option value="6">Por que só vejo as vans em alerta na minha dahsboard?</option>
+              <option value="7">Não resolvi meu problema.</option>
+            </select>
+            <div id="div_resposta" style="display: none;">
+            </div>
+          </div>
+        </div>
+        <img class="interrogacao" src="./img/interrogacao.jpeg" alt="" onclick="mostrarPergunta()">
       </div>
     </div>
     <div class="kpis">
       <div id="1">
         <p>Vans em serviço</p>
-        <span>10/18</span>
+        <span id="kpiBanco">/</span>
+        <span>/</span>
+        <span id="kpiEmSeviço"></span>
       </div>
       <div id="2">
         <p>Vans em estado crítico</p>
-        <span>1</span>
+        <span id="alertaCritico">1</span>
       </div>
       <div id="3">
         <p>Alertas do dia</p>
-        <span>8</span>
+        <span id="alertasDia">8</span>
       </div>
       <div id="legenda">
         <div class="media">
@@ -56,8 +80,8 @@
     </div>
     <div class="lista_metrica">
       <div class="status_geral" id="div_vans">
-        <h2>Status geral: <span> A situação esta <red style="color: red;">crítica</red> no momento<span></h2>
-        <div class="lista" style="display: flex;">
+        <h2>Status geral: <span> A situação esta <red id="situacaoVan"></red> no momento<span></h2>
+        <!-- <div class="lista" style="display: flex;">
           <div class="van">
 
             <img src="./img/vanCritica.png" alt="">
@@ -70,12 +94,17 @@
 
             <a href="dashboard2.html">IR</a>
           </div>
-        </div>
+        </div> -->
       </div>
       <div class="metricas">
         <div class="campoPesquisa">
           <span><img src="./img/lupa.png" alt=""><b>Pesquise por uma van</b><br>
+<<<<<<< HEAD
           <input type="search" placeholder="Digite a placa">
+=======
+            <input id="search_input" onkeyup="search_vans()" type="search" placeholder="Digite a placa">
+            <button>Buscar</button>
+>>>>>>> 53e8386a62de45c41103727dc73f61dd313fb24d
         </div>
         <div class="servico">
           <span><b>Vans em serviço: </b><br>
@@ -95,6 +124,8 @@
       </div>
     </div>
   </div>
+
+
 
   <dialog id="modal">
     <div class="modal-content">
@@ -124,11 +155,87 @@
         </div>
       </div>
       <div class="bordaDiv">
-      <div id="resposta"></div>
-    </div></div>
+        <div id="resposta"></div>
+      </div>
+    </div>
   </dialog>
 
   <script>
+
+    // INICIO FUNCAO DO FAQ
+
+    function mostrarPergunta() {
+      questionario.style.display = 'block';
+      
+      menuLateral.style.gap = '50vw';
+    }
+
+    function fechar() {
+      questionario.style.display = 'none';
+
+      menuLateral.style.gap = '74vw';
+    }
+
+    function mostrarResposta() {
+
+      let resposta;
+
+      let pergunta = perguntas.value;
+
+      if(pergunta == '#'){
+
+        resposta = `Selecione uma pergunta.`
+
+      }else if (pergunta == '1') {
+        resposta = `<b>Possíveis soluções:</b><br> <br>
+           <b> 1.</b> Tente verificar a conexão com a internet.<br>
+           <b> 2.</b> Verifique se as informações estão corretas.`
+
+
+      } else if (pergunta == '2') {
+        resposta = `Para adquirir mais sensores, será 
+            necessário entrar em contato com nossa empresa,abrindo um chamado na 
+            aba "Suporte", para que nossa equipe possa fornecer o sensores e realizar
+            a instalação.`
+
+      } else if (pergunta == '3') {
+        resposta = `Caso seus sensores não funcionem como deverião, você deve
+            abrir um chamado na aba "Suporte" para relatar sua situação. Depois de aberto, 
+            nossa equipe fará a análise do seu problema para resolve-lo o mais rápido possível.`
+
+      } else if (pergunta == '4') {
+        resposta = `Para cadastrar mais um veículo na sua dashboard, será 
+            necessário entrar em contato com nossa empresa, abrindo um chamado na 
+            aba "Suporte", para que nossa equipe realize o cadastro.`
+
+      } else if (pergunta == '5') {
+        resposta = `<b>Possíveis soluções:</b> <br> <br>
+            <b>1.</b> Verifique se essa van possuí o sistema de sensores <b>Safe Student</b>.<br>
+            <b>2.</b> Verifique se os dados da placa estão corretos.`
+
+      } else if (pergunta == '6') {
+        resposta = `Nossa dashboard foi feita com o intuito de te ajudar
+            a resolver problemas de maneira rápida. Ver somente as vans em alerta
+            te mostra exatamente onde está o problema facilitando o seu trabalho, o tornando mais objetivo.`
+
+
+      } else if (pergunta == '7') {
+        resposta = `Caso suas perguntas não tenham sido respondidas, recomendamos que você abra 
+            um chamado na aba "Suporte" e relate seu problema para nossa equipe. Após a análise, faremos 
+            o possível para lhe ajudar o mais rápido possível `
+
+      }
+
+
+      div_resposta.style.display = 'block';
+
+      div_resposta.innerHTML = `
+        ${resposta}`;
+    }
+
+    // FIM FUNCAO DO FAQ
+
+    // Aqui temos a estrutura do safeIA nossa inteligência artificial
     var modal = document.getElementById("modal");
     var closeBtn = document.getElementById("closeModalBtn");
 
@@ -157,11 +264,6 @@
       document.getElementById("container-safeIA").style.display = "block"
     }
 
-    function limparSessao(){
-      sessionStorage.clear();
-      window.location = "index.html" 
-    }
-
     async function gerarResposta() {
       const pergunta = document.getElementById('pergunta').value;
 
@@ -179,22 +281,28 @@
       document.getElementById('resposta').innerText = data.resultado;
     }
 
+
+    // Começo do funcionamento dos cards do estado da van
+    let quantidadeDeVans = 0;
+
     function exibirVans() {
       var Cor = 'Normal'
       var aparecerCard = 'block'
       JSON.parse(sessionStorage.VANS_EM_ALERTA).forEach(item => {
         var temperatura = Number(item.ultima_temperatura)
+        quantidadeDeVans++
+
         console.log(item)
         console.log(temperatura)
-        
-        if( temperatura >= 28){
+
+        if (temperatura >= 28) {
           Cor = 'Critica'
-        }else if(temperatura >=25){
+        } else if (temperatura >= 25) {
           Cor = 'Alerta'
-        }else{
-          aparecerCard = 'none'
+        } else {
+          Cor = 'Normal'
         }
-        
+
         document.getElementById("div_vans").innerHTML += `
           <div class="lista" style="display: ${aparecerCard};">
             <div class="van">
@@ -202,15 +310,226 @@
               <div style="display: flex; gap: 20px;">
                 <span>Placa:<br>${item.placa}</span>
                 <span id="temp_van_${item.placa}">Temperatura ${item.ultima_temperatura}°C</span>
-                <span id="card_${item.placa}">Status: Em serviço</span>
+                <span id="card_${item.placa}">Status: ${item.statusVan}</span>
               </div>
-              <a href="dashboard2.html">IR</a>
-            </div>
+              <buttom class="button-placa" data-value="${item.qtdBancos}" value="${item.placa}" onclick="dashboardindividual()">IR</buttom>
+                
+              </div>
           </div>
         `;
-
       });
+
+      // situacaoVan
+
+      kpisFetchsServico();
+      kpisFetchsCritico();
+      kpisFetchsAlerta();
     }
+
+    let fkCnpj = sessionStorage.CNPJ_EMPRESA
+
+    function kpisFetchsServico() {
+
+      fetch(`/aquarios/kpiVansServico`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          fkCnpj: fkCnpj
+        })
+      })
+        .then(function (resposta) {
+          if (resposta.ok) {
+            return resposta.json();
+          } else {
+            throw new Error("Houve um erro ao tentar trazer o resultado");
+          }
+        })
+        .then(function (data) {
+          if (data.length === 0) {
+            console.warn("Nenhum resultado encontrado");
+            return;
+          }
+          data.forEach(element => {
+
+            console.log(element.VansServico + " VANS SERVIÇO")
+            kpiBanco.innerHTML = element.VansServico;
+            kpiEmSeviço.innerHTML = quantidadeDeVans;
+            console.log(element.qtdVans + " Quantidade de Vans")
+
+            kpisFetchsAlerta();
+
+
+          });
+        })
+        .catch(function (erro) {
+          console.error(`#ERRO: ${erro}`);
+        });
+
+        }
+    setInterval(() => {
+      kpisFetchsServico()
+    }, 24000);
+
+    kpisFetchsServico()
+        
+    function kpisFetchsAlerta() {
+
+      fetch(`/aquarios/kpiAlertas`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          fkCnpj: fkCnpj
+        })
+      })
+        .then(function (resposta) {
+          if (resposta.ok) {
+            return resposta.json();
+          } else {
+            throw new Error("Houve um erro ao tentar trazer o resultado");
+          }
+        })
+        .then(function (data) {
+          if (data.length === 0) {
+            console.warn("Nenhum resultado encontrado");
+            return;
+          }
+          data.forEach(element => {
+
+            console.log(element)
+            console.log(element.qtdAlertas + " ALERTAS DIA")
+            alertasDia.innerHTML = element.qtdAlertas
+
+          });
+        })
+        .catch(function (erro) {
+          console.error(`#ERRO: ${erro}`);
+        });
+
+        }
+
+    setInterval(() => {
+      kpisFetchsAlerta()
+    }, 20000);
+
+    kpisFetchsAlerta()
+        
+    function kpisFetchsCritico() {
+
+      fetch(`/aquarios/kpiCriticos`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          fkCnpj: fkCnpj
+        })
+      })
+        .then(function (resposta) {
+          if (resposta.ok) {
+            return resposta.json();
+          } else {
+            throw new Error("Houve um erro ao tentar trazer o resultado");
+          }
+        })
+        .then(function (data) {
+          if (data.length === 0) {
+            console.warn("Nenhum resultado encontrado");
+            return;
+          }
+          data.forEach(element => {
+
+            console.log(element)
+            console.log(element + " ALERTAS CRITICOS")
+            alertaCritico.innerHTML = element.ultima_temperatura
+
+            let porcentagemCriticidade = (Number(element.ultima_temperatura) / quantidadeDeVans)*100
+
+            if(porcentagemCriticidade >= 65){
+              document.getElementById("situacaoVan").innerHTML = "Crítica";
+              document.getElementById("situacaoVan").style.color = "red";
+
+            }else if(porcentagemCriticidade >= 15){
+              document.getElementById("situacaoVan").innerHTML = "Alerta";
+              document.getElementById("situacaoVan").style.color = "orange";
+
+            }else{
+              document.getElementById("situacaoVan").innerHTML = "Normal";
+              document.getElementById("situacaoVan").style.color = "green";
+
+            }
+
+          });
+        })
+        .catch(function (erro) {
+          console.error(`#ERRO: ${erro}`);
+        });
+
+        }
+        
+        setInterval(() => {
+          kpisFetchsCritico()
+        }, 22000);
+
+        kpisFetchsCritico()
+
+
+        function dashboardindividual(){
+      const buttons = document.querySelectorAll('.button-placa');
+
+    // Adiciona um event listener a cada botão
+    buttons.forEach(botao => {
+
+        // botao.addEventListener('click', (event) => {
+            // Obtém o valor do atributo data-value do botão clicado
+            const value = event.target.getAttribute('value');
+            const bancos = event.target.getAttribute('data-value');
+            // Chama a função e passa o valor do botão
+            botaoVanClicado(value, bancos);
+
+        // });
+
+    });
+
+}
+
+// Função que será chamada quando qualquer botão for clicado
+function botaoVanClicado(value, bancos) {
+    console.log(`Botão com valor ${value} foi clicado. bancos ${bancos}`);
+
+    sessionStorage.PLACA_VAN = value
+    sessionStorage.QTDBANCOS_VAN = bancos
+    alert("pausa")
+    window.location = "dashboard.html"
+    // Adicione aqui a lógica que você deseja executar com o valor
+}
+
+function search_vans() {
+  // Executa essa função toda vez que o usuario digita no input Search por ser ONKEYUP
+  let input = document.getElementById('search_input').value
+  // Pegamos o valor do input
+  input = input.toLowerCase();
+  // Definimos o valor do input para caixa baixa para simplificar a verificação
+  let arrayLista = document.getElementsByClassName('lista');
+  // Basicamente cria uma array contendo todos os cards que possuem a class lista no HTML
+
+  for (let itemArray = 0; itemArray < arrayLista.length; itemArray++) {
+    // Percorre a arrayLista e verifica com includes se possue 
+    // oque está no search com o conteudo do HTML
+    if (!arrayLista[itemArray].innerHTML.toLowerCase().includes(input)) {
+      //Oculta com o card que nn possue oque foi pesquisado
+      arrayLista[itemArray].style.display = "none";
+    }
+    else {
+      //Exibe apenas os que contem o conteudo pesquisado
+      arrayLista[itemArray].style.display = "list-item";
+    }
+  }
+}
+
   </script>
 </body>
 
