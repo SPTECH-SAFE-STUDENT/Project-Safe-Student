@@ -26,7 +26,7 @@
     </style>
 </head>
 
-<body onload="dashboardEscolhida()">
+<body>
     <div class="content">
         <div class="menuLateral">
             <img src="./img/logo_SS.png">
@@ -40,23 +40,6 @@
                 </ul>
             </div>
         </div>
-
-        <!-- <div id="veiculos" class="SelectDiv">
-            <div class="selecoes">
-                <h1> SELECIONE UM VEÍCULO </h1>
-                <input type="text" id="textInput" placeholder="Digite uma placa">
-                <select id="select_placa">
-                    <option value="#">Selecione uma placa</option>
-                    <option value="placaUM">FCB1B34</option>
-                    <option value="placaDOIS">HPG7G77</option>
-                </select><br>
-                <button onclick="dashboardEscolhida()">Começar Viagem</button>
-                <div id="div_erro" class="mensagemErro">
-                    <span id="span_mensagem_erro">
-                    </span>
-                </div>
-            </div>
-        </div> -->
 
         <!-- DASHBOARD DA PLACA UM -->
         <div id="dashFCB1B34" class="visao_dash">
@@ -84,81 +67,19 @@
                     <div class="container-chave">
                         <h2>Bancos Ocupados</h2>
                         <div class="graficos-alinhamento" id="graficos_bancos">
-                            <!-- <section class="grafico_chave">
-                                <canvas id="chaveUM"></canvas>
-                            </section>
-                            <section class="grafico_chave">
-                                <canvas id="chave2UM"></canvas>
-                            </section>
-                            <section class="grafico_chave">
-                                <canvas id="chave3UM"></canvas>
-                            </section>
-                            <section class="grafico_chave">
-                                <canvas id="chave4UM"></canvas>
-                            </section> -->
+
 
                         </div>
                     </div>
                     <div class="container-temp">
                         <h2>Temperatura</h2>
                         <section>
-                            <canvas id="lm35TemperaturaUM"></canvas>
+                            <canvas id="lm35Temperatura"></canvas>
                         </section>
                     </div>
                 </div>
             </div>
         </div>
-
-        <!-- DASHBOARD PLACA DOIS -->
-        <!-- <div id="dashHPG7G77" class="visao_dash" style="display: none;">
-            <div class="kpis">
-                <div id="1">
-                    <p>Temperatura Mínima do dia</p>
-                    <span>18°C</span>
-                </div>
-                <div id="3">
-                    <p>Temperatura máxima do dia </p>
-                    <span>27.5°C</span>
-                </div>
-                <div id="2">
-                    <p>Temperatura Média da semana</p>
-                    <span>25°C</span>
-                </div>
-                <div id="4">
-                    <p>Bancos Ocupados</p><br>
-                    <span>14</span>
-                </div>
-            </div> -->
-
-        <!-- <div class="graficos">
-
-                <div class="canvas">
-                    <div class="container-chave">
-                        <h2>Bancos</h2>
-                        <div class="graficos-alinhamento">
-                            <section class="grafico_chave">
-                                <canvas id="chaveDOIS"></canvas>
-                            </section>
-                            <section class="grafico_chave">
-                                <canvas id="chave2DOIS"></canvas>
-                            </section>
-                            <section class="grafico_chave">
-                                <canvas id="chave3DOIS"></canvas>
-                            </section>
-                            <section class="grafico_chave">
-                                <canvas id="chave4DOIS"></canvas>
-                            </section>
-
-                        </div>
-                    </div>
-                    <div class="container-temp">
-                        <h2>Temperatura</h2>
-                        <section>
-                            <canvas id="lm35TemperaturaDOIS"></canvas>
-                        </section>
-                    </div>
-                </div>
-            </div> -->
     </div>
     </div>
 </body>
@@ -167,27 +88,20 @@
 
 <script>
 
-    function telaDash(){
+    function telaDash() {
         let cargo = sessionStorage.CARGO_USUARIO
-        if(cargo == 'suporte' || cargo == 'dono'){
+        if (cargo == 'suporte' || cargo == 'dono') {
             window.location = "./dash.html"
-        }else{
+        } else {
             window.location = "./dashboard.html"
         }
     }
-   
+
 
     function voltar() {
         sessionStorage.clear()
         window.location = './index.html'
     }
-    /* SELEÇÃO DE DASHBOARD */
-    // function telaVeiculo() {
-    //     opcoes_menu.style = 'display: none'
-    //     dashFCB1B34.style = 'display: none'
-    //     dashHPG7G77.style = 'display: none'
-    //     veiculos.style = 'display: block'
-    // }
 
     function buscarTemperatura() {
 
@@ -212,12 +126,44 @@
                 }
             })
             .then(function (data) {
+                // console.log(data)
+
+                const temperaturasA = [];
+
+                const temperaturasB = [];
+
+                const Horario = [];
+
+                // console.log("Temperaturas:")
+                data.forEach(element => {
+
+
+                    let SensorA = element.SensorTempA
+
+                    let SensorB = element.SensorTempB
+
+                    // console.log(element.horario)
+                    Horario.push(element.horario);
+
+                    if (SensorA != null) {
+                        temperaturasA.push(element.SensorTempA)
+
+                    } else if (SensorB != null) {
+
+                        temperaturasB.push(element.SensorTempB)
+                    }
+
+
+
+                });
+
                 if (data.length === 0) {
                     console.warn("Nenhum resultado encontrado");
                     return;
                 }
-
-                atualizarGrafico(data);
+                // console.log(temperaturasA)
+                // console.log(temperaturasB)
+                atualizarGrafico(temperaturasA, temperaturasB, Horario);
             })
             .catch(function (erro) {
                 console.error(`#ERRO: ${erro}`);
@@ -225,38 +171,68 @@
     }
 
 
-    function atualizarGrafico(dadosTemp) {
+    function atualizarGrafico(temperaturasA, temperaturasB, Horario) {
         const ctx = document.getElementById('lm35Temperatura').getContext('2d');
+        // console.log(temperaturasA, temperaturasB)
+        // console.log("TEMPERATURAS:")
 
-        if (graficoTemperatura) {
-            graficoTemperatura.destroy();
-        }
+        // temperaturasA.forEach(element => {
 
+        //     // console.log(element.temperatura)
+
+        // });
+        // temperaturasB.forEach(element => {
+
+        //     // console.log(element.temperatura)
+
+        // });
+
+        // if (graficoTemperatura) {
+        //     graficoTemperatura.destroy();
+        // }
+        let HorarioSlice = Horario.slice(0, 10)
+        // let temperaturasASlice = temperaturasA.slice(0,10)
+        // let temperaturasBSlice = temperaturasB.slice(0,10)
         // Extrai as quantidades do objeto de resultados
-        let sensores = dados.map(item => item.lt);
+
 
         graficoTemperatura = new Chart(ctx, {
             type: 'line',
             data: {
-                labels: ['Sensor 1', 'Sensor 2'],
+                labels: HorarioSlice,
                 datasets: [{
-                    label: 'Temperatura',
-                    data: sensores,
-                    borderColor: 'transparent',
-                    backgroundColor: '#1B1A1A',
+                    label: 'Sensor 1',
+                    borderColor: '#FFF348',
+                    backgroundColor: '#FFF348',
+                    fill: false,
+                    data: temperaturasA
+                },
+                {
+                    label: 'Sensor 2',
+                    borderColor: '#123456',
+                    backgroundColor: '#123456',
+                    fill: false,
+                    data: temperaturasB
                 }]
             },
             options: {
                 animation: false,
                 scales: {
-                    x: {
-                        display: false,
-                        beginAtZero: true,
-                    },
-                    y: {
-                        display: false,
-                        beginAtZero: true,
-                    }
+                    xAxes: [{
+                        display: true,
+                        ticks: {
+                            reverse: true, // Inverte o eixo X
+                            // beginAtZero: false,
+                        },
+                    }],
+                    yAxes: [{
+                        ticks: {
+                            min: 5, // Define o valor mínimo do eixo Y
+                            max: 32, // Define o valor máximo do eixo Y
+                            // beginAtZero: true
+                        },
+                        display: true
+                    }]
                 },
                 animation: {
                     duration: 0
@@ -266,62 +242,119 @@
     }
 
     buscarTemperatura()
-    setInterval(buscarTemperatura, 5000)
+    setInterval(buscarTemperatura, 5000);
+
+    obterDAta()
+    setTimeout(obterDAta, 110);
+
+    obterDAta()
+    setInterval(obterDAta, 2000);
 
 
-    function dashboardEscolhida() {
-        // let placa = select_placa.value
-        // if (placa == '#') {
-        //     div_erro.style.display = 'block'
-        //     span_mensagem_erro.innerHTML = "SELECIONE UM VEÍCULO PARA ACESSAR A DASHBOARD!"
-        //     setTimeout(function () {
-        //         div_erro.style.display = 'none'
-        //     }, 2000);
-        // } else if (placa == 'placaUM') {
-        //     veiculos.style = 'display: none'
-        //     dashHPG7G77.style = 'display: none'
-        //     dashFCB1B34.style = 'display: block;'
-        //     opcoes_menu.style = 'display: block;'
+    const chave = {};
 
-        /* DADOS DASHBOARD VEÍCULO UM */
-        /* -- lm35Temperatura */
-        var contextoLm35Temperatura = document.getElementById('lm35TemperaturaUM').getContext('2d');
-        contextoLm35Temperatura.canvas.width = 700;
-        contextoLm35Temperatura.canvas.height = 500;
-        var lm35Temperatura = new Chart(
-            contextoLm35Temperatura,
-            {
-                type: 'line',
+
+
+    function atualizarGraficoChave(data) {
+
+        // console.log(data)
+        data.forEach(element => {
+            // console.log(element)
+            let sensorIndex = element.fksensorProx; // Supondo que fksensorProx é o índice do gráfico
+            if (chave[`chart${sensorIndex}`]) {
+                chave[`chart${sensorIndex}`].data.datasets[0].data = [element.chave];
+                chave[`chart${sensorIndex}`].update();
+            }
+        });
+    }
+
+    const BancosGerar = [];
+
+    function obterDAta() {
+        const idVan = sessionStorage.PLACA_VAN;
+
+
+        // Fetch para obter os dados
+        fetch(`/dashboard/buscarProximidade/${idVan}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            }
+        })
+            .then(function (resposta) {
+                if (resposta.ok) {
+                    return resposta.json();
+                } else {
+                    throw new Error("Houve um erro ao tentar trazer o resultado");
+                }
+            })
+            .then(function (data) {
+                // console.log(data);
+                if (data.length === 0) {
+                    console.warn("Nenhum resultado encontrado");
+                    return;
+                }
+                data.forEach(element =>{
+                    BancosGerar.push(element.fksensorProx)
+
+                });
+
+                atualizarGraficoChave(data);
+            })
+            .catch(function (erro) {
+                console.error(`#ERRO: ${erro}`);
+            });
+    }
+
+    setTimeout(() => {
+        plotarGraficos()  
+    }, 100);
+
+    function plotarGraficos() {
+
+        const bancos = sessionStorage.QTDBANCOS_VAN
+
+        const container = document.getElementById('graficos_bancos');
+
+
+        let numero = 0
+        for (let i = BancosGerar[0]; i <= BancosGerar[BancosGerar.length-1]; i++) {
+            numero++
+            let div = document.createElement('div');
+            div.className = 'div-graficos';
+            let canvas = document.createElement('canvas');
+            canvas.id = `chart${i}`;
+            canvas.className = 'chart-container';
+            canvas.style.width = "100px";
+            canvas.style.height = "80px";
+            container.appendChild(div);
+            div.appendChild(canvas);
+
+            let ctx = canvas.getContext('2d');
+
+            chave[`chart${i}`] = new Chart(ctx, {
+                type: 'bar',
                 data: {
-                    labels: [1, 2, 3, 4, 5, 6],
+                    labels: [`${i}`],
                     datasets: [{
-                        label: 'Sensor 1',
-                        borderColor: '#FFF348',
-                        backgroundColor: '#FFF348',
-                        fill: false,
-                        data: [30, 32, 31, 30, 31.5, 29.5]
-                    },
-                    {
-                        label: 'Sensor 2',
-                        borderColor: '#123456',
-                        backgroundColor: '#123456',
-                        fill: false,
-                        data: [20, 28, 26, 27, 26.5, 27.5]
+                        label: `Banco ${numero}`,
+                        data: [0], // Inicialmente vazio
+                        borderColor: '#FFB800',
+                        backgroundColor: '#FFB800'
                     }]
                 },
                 options: {
                     scales: {
                         xAxes: [{
                             distribution: 'series',
+                            display: false,
                             ticks: {
                                 beginAtZero: true
                             }
                         }],
                         yAxes: [{
-                            scaleLabel: {
-                                display: true,
-
-                            },
+                            distribution: 'series',
+                            display: true,
                             ticks: {
                                 beginAtZero: true
                             }
@@ -329,305 +362,18 @@
                     },
                     animation: {
                         duration: 0
-                    }
-                }
-            }
-        );
-        /* -- chave */
-        const bancos = sessionStorage.QTDBANCOS_VAN
-
-        const container = document.getElementById('graficos_bancos');
-
-        const chave = {};
-
-
-        for (let i = 1; i <= bancos; i++) {
-            let div = document.createElement('div');
-            div.className = 'div-graficos'
-            let canvas = document.createElement('canvas');
-            canvas.id = `chart${i}`;
-            canvas.className = 'chart-container';
-            canvas.style = "width= 100px; !important";
-            canvas.style = "height = 80px; !important";
-            container.appendChild(div);
-            div.appendChild(canvas);
-
-            let ctx = canvas.getContext('2d');
-
-            // contextoChave.canvas.width = 650;
-            // contextoChave.canvas.height = 400;
-            chave[`chart${i}`] = new Chart(
-                ctx,
-                {
-                    type: 'bar',
-                    data: {
-                        labels: [`'${i}'`],
-                        datasets: [{
-                            label: `Banco ${i}`,
-                            data: [1],
-                            type: 'bar',
-                            borderColor: '#FFB800',
-                            backgroundColor: '#FFB800'
-                        }]
                     },
-                    options: {
-
-                        scales: {
-                            xAxes: [{
-                                distribution: 'series',
-                                display: false,
-                                ticks: {
-                                    beginAtZero: true
-                                }
-                            }],
-                            yAxes: [{
-                                distribution: 'series',
-                                display: true,
-                                ticks: {
-                                    beginAtZero: true
-                                }
-                            }]
-                        },
-                        animation: {
-                            duration: 0
-                        },
-                        plugins: {
-                            legend: {
-                                display: true,
-                                label: {
-                                    color: '#000000'
-                                }
-                            },
+                    plugins: {
+                        legend: {
+                            display: true,
+                            labels: {
+                                color: '#000000'
+                            }
                         }
                     }
                 }
-            );
-
+            });
         }
-
-        // } else if (placa == 'placaDOIS') {
-        //     veiculos.style = 'display: none'
-        //     dashHPG7G77.style = 'display: block'
-        //     dashFCB1B34.style = 'display: none'
-        //     opcoes_menu.style = 'display: block;'
-        // }
-        /* DADOS DASHBOARD VEICULO DOIS */
-        /* -- lm35Temperatura */
-        //         var contextoLm35Temperatura = document.getElementById('lm35TemperaturaDOIS').getContext('2d');
-        //         contextoLm35Temperatura.canvas.width = 650;
-        //         contextoLm35Temperatura.canvas.height = 400;
-        //         var lm35Temperatura = new Chart(
-        //             contextoLm35Temperatura,
-        //             {
-        //                 type: 'line',
-        //                 data: {
-        //                     labels: [1, 2, 3, 4, 5, 6],
-        //                     datasets: [{
-        //                         label: 'Sensor 1',
-        //                         borderColor: '#FFF348',
-        //                         backgroundColor: '#FFF348',
-        //                         fill: false,
-        //                         data: [20, 21, 22, 24, 23.5, 22.5]
-        //                     },
-        //                     {
-        //                         label: 'Sensor 2',
-        //                         borderColor: '#123456',
-        //                         backgroundColor: '#123456',
-        //                         fill: false,
-        //                         data: [22, 24, 25, 24, 26.5, 27.5]
-        //                     }]
-        //                 },
-        //                 options: {
-        //                     scales: {
-        //                         xAxes: [{
-        //                             distribution: 'series',
-        //                             ticks: {
-        //                                 beginAtZero: true
-        //                             }
-        //                         }],
-        //                         yAxes: [{
-        //                             scaleLabel: {
-        //                                 display: true,
-
-        //                             },
-        //                             ticks: {
-        //                                 beginAtZero: true
-        //                             }
-        //                         }]
-        //                     },
-        //                     animation: {
-        //                         duration: 0
-        //                     }
-        //                 }
-        //             }
-        //         );
-        //         /* -- chave */
-        //         var contextoChave = document.getElementById('chaveDOIS').getContext('2d');
-        //         contextoChave.canvas.width = 650;
-        //         contextoChave.canvas.height = 400;
-        //         var chave = new Chart(
-        //             contextoChave,
-        //             {
-        //                 type: 'bar',
-        //                 data: {
-        //                     labels: ['1', '2', '3', '4', '5', '6'],
-        //                     datasets: [{
-        //                         label: 'Ocupado',
-        //                         data: [1, 1, 1, 1, 1, 1, 1],
-        //                         type: 'bar',
-        //                         borderColor: '#FFB800',
-        //                         backgroundColor: '#FFB800'
-        //                     }]
-        //                 },
-        //                 options: {
-        //                     scales: {
-        //                         xAxes: [{
-        //                             distribution: 'series',
-        //                             ticks: {
-        //                                 beginAtZero: true
-        //                             }
-        //                         }],
-        //                         yAxes: [{
-        //                             scaleLabel: {
-        //                                 display: true,
-        //                             },
-        //                             ticks: {
-        //                                 beginAtZero: true
-        //                             }
-        //                         }]
-        //                     },
-        //                     animation: {
-        //                         duration: 0
-        //                     }
-        //                 }
-        //             }
-        //         );
-
-        //         var contextoChave = document.getElementById('chave2DOIS').getContext('2d');
-        //         contextoChave.canvas.width = 650;
-        //         contextoChave.canvas.height = 400;
-        //         var chave = new Chart(
-        //             contextoChave,
-        //             {
-        //                 type: 'bar',
-        //                 data: {
-        //                     labels: ['7', '8', '9', '10', '11', '12'],
-        //                     datasets: [{
-        //                         label: 'Ocupado',
-        //                         data: [0, 0, 0, 0, 1, 0],
-        //                         type: 'bar',
-        //                         borderColor: '#FFB800',
-        //                         backgroundColor: '#FFB800'
-        //                     }]
-        //                 },
-        //                 options: {
-        //                     scales: {
-        //                         xAxes: [{
-        //                             distribution: 'series',
-        //                             ticks: {
-        //                                 beginAtZero: true
-        //                             }
-        //                         }],
-        //                         yAxes: [{
-        //                             scaleLabel: {
-        //                                 display: true,
-        //                             },
-        //                             ticks: {
-        //                                 beginAtZero: true
-        //                             }
-        //                         }]
-        //                     },
-        //                     animation: {
-        //                         duration: 0
-        //                     }
-        //                 }
-        //             }
-        //         );
-        //         var contextoChave = document.getElementById('chave3DOIS').getContext('2d');
-        //         contextoChave.canvas.width = 650;
-        //         contextoChave.canvas.height = 400;
-        //         var chave = new Chart(
-        //             contextoChave,
-        //             {
-        //                 type: 'bar',
-        //                 data: {
-        //                     labels: ['13', '14', '15', '16', '17', '18'],
-        //                     datasets: [{
-        //                         label: 'Ocupado',
-        //                         data: [1, 1, 1, 0, 1, 0],
-        //                         type: 'bar',
-        //                         borderColor: '#FFB800',
-        //                         backgroundColor: '#FFB800'
-        //                     }]
-        //                 },
-        //                 options: {
-        //                     scales: {
-        //                         xAxes: [{
-        //                             distribution: 'series',
-        //                             ticks: {
-        //                                 beginAtZero: true
-        //                             }
-        //                         }],
-        //                         yAxes: [{
-        //                             scaleLabel: {
-        //                                 display: true,
-        //                             },
-        //                             ticks: {
-        //                                 beginAtZero: true
-        //                             }
-        //                         }]
-        //                     },
-        //                     animation: {
-        //                         duration: 0
-        //                     }
-        //                 }
-        //             }
-        //         );
-        //         var contextoChave = document.getElementById('chave4DOIS').getContext('2d');
-        //         contextoChave.canvas.width = 650;
-        //         contextoChave.canvas.height = 400;
-        //         var chave = new Chart(
-        //             contextoChave,
-        //             {
-        //                 type: 'bar',
-        //                 data: {
-        //                     labels: ['19', '20', '21', '22', '23', '24'],
-        //                     datasets: [{
-        //                         label: 'Ocupado',
-        //                         data: [1, 0, 0, 0, 1, 1],
-        //                         type: 'bar',
-        //                         borderColor: '#FFB800',
-        //                         backgroundColor: '#FFB800'
-        //                     }]
-        //                 },
-        //                 options: {
-        //                     scales: {
-        //                         xAxes: [{
-        //                             distribution: 'series',
-        //                             ticks: {
-        //                                 beginAtZero: true
-        //                             }
-        //                         }],
-        //                         yAxes: [{
-        //                             scaleLabel: {
-        //                                 display: true,
-        //                             },
-        //                             ticks: {
-        //                                 beginAtZero: true
-        //                             }
-        //                         }]
-        //                     },
-        //                     animation: {
-        //                         duration: 0
-        //                     }
-        //                 }
-        //             }
-        //         );
-
-        //     }
     }
-
-
-
 
 </script>

@@ -58,7 +58,7 @@ const serial = async (
     arduino.pipe(new serialport.ReadlineParser({ delimiter: '\r\n' })).on('data', async (data) => {
         const valores = data.split(';');
         const chave = parseInt(valores[0]);
-        const lm35Temperatura = parseFloat(valores[1]);
+        let lm35Temperatura = parseFloat(valores[1]);
 
 
         // Armazena os valores dos sensores nos arrays correspondentes
@@ -71,23 +71,34 @@ const serial = async (
             // altere!
             // Este insert irá inserir os dados na tabela "medida"
         for(let fkTemperatura = 1; fkTemperatura <= 2; fkTemperatura ++){
-             
+        // for(let fkTemperatura = 17; fkTemperatura <= 18; fkTemperatura ++){
+        // for(let fkTemperatura = 35; fkTemperatura <= 36; fkTemperatura ++){
+             if(fkTemperatura == 18 || fkTemperatura == 35 || fkTemperatura == 2){
+                lm35Temperatura = lm35Temperatura*1.05
+             }else{
+                lm35Temperatura = lm35Temperatura*1
+             }
+
             await poolBancoDados.execute(
-                'INSERT INTO LeituraTemp (temperatura, fksensorTemp) VALUES (? , ?)',
+                'INSERT INTO LeituraTemp (temperatura, fksensorTemp, horario) VALUES (? , ?, now())',
                 [lm35Temperatura, fkTemperatura]
                 
             );
+            console.log("valores inseridos no banco Temperatura: " + lm35Temperatura)
         }
         
         for(let fkChave = 3; fkChave <= 16; fkChave ++){
+        // for(let fkChave = 19; fkChave <= 34; fkChave ++){
+        // for(let fkChave = 37; fkChave <= 56; fkChave ++){
             await poolBancoDados.execute(
                 'INSERT INTO LeituraProx (chave, fksensorProx) VALUES (?, ?)',
                 [chave, fkChave]
                 
-            );
+                );
+            console.log("valores inseridos no banco Proximidade: " + chave)
         }
             
-            console.log("valores inseridos no banco: " + chave + ", " + lm35Temperatura)
+           
         
         }
         

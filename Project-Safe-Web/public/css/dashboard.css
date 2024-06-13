@@ -178,7 +178,7 @@
     text-align: center;
     border: 2px solid #0116494d;
     border-radius: 20px;
-    height: auto;
+    height: 600px;
     width: 40vw;
     justify-content: center;
     flex-wrap: nowrap;
@@ -192,8 +192,8 @@
     align-content: center;
     flex-wrap: wrap;
     justify-content: space-around;
-    gap: 5px;
-    /* gap: 2vw; */
+    /* gap: 5px; */
+    gap: 2vw;
 }
 .grafico_chave{
     display: flex;
