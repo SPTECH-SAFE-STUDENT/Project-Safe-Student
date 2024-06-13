@@ -83,7 +83,7 @@ const serial = async (
              }
 
             await poolBancoDados.execute(
-                'INSERT INTO LeituraTemp (temperatura, fksensorTemp) VALUES (? , ?)',
+                'INSERT INTO leituraTemp (temperatura, fkSensorTemp) VALUES (? , ?)',
                 [lm35Temperatura, fkTemperatura]
                 
             );
@@ -96,7 +96,7 @@ const serial = async (
             //VAN 3
         // for(let fkChave = 37; fkChave <= 56; fkChave ++){
             await poolBancoDados.execute(
-                'INSERT INTO LeituraProx (chave, fksensorProx) VALUES (?, ?)',
+                'INSERT INTO leituraProx (chave, fkSensorProx) VALUES (?, ?)',
                 [chave, fkChave]
                 
                 );

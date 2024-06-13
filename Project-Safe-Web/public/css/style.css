@@ -10,7 +10,9 @@ body {
     background-color: #00164F;
     scroll-behavior: smooth;
 }
-
+html{
+scroll-behavior: smooth;
+}
 
 header,
 nav ul {

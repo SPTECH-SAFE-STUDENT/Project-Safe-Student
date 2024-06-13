@@ -42,7 +42,7 @@
                                 <img src="./assets/aguarde-pink.gif" id="loading-gif" />
                             </div>
                 </form>
-                <div id="mensagem_login" class="mensagem_login" style="display: none;"> USUÁRIO AUTENTICADO</div>
+                <div id="mensagem_login" class="mensagem_login" style="display: none;"></div>
             </div>
 
             <div class="img"><img src="./img/login.png" alt=""></div>
@@ -118,6 +118,7 @@
 
                         // aqui faremos a verificação para saber para qual tela vai ir cada usuario.
                         if (json.cargo == ('dono' || 'suporte')) {
+                            mensagem_login.innerHTML = "USUÁRIO AUTENTICADO"
                             mensagem_login.style.display = 'flex'
                             setTimeout(function () {
                                 mensagem_login.style.display = 'none'
@@ -143,9 +144,6 @@
                         }
 
                     });
-
-                    alert("Fetch");
-
                 } else {
                     
                     mensagem_login.style.display = 'flex'
