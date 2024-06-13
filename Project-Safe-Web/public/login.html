@@ -105,9 +105,6 @@
                     console.log(resposta);
 
                     resposta.json().then(json => {
-                        console.log(json.fkcnpj
-                            + " esse é o cnpj"
-                        );
 
                         console.log(JSON.stringify(json));
                         sessionStorage.EMAIL_USUARIO = json.email;

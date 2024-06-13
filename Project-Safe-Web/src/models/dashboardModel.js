@@ -78,7 +78,7 @@ WHERE
 }
 
 
-function KpiBancosOcupados(){
+function KpiBancosOcupados(idVan){
 
     let sensor1 = 3
     let sensorUltimo = 16
@@ -127,7 +127,7 @@ function iniciarFinalizarServiço(idVan,status) {
     console.log("ACESSEI O DASHBOARD MODEL : onde status pode ser parado ou rodando", status, idVan);
 
     var instrucaoSql = `
-        UPDATE veiculo SET statusVan = '${status}' WHERE id = ${idVan};
+        UPDATE veiculo SET statusVan = '${status}' WHERE placa = '${idVan}';
     `;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);

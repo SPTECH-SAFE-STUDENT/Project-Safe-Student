@@ -27,7 +27,7 @@
     </style>
 </head>
 
-<body>
+<body onload="plotarGraficos()">
     <div class="content">
         <div class="menuLateral">
             <img src="./img/logo_SS.png">
@@ -47,18 +47,18 @@
             <div class="kpis">
                 <div id="div1">
                     <p>Bancos Ocupados</p>
-                    <span>12</span>
+                    <span id="bancoOcup"></span>
                 </div>
                 <div id="div2">
                     <p>Temperatura Mínima do dia</p>
-                    <span>18°C</span>
+                    <span id="tempMin"></span>
                 </div>
                 <div id="div3">
                     <p>Temperatura Máxima do dia</p>
-                    <span>30°C</span>
+                    <span id="tempMax"></span>
                 </div>
                 <div id="div4">
-                    <button id="botaoFinalizar" onclick="voltar()">Finalizar <br> sistema</button>
+                    <button id="botaoFinalizar" onclick="encerrarViagem()">Finalizar <br> sistema</button>
                 </div>
             </div>
 
@@ -174,28 +174,8 @@
 
     function atualizarGrafico(temperaturasA, temperaturasB, Horario) {
         const ctx = document.getElementById('lm35Temperatura').getContext('2d');
-        // console.log(temperaturasA, temperaturasB)
-        // console.log("TEMPERATURAS:")
-
-        // temperaturasA.forEach(element => {
-
-        //     // console.log(element.temperatura)
-
-        // });
-        // temperaturasB.forEach(element => {
-
-        //     // console.log(element.temperatura)
-
-        // });
-
-        // if (graficoTemperatura) {
-        //     graficoTemperatura.destroy();
-        // }
+      
         let HorarioSlice = Horario.slice(0, 10)
-        // let temperaturasASlice = temperaturasA.slice(0,10)
-        // let temperaturasBSlice = temperaturasB.slice(0,10)
-        // Extrai as quantidades do objeto de resultados
-
 
         graficoTemperatura = new Chart(ctx, {
             type: 'line',
@@ -246,11 +226,17 @@
     setInterval(buscarTemperatura, 5000);
 
     obterDAta()
-    setTimeout(obterDAta, 110);
-
-    obterDAta()
     setInterval(obterDAta, 2000);
 
+    setInterval(kpiOcupado, 5000);
+    setInterval(kpiTemperatura, 5000);
+
+    setTimeout(() => {
+        kpiTemperatura(),
+        kpiOcupado(),
+        obterDAta()
+
+    }, 110);
 
     const chave = {};
 
@@ -296,7 +282,7 @@
                     return;
                 }
                 data.forEach(element =>{
-                    BancosGerar.push(element.fksensorProx)
+                    BancosGerar.push(element.fkSensorProx)
 
                 });
 
@@ -378,6 +364,8 @@
     }
 
 
+    let bancosOcupados = 1;
+
 
     function encerrarViagem() {
 
@@ -395,32 +383,26 @@
 
             }),
         })
-            .then(function (resposta) {
-                if (resposta.ok) {
-                    return resposta.json();
-                } else {
-                    throw new Error("Houve um erro ao tentar trazer o resultado");
-                }
-            })
             .then(function (data) {
                 // console.log(data);
-                if (data.length === 0) {
-                    console.warn("Nenhum resultado encontrado");
-                    return;
-                }
-
-                data.forEach(element =>{
-                    console.log("teste encerrar viagem")
-                    console.log(element)
-                });
-                // Muda o status da van para parado e volta para pagina de login
-
-
-            })
-            .catch(function (erro) {
-                console.error(`#ERRO: ${erro}`);
-            });
+                if (data.ok) {
+                    if(bancosOcupados == 0){
+                        sessionStorage.clear()
+                        window.location = './index.html'
+                    }else{
+                        alert("Os bancos precisam estar vazios")
+                    }
+            } else if (data.status == 404) {
+                window.alert("Deu 404!");
+            } else {
+                throw ("Houve um erro ao tentar realizar a postagem! Código da resposta: " + data.status);
+            }
+        }).catch(function (data) {
+            console.log(`#ERRO: ${data}`);
+        });
+    
     }
+
 
     function kpiOcupado() {
         let idVan = sessionStorage.PLACA_VAN
@@ -448,6 +430,8 @@
                 data.forEach(element => {
                     console.log("teste KPI ocupado")
                     console.log(element)
+                    bancoOcup.innerHTML =`${element.bancos_ocupados}`
+                    bancosOcupados = element.bancos_ocupados
                 });
                 // mudar kpi na pagina
 
@@ -484,6 +468,8 @@
                 data.forEach(element => {
                     console.log("teste KPI temp")
                     console.log(element)
+                    tempMax.innerHTML = `${element.MaxTemp}°C`
+                    tempMin.innerHTML = `${element.MinTemp}°C`
                 });
 
                // mudar kpi na pagina
@@ -493,10 +479,5 @@
             });
 
     }
-
-    setTimeout(() => {
-        kpiOcupado(),
-        kpiTemperatura(),
-        encerrarViagem()
-    }, 100);
+ 
 </script>

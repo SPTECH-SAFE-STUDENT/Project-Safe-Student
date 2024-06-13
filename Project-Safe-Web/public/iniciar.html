@@ -50,36 +50,30 @@ let placa = sessionStorage.PLACA_VAN
 let statusVar = 'rodando'
 
 fetch("/dashboard/iniciarFinalizar", {
-    method: "PUT",
-    headers: {
-        "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-        placaVanServer: placa,
-        statusServer: statusVar
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                placaVanServer: placa,
+                statusServer: statusVar
 
-    }),
-})
-    .then(function (resposta) {
-        if (resposta.ok) {
-            return resposta.json();
-        } else {
-            throw new Error("Houve um erro ao tentar trazer o resultado");
-        }
-    })
-    .then(function (data) {
-        // console.log(data);
-        if (data.length === 0) {
-            console.warn("Nenhum resultado encontrado");
-            return;
-        }
-
-        // Muda o status da van para parado e volta para pagina de login
-
-    })
-    .catch(function (erro) {
-        console.error(`#ERRO: ${erro}`);
-    });
+            }),
+        })
+            .then(function (data) {
+                // console.log(data);
+                if (data.ok) {
+        
+            window.location = './dashboard.html'
+            } else if (data.status == 404) {
+                window.alert("Deu 404!");
+            } else {
+                throw ("Houve um erro ao tentar realizar a postagem! Código da resposta: " + data.status);
+            }
+        }).catch(function (data) {
+            console.log(`#ERRO: ${data}`);
+        });
+  
 }
 
 </script>
