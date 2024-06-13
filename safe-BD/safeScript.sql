@@ -43,7 +43,7 @@ CREATE TABLE veiculo (
     statusVan varchar(15),
     FOREIGN KEY (fkCnpj) references empresa(cnpj),
     FOREIGN KEY (fkEmpresa) references empresa(idEmpresa),
-    FOREIGN KEY (fkUsuario) REFERENCES Usuario(idUsuario)
+    FOREIGN KEY (fkUsuario) REFERENCES usuario(idUsuario)
 );
 
 
@@ -53,7 +53,7 @@ CREATE TABLE sensores (
     localizacao VARCHAR(100),
     tipo VARCHAR(50),
     fkVeiculo CHAR(7),
-    FOREIGN KEY (fkveiculo) REFERENCES Veiculo(placa)
+    FOREIGN KEY (fkVeiculo) REFERENCES veiculo(placa)
 );
 
 CREATE TABLE leituraTemp (
@@ -61,7 +61,7 @@ CREATE TABLE leituraTemp (
     temperatura DECIMAL (4,2),
     fkSensorTemp INT,
     horario time,
-    FOREIGN KEY (fksensorTemp) REFERENCES Sensores(id) 
+    FOREIGN KEY (fkSensorTemp) REFERENCES sensores(id) 
 );
 
 
@@ -69,7 +69,7 @@ CREATE TABLE leituraProx (
 id int auto_increment primary key , 
 chave int,
 fkSensorProx int,
-FOREIGN KEY (fksensorProx) references Sensores(id)
+FOREIGN KEY (fkSensorProx) references sensores(id)
 );
 
 -- Inserindo dados na tabela cadastro
@@ -86,7 +86,7 @@ inner join usuario on fkCnpj = cnpj
 join veiculo on fkEmpresa = idEmpresa
 where email = 'motoristaa1@empresaA.com' AND senha = 'senhaC';*/
 
-INSERT INTO Usuario (crmc, nome, cpf, email, celular, senha, fkCnpj, cargo) VALUES 
+INSERT INTO usuario (crmc, nome, cpf, email, celular, senha, fkCnpj, cargo) VALUES 
 ('051.302-00', 'Claudio Frizza', '111.111.111-11', 'frizaClaudio@frizzaVans.com', '(11) 11111-1111', 'Frizza@123', '12.345.678/0001-00', 'dono'),
 ('0000000001','Bruna Karen', '222.222.222-22', 'support@safestudent.atlassian.net', '(11) 22222-2222', 'Bruna@123', '12.345.678/0001-00', 'suporte'),
 ('987.654-32', 'Luiz Moraes', '333.333.333-33', 'luiz@frizzaVans.com', '(11) 33333-3333', 'Luiz@123', '12.345.678/0001-00', 'motorista'),
@@ -100,12 +100,12 @@ where idUsuario = 2;
 */
 
 -- Empresa Frizza
-INSERT INTO Veiculo (placa, chassi, ano, marca, categoria, fkUsuario, fkEmpresa, fkCnpj, qtdBancos, statusVan) VALUES 
+INSERT INTO veiculo (placa, chassi, ano, marca, categoria, fkUsuario, fkEmpresa, fkCnpj, qtdBancos, statusVan) VALUES 
 ('ABC1111', '1HGBH41JXMN109186', 2020, 'Mercedes', 'Mini Van', 3, 1, '12.345.678/0001-00' , 14, 'parado'),  -- Motorista A1
 ('BAB2222', '1HGBH41JXMN109187', 2021, 'Fiat', 'Van', 4, 1, '12.345.678/0001-00' , 16, 'parado');  -- Motorista A2
 
 -- Empresa Bryan
-INSERT INTO Veiculo (placa, chassi, ano, marca, categoria, fkUsuario, fkEmpresa, fkCnpj, qtdBancos, statusVan) VALUES 
+INSERT INTO veiculo (placa, chassi, ano, marca, categoria, fkUsuario, fkEmpresa, fkCnpj, qtdBancos, statusVan) VALUES 
 ('AXC1111', '1HGBH41JXMN109186', 2020, 'Volkswagen', 'Ônibus', 5, 1, '87.654.321/0001-00' , 20 , 'parado');
 
 /*
@@ -121,12 +121,12 @@ where fkEmpresa = 1;
 */
 
 -- Sensores de temperatura ABC1111
-INSERT INTO Sensores (nome, localizacao, tipo, fkveiculo)
+INSERT INTO sensores (nome, localizacao, tipo, fkVeiculo)
 VALUES ('SensorA', 'Frente', 'Temperatura', 'ABC1111'),
        ('SensorB', 'Fundo', 'Temperatura', 'ABC1111');
 
 -- Sensores de proximidade ABC1111
-INSERT INTO Sensores (nome, localizacao, tipo, fkveiculo)
+INSERT INTO sensores (nome, localizacao, tipo, fkVeiculo)
 VALUES ('SensorP1', 'Banco 1', 'Proximidade', 'ABC1111'),
        ('SensorP2', 'Banco 2', 'Proximidade', 'ABC1111'),
        ('SensorP3', 'Banco 3', 'Proximidade', 'ABC1111'),
@@ -144,12 +144,12 @@ VALUES ('SensorP1', 'Banco 1', 'Proximidade', 'ABC1111'),
        
        
 -- Sensores de temperatura para BAB2222
-INSERT INTO Sensores (nome, localizacao, tipo, fkveiculo)
+INSERT INTO sensores (nome, localizacao, tipo, fkVeiculo)
 VALUES ('SensorA', 'Frente', 'Temperatura', 'BAB2222'),
        ('SensorB', 'Fundo', 'Temperatura', 'BAB2222');
 
 -- Sensores de proximidade para BAB2222
-INSERT INTO Sensores (nome, localizacao, tipo, fkveiculo)
+INSERT INTO sensores (nome, localizacao, tipo, fkVeiculo)
 VALUES ('SensorP1', 'Banco 1', 'Proximidade', 'BAB2222'),
        ('SensorP2', 'Banco 2', 'Proximidade', 'BAB2222'),
        ('SensorP3', 'Banco 3', 'Proximidade', 'BAB2222'),
@@ -169,12 +169,12 @@ VALUES ('SensorP1', 'Banco 1', 'Proximidade', 'BAB2222'),
 
 
 -- Sensores de temperatura para AXC1111
-INSERT INTO Sensores (nome, localizacao, tipo, fkveiculo)
+INSERT INTO sensores (nome, localizacao, tipo, fkVeiculo)
 VALUES ('SensorA', 'Frente', 'Temperatura', 'AXC1111'),
        ('SensorB', 'Fundo', 'Temperatura', 'AXC1111');
 
 -- Sensores de proximidade para AXC1111
-INSERT INTO Sensores (nome, localizacao, tipo, fkveiculo)
+INSERT INTO sensores (nome, localizacao, tipo, fkVeiculo)
 VALUES ('SensorP1', 'Banco 1', 'Proximidade', 'AXC1111'),
        ('SensorP2', 'Banco 2', 'Proximidade', 'AXC1111'),
        ('SensorP3', 'Banco 3', 'Proximidade', 'AXC1111'),
@@ -197,7 +197,7 @@ VALUES ('SensorP1', 'Banco 1', 'Proximidade', 'AXC1111'),
        ('SensorP20', 'Banco 20', 'Proximidade', 'AXC1111');
 
 
-INSERT INTO LeituraTemp (temperatura, fksensorTemp, horario) VALUES 
+INSERT INTO leituraTemp (temperatura, fkSensorTemp, horario) VALUES 
 (22.5 , 1, now()),
 (22 , 2, now()),
 (21.5 , 17, now()),
@@ -205,7 +205,7 @@ INSERT INTO LeituraTemp (temperatura, fksensorTemp, horario) VALUES
 (30 , 35, now()),
 (28 , 36 , now());
 
-INSERT INTO LeituraProx (chave, fksensorProx) VALUES 
+INSERT INTO leituraProx (chave, fkSensorProx) VALUES 
 (1, 3),
 (0, 4),
 (0, 5),
@@ -232,71 +232,31 @@ INSERT INTO LeituraProx (chave, fksensorProx) VALUES
 truncate table leituraTemp;
 truncate table leituraProx;
 
-select * from usuario;
-
-
-select * from veiculo;
-
-SELECT 
-    v.placa, 
-    v.marca, 
-    v.categoria,
-    s.nome AS sensor_nome,
-    s.localizacao,
-    s.tipo,
-    lt.temperatura AS ultima_temperatura,
-    lt.id AS leitura_id
-FROM 
-    Veiculo v
-JOIN 
-    Sensores s ON v.placa = s.fkveiculo
-LEFT JOIN 
-    (SELECT 
-         id, temperatura, fksensorTemp
-     FROM 
-         LeituraTemp
-     WHERE 
-         id IN (SELECT MAX(id) FROM LeituraTemp GROUP BY fksensorTemp)
-         ) lt ON s.id = lt.fksensorTemp
-where 
- v.fkCnpj = '12.345.678/0001-00'
--- fkEmpresa = 1
-and s.tipo = 'temperatura'
-ORDER BY 
-    ultima_temperatura desc;
-    */
-    
--- testes para API 
-
-/*
-SELECT idUsuario, nome, email, Veiculo.fkcnpj, fkempresa FROM usuario 
-join Veiculo 
-WHERE email = 'bryan@gmail.com' AND senha = '12345678';
 */
 
 -- Selecionar todos os cadastros
-SELECT * FROM Usuario;
+SELECT * FROM usuario;
 
 
 -- Selecionar todos os veículos
-SELECT * FROM Veiculo;
+SELECT * FROM veiculo;
 
 -- Selecionar todas as empresas
 select * from empresa;
 
 -- Selecionar todos os sensores
-SELECT * FROM Sensores;
+SELECT * FROM sensores;
 
 -- Selecionar leitura da temperatura
-SELECT * FROM LeituraTemp ;
+SELECT * FROM leituraTemp ;
 
 -- Selecionar a leitura proximidade 
-SELECT * FROM LeituraProx;
+SELECT * FROM leituraProx;
 
 -- selecionar a tabela cadastro mostrando o veiculo que ela está ligada 
 select *
-from Usuario 
-join veiculo on veiculo.fkUsuario = Usuario.idUsuario;
+from usuario 
+join veiculo on veiculo.fkUsuario = usuario.idUsuario;
 
 select idUsuario, email, cargo, placa, qtdBancos, v.fkCnpj , fkUsuario
 from veiculo v
@@ -310,12 +270,12 @@ from sensores
 join veiculo on sensores.fkveiculo = veiculo.placa;
 -- selecionar a tabela leitura mostrando sua ligação 
 select *
-from LeituraProx as leitura
-join sensores on leitura.fksensorProx = sensores.id;
+from leituraProx as leitura
+join sensores on leitura.fkSensorProx = sensores.id;
 
 select *
-from LeituraTemp as leitura
-join sensores on leitura.fksensorTemp = sensores.id;
+from leituraTemp as leitura
+join sensores on leitura.fksSensorTemp = sensores.id;
 
 
 -- selecionar a tabela alertas e suas fks
@@ -326,15 +286,15 @@ select sens.id, sens.nome, sens.tipo, sens.fkveiculo, temp.temperatura,
 	case when (temp.temperatura) >= 25 then 'Temperatura Acima da média'
     end 'Alerta'
 from sensores as sens
-join leituratemp as temp on temp.fksensorTemp = sens.id
+join leituraTemp as temp on temp.fkSensorTemp = sens.id
 where temp.temperatura >= 25;
 
 create view alertaMinimo as
-select sens.id, sens.nome, sens.tipo, sens.fkveiculo, temp.temperatura,
+select sens.id, sens.nome, sens.tipo, sens.fkVeiculo, temp.temperatura,
 	case when (temp.temperatura) <= 18 then 'Temperatura Abaixo da média'
 	end 'Alerta'
 from sensores as sens
-join leituratemp as temp on temp.fksensorTemp = sens.id
+join leituraTemp as temp on temp.fkSensorTemp = sens.id
 where temp.temperatura <= 18;
 
 select * from alertaMinimo;
@@ -347,36 +307,36 @@ join alertaMaximo;
 
 select *
 from LeituraProx as leitura
-join sensores on leitura.fksensorProx = sensores.id;
+join sensores on leitura.fkSensorProx = sensores.id;
 
 -- Select para qtd de bancos ocupados
-select count(prox.chave) as bancosOcupados from LeituraProx as prox
+select count(prox.chave) as bancosOcupados from leituraProx as prox
 where prox.chave = 1;
 
 SELECT
-    p.fksensorProx,
+    p.fkSensorProx,
     p.id AS leitura_id,
     p.chave
 FROM
-    LeituraProx p
+    leituraProx p
 JOIN
     (SELECT
-        fksensorProx,
+        fkSensorProx,
         MAX(id) AS max_id
      FROM
-        LeituraProx
+        leituraProx
      WHERE
-        fksensorProx BETWEEN 3 AND 16
+        fkSensorProx BETWEEN 3 AND 16
      GROUP BY
-        fksensorProx) latest
+        fkSensorProx) latest
 ON
-    p.fksensorProx = latest.fksensorProx
+    p.fkSensorProx = latest.fksensorProx
     AND p.id = latest.max_id
 WHERE
-    p.fksensorProx IN (
+    p.fkSensorProx IN (
         SELECT id
-        FROM Sensores
-        WHERE fkveiculo = 'ABC1111'
+        FROM sensores
+        WHERE fkVeiculo = 'ABC1111'
         );
         
         SELECT
