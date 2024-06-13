@@ -12,9 +12,9 @@ function buscarVansPorEmpresa(fkcnpj) {
 FROM 
     veiculo v
 JOIN 
-    sensores s ON v.placa = s.fkveiculo
+    sensores s ON v.placa = s.fkVeiculo
 JOIN 
-    LeituraTemp lt ON s.id = lt.fksensorTemp
+    leituraTemp lt ON s.id = lt.fkSensorTemp
 WHERE 
     v.fkCnpj = '${fkcnpj}' AND
     s.nome IN ('SensorA', 'SensorB') AND
@@ -22,9 +22,9 @@ WHERE
         SELECT id
         FROM (
             SELECT lt.id
-            FROM LeituraTemp lt
-            JOIN sensores s ON lt.fksensorTemp = s.id
-            WHERE s.fkveiculo = v.placa AND s.nome IN ('SensorA', 'SensorB')
+            FROM leituraTemp lt
+            JOIN sensores s ON lt.fkSensorTemp = s.id
+            WHERE s.fkVeiculo = v.placa AND s.nome IN ('SensorA', 'SensorB')
             ORDER BY lt.id DESC
             LIMIT 2
         ) subquery
@@ -57,8 +57,8 @@ function kpiAlertas(fkCnpj){
   var instrucaoSql = `select 
   count(temperatura) as qtdAlertas, count(distinct placa) as qtdVansEmAlerta
   from veiculo 
-  join sensores on fkveiculo = placa
-  join leituratemp on fksensorTemp = sensores.id
+  join sensores on fkVeiculo = placa
+  join leituraTemp on fkSensorTemp = sensores.id
   where temperatura > 25 
   and fkCnpj = '${fkCnpj}';
   `;
@@ -73,17 +73,17 @@ function kpiCriticos(fkCnpj){
   var instrucaoSql = ` SELECT 
           count(lt.temperatura) AS ultima_temperatura
       FROM 
-          Veiculo v
+          veiculo v
       JOIN 
-          Sensores s ON v.placa = s.fkveiculo
+          sensores s ON v.placa = s.fkVeiculo
       LEFT JOIN 
           (SELECT 
-              id, temperatura, fksensorTemp
+              id, temperatura, fkSensorTemp
           FROM 
-              LeituraTemp
+              leituraTemp
           WHERE 
-              id IN (SELECT MAX(id) FROM LeituraTemp GROUP BY fksensorTemp)
-              ) lt ON s.id = lt.fksensorTemp
+              id IN (SELECT MAX(id) FROM leituraTemp GROUP BY fkSensorTemp)
+              ) lt ON s.id = lt.fkSensorTemp
       where 
       v.fkCnpj = '${fkCnpj}'
       -- fkEmpresa = 1

@@ -11,4 +11,17 @@ router.get("/buscarProximidade/:idVan", function (req, res) {
     dashboardController.buscarProximidade(req, res);
 });
 
+router.get("/bancosOcupados/:idVan", function (req, res) {
+    dashboardController.kpiBancos(req, res);
+});
+
+router.get("/temperaturaMaxMin/:idVan", function (req, res) {
+    dashboardController.kpiTemperatura(req, res);
+});
+
+router.put("/iniciarFinalizar", function (req, res) {
+    dashboardController.iniciarFinalizarViagem(req, res);
+});
+
+
 module.exports = router;

@@ -228,7 +228,7 @@
                     yAxes: [{
                         ticks: {
                             min: 5, // Define o valor mínimo do eixo Y
-                                 // Define o valor máximo do eixo Y
+                            // Define o valor máximo do eixo Y
                             // beginAtZero: true
                         },
                         display: true
@@ -307,7 +307,7 @@
     }
 
     setTimeout(() => {
-        plotarGraficos()  
+        plotarGraficos()
     }, 100);
 
     function plotarGraficos() {
@@ -376,4 +376,126 @@
         }
     }
 
+
+
+    function encerrarViagem() {
+
+        let placa = sessionStorage.PLACA_VAN
+        let statusVar = 'parado'
+
+        fetch("/dashboard/iniciarFinalizar", {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                placaVanServer: placa,
+                statusServer: statusVar
+
+            }),
+        })
+            .then(function (resposta) {
+                if (resposta.ok) {
+                    return resposta.json();
+                } else {
+                    throw new Error("Houve um erro ao tentar trazer o resultado");
+                }
+            })
+            .then(function (data) {
+                // console.log(data);
+                if (data.length === 0) {
+                    console.warn("Nenhum resultado encontrado");
+                    return;
+                }
+
+                data.forEach(element =>{
+                    console.log("teste encerrar viagem")
+                    console.log(element)
+                });
+                // Muda o status da van para parado e volta para pagina de login
+
+
+            })
+            .catch(function (erro) {
+                console.error(`#ERRO: ${erro}`);
+            });
+    }
+
+    function kpiOcupado() {
+        let idVan = sessionStorage.PLACA_VAN
+
+        fetch(`/dashboard/bancosOcupados/${idVan}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            }
+        })
+            .then(function (resposta) {
+                if (resposta.ok) {
+                    return resposta.json();
+                } else {
+                    throw new Error("Houve um erro ao tentar trazer o resultado");
+                }
+            })
+            .then(function (data) {
+                // console.log(data);
+                if (data.length === 0) {
+                    console.warn("Nenhum resultado encontrado");
+                    return;
+                }
+
+                data.forEach(element => {
+                    console.log("teste KPI ocupado")
+                    console.log(element)
+                });
+                // mudar kpi na pagina
+
+            })
+            .catch(function (erro) {
+                console.error(`#ERRO: ${erro}`);
+            });
+
+    }
+
+
+    function kpiTemperatura() {
+        let idVan = sessionStorage.PLACA_VAN
+
+        fetch(`/dashboard/temperaturaMaxMin/${idVan}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            }
+        })
+            .then(function (resposta) {
+                if (resposta.ok) {
+                    return resposta.json();
+                } else {
+                    throw new Error("Houve um erro ao tentar trazer o resultado");
+                }
+            })
+            .then(function (data) {
+                // console.log(data);
+                if (data.length === 0) {
+                    console.warn("Nenhum resultado encontrado");
+                    return;
+                }
+                data.forEach(element => {
+                    console.log("teste KPI temp")
+                    console.log(element)
+                });
+
+               // mudar kpi na pagina
+            })
+            .catch(function (erro) {
+                console.error(`#ERRO: ${erro}`);
+            });
+
+    }
+
+    setTimeout(() => {
+        kpiOcupado(),
+        kpiTemperatura(),
+        encerrarViagem()
+    }, 100);
 </script>
