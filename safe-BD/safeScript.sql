@@ -14,7 +14,7 @@ cep VARCHAR(10)
 );
 
 
-CREATE TABLE Usuario (
+CREATE TABLE usuario (
 	idUsuario  INT AUTO_INCREMENT PRIMARY KEY,
 	crmc CHAR (10),
     nome VARCHAR(100),
@@ -30,7 +30,7 @@ CREATE TABLE Usuario (
 
 
 
-CREATE TABLE Veiculo (
+CREATE TABLE veiculo (
     placa CHAR(7) PRIMARY KEY,
     chassi CHAR(17),
     ano INT,
@@ -47,28 +47,28 @@ CREATE TABLE Veiculo (
 );
 
 
-CREATE TABLE Sensores (
+CREATE TABLE sensores (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(100),
     localizacao VARCHAR(100),
     tipo VARCHAR(50),
-    fkveiculo CHAR(7),
+    fkVeiculo CHAR(7),
     FOREIGN KEY (fkveiculo) REFERENCES Veiculo(placa)
 );
 
-CREATE TABLE LeituraTemp (
+CREATE TABLE leituraTemp (
     id INT AUTO_INCREMENT PRIMARY KEY,
     temperatura DECIMAL (4,2),
-    fksensorTemp INT,
+    fkSensorTemp INT,
     horario time,
     FOREIGN KEY (fksensorTemp) REFERENCES Sensores(id) 
 );
 
 
-CREATE TABLE LeituraProx (
+CREATE TABLE leituraProx (
 id int auto_increment primary key , 
 chave int,
-fksensorProx int,
+fkSensorProx int,
 FOREIGN KEY (fksensorProx) references Sensores(id)
 );
 
