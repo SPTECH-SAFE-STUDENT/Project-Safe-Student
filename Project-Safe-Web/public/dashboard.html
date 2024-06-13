@@ -28,6 +28,16 @@
 </head>
 
 <body onload="plotarGraficos()">
+    <div class="modal1 modal">
+        <div class="contentmodal" id="modal_erro">
+            NÃO É POSSÍVEL FINALIZAR A VIAGEM
+        </div>
+    </div>
+    <div class="modal2 modal">
+        <div class="contentmodal" id="modal_exito">
+            VIAGEM FINALIZADA COM SUCESSO
+        </div>
+    </div>
     <div class="content">
         <div class="menuLateral">
             <img src="./img/logo_SS.png">
@@ -173,7 +183,7 @@
 
     function atualizarGrafico(temperaturasA, temperaturasB, Horario) {
         const ctx = document.getElementById('lm35Temperatura').getContext('2d');
-      
+
         let HorarioSlice = Horario.slice(0, 10)
 
         graficoTemperatura = new Chart(ctx, {
@@ -232,8 +242,8 @@
 
     setTimeout(() => {
         kpiTemperatura(),
-        kpiOcupado(),
-        obterDAta()
+            kpiOcupado(),
+            obterDAta()
 
     }, 110);
 
@@ -280,7 +290,7 @@
                     console.warn("Nenhum resultado encontrado");
                     return;
                 }
-                data.forEach(element =>{
+                data.forEach(element => {
                     BancosGerar.push(element.fkSensorProx)
 
                 });
@@ -304,7 +314,7 @@
 
 
         let numero = 0
-        for (let i = BancosGerar[0]; i <= BancosGerar[BancosGerar.length-1]; i++) {
+        for (let i = BancosGerar[0]; i <= BancosGerar[BancosGerar.length - 1]; i++) {
             numero++
             let div = document.createElement('div');
             div.className = 'div-graficos';
@@ -385,21 +395,47 @@
             .then(function (data) {
                 // console.log(data);
                 if (data.ok) {
-                    if(bancosOcupados == 0){
-                        sessionStorage.clear()
-                        window.location = './index.html'
-                    }else{
-                        alert("Os bancos precisam estar vazios")
+                    if (bancosOcupados == 0) {
+                        verificarBancos(2)
+                    } else {
+                        verificarBancos(1)
                     }
-            } else if (data.status == 404) {
-                window.alert("Deu 404!");
-            } else {
-                throw ("Houve um erro ao tentar realizar a postagem! Código da resposta: " + data.status);
-            }
-        }).catch(function (data) {
-            console.log(`#ERRO: ${data}`);
-        });
-    
+                } else if (data.status == 404) {
+                    window.alert("Deu 404!");
+                } else {
+                    throw ("Houve um erro ao tentar realizar a postagem! Código da resposta: " + data.status);
+                }
+            }).catch(function (data) {
+                console.log(`#ERRO: ${data}`);
+            });
+
+    }
+
+
+    function verificarBancos(ocupacao) {
+        // Esconde todos os modais
+        const modais = document.querySelectorAll('.modal');
+        modais.forEach(modal => modal.style.display = 'none');
+
+        // Exibe o modal correspondente
+        const modalOcupacao = document.querySelector(`.modal${ocupacao}`);
+        if (modalOcupacao) {
+            modalOcupacao.style.display = 'block';
+        }
+
+        if (ocupacao == 1) {
+            setTimeout(function () {
+                modais.forEach(modal => modal.style.display = 'none');
+            }, 2000)
+        } else {
+            setTimeout(function () {
+                modais.forEach(modal => modal.style.display = 'none');
+                setTimeout(function () {
+                    sessionStorage.clear()
+                    window.location = './index.html'
+                }, 2100)
+            }, 2000)
+        }
     }
 
 
@@ -429,7 +465,7 @@
                 data.forEach(element => {
                     console.log("teste KPI ocupado")
                     console.log(element)
-                    bancoOcup.innerHTML =`${element.bancos_ocupados}`
+                    bancoOcup.innerHTML = `${element.bancos_ocupados}`
                     bancosOcupados = element.bancos_ocupados
                 });
                 // mudar kpi na pagina
@@ -471,12 +507,12 @@
                     tempMin.innerHTML = `${element.MinTemp}°C`
                 });
 
-               // mudar kpi na pagina
+                // mudar kpi na pagina
             })
             .catch(function (erro) {
                 console.error(`#ERRO: ${erro}`);
             });
 
     }
- 
+
 </script>
