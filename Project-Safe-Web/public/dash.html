@@ -100,12 +100,9 @@
       <div class="metricas">
         <div class="campoPesquisa">
           <span><img src="./img/lupa.png" alt=""><b>Pesquise por uma van</b><br>
-<<<<<<< HEAD
+
           <input type="search" placeholder="Digite a placa">
-=======
-            <input id="search_input" onkeyup="search_vans()" type="search" placeholder="Digite a placa">
-            <button>Buscar</button>
->>>>>>> 53e8386a62de45c41103727dc73f61dd313fb24d
+
         </div>
         <div class="servico">
           <span><b>Vans em serviço: </b><br>
@@ -255,9 +252,9 @@
     }
 
     function closeModal() {
+      let suporte = document.getElementById("container-safeIA")
       modal.close();
-      suporte_modal.style.display="none";
-
+      suporte.style.display="none";
     }
 
     function openSafeIA() {

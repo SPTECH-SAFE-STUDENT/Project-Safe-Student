@@ -17,13 +17,13 @@ function buscarTemperatura(idVan) {
 
     var buscarTemperaturaID = `SELECT
 	lt.id,
-    MAX(CASE WHEN lt.fksensorTemp = ${sensorA} THEN lt.temperatura ELSE NULL END) AS SensorTempA,
-    MAX(CASE WHEN lt.fksensorTemp = ${sensorB} THEN lt.temperatura ELSE NULL END) AS SensorTempB,
+    MAX(CASE WHEN lt.fkSensorTemp = ${sensorA} THEN lt.temperatura ELSE NULL END) AS SensorTempA,
+    MAX(CASE WHEN lt.fkSensorTemp = ${sensorB} THEN lt.temperatura ELSE NULL END) AS SensorTempB,
     lt.horario
-FROM LeituraTemp as lt
-INNER JOIN Sensores as sn
-    ON lt.fksensorTemp = sn.id
-WHERE sn.fkveiculo = '${idVan}'
+FROM leituraTemp as lt
+INNER JOIN sensores as sn
+    ON lt.fkSensorTemp = sn.id
+WHERE sn.fkVeiculo = '${idVan}'
 GROUP BY lt.id 
 order by lt.id desc
 limit 28;
@@ -48,29 +48,29 @@ function buscarProximidade(idVan) {
     }
 
     var instrucaoSQL = `SELECT
-    p.fksensorProx,
+    p.fkSensorProx,
     p.id AS leitura_id,
     p.chave
 FROM
-    LeituraProx p
+    leituraProx p
 JOIN
     (SELECT 
         fksensorProx,
         MAX(id) AS max_id
      FROM 
-        LeituraProx
+        leituraProx
      WHERE
-        fksensorProx BETWEEN ${sensor1} AND ${sensorUltimo}
+        fkSensorProx BETWEEN ${sensor1} AND ${sensorUltimo}
      GROUP BY 
-        fksensorProx) latest
+        fkSensorProx) latest
 ON
-    p.fksensorProx = latest.fksensorProx
+    p.fkSensorProx = latest.fkSensorProx
     AND p.id = latest.max_id
 WHERE
-    p.fksensorProx IN (
+    p.fkSensorProx IN (
         SELECT id
-        FROM Sensores
-        WHERE fkveiculo = '${idVan}' 
+        FROM sensores
+        WHERE fkVeiculo = '${idVan}' 
     );`
 
     console.log("Executando a instrução SQL: \n" + instrucaoSQL);
@@ -96,25 +96,25 @@ function KpiBancosOcupados(){
 var instrucaoSQL = ` SELECT
     COUNT(p.id) AS bancos_ocupados
 FROM
-    LeituraProx p
+    leituraProx p
 JOIN
     (SELECT
-        fksensorProx,
+        fkSensorProx,
         MAX(id) AS max_id
      FROM
-        LeituraProx
+        leituraProx
      WHERE
-        fksensorProx BETWEEN ${sensor1} AND ${sensorUltimo}
+        fkSensorProx BETWEEN ${sensor1} AND ${sensorUltimo}
      GROUP BY
-        fksensorProx) latest
+        fkSensorProx) latest
 ON
-    p.fksensorProx = latest.fksensorProx
+    p.fkSensorProx = latest.fkSensorProx
     AND p.id = latest.max_id
 WHERE
     p.fksensorProx IN (
         SELECT id
-        FROM Sensores
-        WHERE fkveiculo = '${idVan}'
+        FROM sensores
+        WHERE fkVeiculo = '${idVan}'
     )
     AND p.chave = 1;`;
 
@@ -123,22 +123,23 @@ WHERE
 
 }
 
-function iniciarFinalizarServiço(status, placaVeiculo) {
-    console.log("ACESSEI O DASHBOARD MODEL : onde status pode ser parado ou rodando", status, placaVeiculo);
+function iniciarFinalizarServiço(idVan,status) {
+    console.log("ACESSEI O DASHBOARD MODEL : onde status pode ser parado ou rodando", status, idVan);
 
     var instrucaoSql = `
-        UPDATE veiculo SET statusVan = '${status}' WHERE id = ${placaVeiculo};
+        UPDATE veiculo SET statusVan = '${status}' WHERE id = ${idVan};
     `;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
 
-function temperaturaMaxMin(){
+function temperaturaMaxMin(idVan){
 
     var instrucaoSQL = `select max(temp.temperatura) as MaxTemp,
 		min(temp.temperatura) as MinTemp 
-    from leituratemp temp,
-    where fkveiculo = 'ABC1111';
+    from leituraTemp temp
+    join sensores on sensores.id = fkSensortemp
+    where fkVeiculo = '${idVan}';
 ` 
        console.log("Executando a instrução SQL: \n" + instrucaoSQL);
        return database.executar(instrucaoSQL);
