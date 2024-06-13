@@ -24,7 +24,6 @@
         <div class="opcao">
           <ul>
             <li>Principal</li>
-            <li>Perfil</li>
             <li onclick="limparSessao()">Sair</a></li><br><br>
             <li onclick="openModal()">Suporte</li>
           </ul>
@@ -101,7 +100,7 @@
         <div class="campoPesquisa">
           <span><img src="./img/lupa.png" alt=""><b>Pesquise por uma van</b><br>
 
-          <input type="search" placeholder="Digite a placa">
+          <input id="search_input" type="search" placeholder="Digite a placa" onkeyup="search_vans()">
 
         </div>
         <div class="servico">
@@ -523,7 +522,7 @@ function search_vans() {
     }
     else {
       //Exibe apenas os que contem o conteudo pesquisado
-      arrayLista[itemArray].style.display = "list-item";
+      arrayLista[itemArray].style.display = "flex";
     }
   }
 }
