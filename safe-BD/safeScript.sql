@@ -60,8 +60,10 @@ CREATE TABLE LeituraTemp (
     id INT AUTO_INCREMENT PRIMARY KEY,
     temperatura DECIMAL (4,2),
     fksensorTemp INT,
+    horario time,
     FOREIGN KEY (fksensorTemp) REFERENCES Sensores(id) 
 );
+
 
 CREATE TABLE LeituraProx (
 id int auto_increment primary key , 
@@ -98,13 +100,13 @@ where idUsuario = 2;
 */
 
 -- Empresa Frizza
-INSERT INTO Veiculo (placa, chassi, ano, marca, categoria, fkUsuario, fkEmpresa, fkCnpj, qtdBancos) VALUES 
-('ABC1111', '1HGBH41JXMN109186', 2020, 'Mercedes', 'Mini Van', 3, 1, '12.345.678/0001-00' , 14),  -- Motorista A1
-('BAB2222', '1HGBH41JXMN109187', 2021, 'Fiat', 'Van', 4, 1, '12.345.678/0001-00' , 16);  -- Motorista A2
+INSERT INTO Veiculo (placa, chassi, ano, marca, categoria, fkUsuario, fkEmpresa, fkCnpj, qtdBancos, statusVan) VALUES 
+('ABC1111', '1HGBH41JXMN109186', 2020, 'Mercedes', 'Mini Van', 3, 1, '12.345.678/0001-00' , 14, 'parado'),  -- Motorista A1
+('BAB2222', '1HGBH41JXMN109187', 2021, 'Fiat', 'Van', 4, 1, '12.345.678/0001-00' , 16, 'parado');  -- Motorista A2
 
 -- Empresa Bryan
-INSERT INTO Veiculo (placa, chassi, ano, marca, categoria, fkUsuario, fkEmpresa, fkCnpj, qtdBancos) VALUES 
-('AXC1111', '1HGBH41JXMN109186', 2020, 'Volkswagen', 'Ônibus', 5, 1, '87.654.321/0001-00' , 20);
+INSERT INTO Veiculo (placa, chassi, ano, marca, categoria, fkUsuario, fkEmpresa, fkCnpj, qtdBancos, statusVan) VALUES 
+('AXC1111', '1HGBH41JXMN109186', 2020, 'Volkswagen', 'Ônibus', 5, 1, '87.654.321/0001-00' , 20 , 'parado');
 
 /*
 
@@ -195,12 +197,34 @@ VALUES ('SensorP1', 'Banco 1', 'Proximidade', 'AXC1111'),
        ('SensorP20', 'Banco 20', 'Proximidade', 'AXC1111');
 
 
-INSERT INTO LeituraTemp (temperatura, fksensorTemp) VALUES 
-(26.5 , 17),
-(25.5 , 18);
+INSERT INTO LeituraTemp (temperatura, fksensorTemp, horario) VALUES 
+(22.5 , 1, now()),
+(22 , 2, now()),
+(21.5 , 17, now()),
+(24.5 , 18, now()),
+(30 , 35, now()),
+(28 , 36 , now());
 
 INSERT INTO LeituraProx (chave, fksensorProx) VALUES 
-(0, 10);
+(1, 3),
+(0, 4),
+(0, 5),
+(1, 6),
+(1, 7),
+(0, 8),
+(0, 9),
+(0, 10),
+(0, 11),
+(0, 12),
+(0, 13),
+(0, 14),
+(0, 15),
+(1, 16);	
+
+
+
+
+
 
 
 /*
@@ -329,12 +353,64 @@ join sensores on leitura.fksensorProx = sensores.id;
 select count(prox.chave) as bancosOcupados from LeituraProx as prox
 where prox.chave = 1;
 
+SELECT
+    p.fksensorProx,
+    p.id AS leitura_id,
+    p.chave
+FROM
+    LeituraProx p
+JOIN
+    (SELECT
+        fksensorProx,
+        MAX(id) AS max_id
+     FROM
+        LeituraProx
+     WHERE
+        fksensorProx BETWEEN 3 AND 16
+     GROUP BY
+        fksensorProx) latest
+ON
+    p.fksensorProx = latest.fksensorProx
+    AND p.id = latest.max_id
+WHERE
+    p.fksensorProx IN (
+        SELECT id
+        FROM Sensores
+        WHERE fkveiculo = 'ABC1111'
+        );
+        
+        SELECT
+    COUNT(p.id) AS bancos_ocupados
+FROM
+    LeituraProx p
+JOIN
+    (SELECT
+        fksensorProx,
+        MAX(id) AS max_id
+     FROM
+        LeituraProx
+     WHERE
+        fksensorProx BETWEEN 3 AND 16
+     GROUP BY
+        fksensorProx) latest
+ON
+    p.fksensorProx = latest.fksensorProx
+    AND p.id = latest.max_id
+WHERE
+    p.fksensorProx IN (
+        SELECT id
+        FROM Sensores
+        WHERE fkveiculo = 'ABC1111'
+    )
+    AND p.chave = 1;
+
 -- Select de temperatura mínima do dia
 select min(temp.temperatura) from leituratemp as temp;
 
--- Select para temperatura máxima do dia
-select max(temp.temperatura) from leituratemp as temp;
-
+-- Select para temperatura máxima e minima do dia de certa VAN BRYAN
+    
+    
+select * from leituratemp;
 -- select das temperaturas de uma van especifica
 select sens.id, sens.nome, sens.tipo, sens.fkveiculo, temp.temperatura
 from sensores as sens
@@ -386,7 +462,7 @@ and fkCnpj = '12.345.678/0001-00';
 -- update para fazer com que a van esteja rodando ou não
 update Veiculo
 set statusVan = 'rodando'
-where placa = 'BAB2222';
+where placa = 'ABC1111';
 
 
 -- Quantidade de alertas
@@ -525,34 +601,8 @@ ORDER BY
 
 SELECT MAX(id) FROM LeituraTemp GROUP BY fksensorTemp;
 
-SELECT 
-    v.placa, 
-    v.marca, 
-    v.categoria,
-    GROUP_CONCAT(s.nome ORDER BY s.nome SEPARATOR ', ') AS sensores_nomes,
-    GROUP_CONCAT(s.localizacao ORDER BY s.nome SEPARATOR ', ') AS sensores_localizacoes,
-    GROUP_CONCAT(s.tipo ORDER BY s.nome SEPARATOR ', ') AS sensores_tipos,
-    GROUP_CONCAT(lt.temperatura ORDER BY s.nome SEPARATOR ', ') AS ultimas_temperaturas,
-    GROUP_CONCAT(lt.id ORDER BY s.nome SEPARATOR ', ') AS leituras_ids
-FROM 
-    Veiculo v
-JOIN 
-    Sensores s ON v.placa = s.fkveiculo
-LEFT JOIN 
-    (SELECT 
-         id, temperatura, fksensorTemp
-     FROM 
-         LeituraTemp
-     WHERE 
-         id IN (SELECT MAX(id) FROM LeituraTemp GROUP BY fksensorTemp)
-         ) lt ON s.id = lt.fksensorTemp
-WHERE 
-    v.fkCnpj = '12.345.678/0001-00'
-    -- fkEmpresa = 1
-    AND s.tipo = 'temperatura'
-GROUP BY 
-    v.placa, 
-    v.marca, 
-    v.categoria
-ORDER BY 
-    MAX(lt.temperatura) DESC;
+
+    
+    select count(statusVan) as VansServico, count(placa) as qtdVans from veiculo
+    where statusVan = 'rodando'
+    and fkCnpj = '12.345.678/0001-00';
