@@ -276,7 +276,7 @@ St {
 }
 
 .texto_valores h1 {
-    display: flex; 
+    display: flex;
     justify-content: center;
     margin-bottom: -3px;
 }
@@ -313,7 +313,7 @@ St {
     transition: ease-in 0.4s;
 }
 
-.imagem-valor{
+.imagem-valor {
     background-color: #ffffff8b;
     height: 8rem;
     width: 18rem;
@@ -324,7 +324,7 @@ St {
 .imagem-valor img {
     display: flex;
     object-fit: fill;
-    
+
 }
 
 /* ESTILO FUNCIONAMENTO */
@@ -423,7 +423,7 @@ St {
 /* ESTILIZAÇÃO DO CONHEÇA A EQUIPE */
 
 .Equipe {
-    height: 110vh;
+    height: 115vh;
 }
 
 .invert-waves {
@@ -431,6 +431,83 @@ St {
     transform: scaleY(-1);
     position: relative;
     bottom: 15px;
+}
+
+.pai {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+}
+
+.card-client1,
+.card-client2,
+.card-client3,
+.card-client4 {
+    background-color: #ffffff9f;
+    border-radius: 15px;
+    width: 270px;
+    height: 19rem;
+    text-align: center;
+    padding: 20px;
+    color: white;
+    font-size: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    transition: ease-in-out 0.4s;
+}
+
+.card-client1:hover,
+.card-client2:hover,
+.card-client3:hover,
+.card-client4:hover {
+    transform: scale(1.1);
+    background-color: #ffffff;
+    color: #FFB800;
+}
+
+.user-picture img {
+    border-radius: 50%;
+    width: 130px;
+    height: 130px;
+    object-fit: cover;
+}
+
+.name-client {
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.cargo {
+    display: block;
+    margin-top: 5px;
+    color: #252525;
+}
+
+.social-media {
+    margin-top: 10px;
+}
+
+.social-media a {
+    margin: 0 4px;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.tooltip-social {
+    display: none;
+}
+
+.team-text {
+    margin-top: 2rem;
+}
+
+.safeTeam {
+    text-align: center;
+    color: #ffffff;
+    position: relative;
+    bottom: 8rem;
+    font-size: 60px;
 }
 
 
@@ -519,7 +596,7 @@ St {
 
 }
 
-.faleConosco .container button  {
+.faleConosco .container button {
 
     background-color: #FFB800;
     color: #00164F;
@@ -536,7 +613,7 @@ St {
 }
 
 
-.a{
+.a {
     text-decoration: none;
 }
 
@@ -793,63 +870,3 @@ St {
     opacity: 0.5;
     font-size: 1.3rem;
 }
-.pai {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 20px;
-    margin-top: 20px;
-  }
-  .card-client1, .card-client2, .card-client3, .card-client4 {
-    background-color:#00164F;
-    border-radius: 15px;
-    border: 5px,solid, black;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    width: 250px;
-    height: 20rem;
-    text-align: center;
-    padding: 20px;
-    color: white;
-    font-size: 20px;
-  }
-  .user-picture img {
-    border-radius: 50%;
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
-  }
-  .name-client {
-    font-weight: bold;
-    margin-top: 10px;
-  }
-  .cargo {
-    display: block;
-    margin-top: 5px;
-    color: gray;
-  }
-  .social-media {
-    margin-top: 15px;
-  }
-  .social-media a {
-    margin: 0 5px;
-    color: #000;
-    text-decoration: none;
-    display: inline-block;
-  }
-  .tooltip-social {
-    display: none;
-  }
-
-  .team-text{
-    margin-top: 5rem;
-  }
-  .safeTeam{
-    text-align: center;
-    font-size: 50px;
-  }
-
-  .card-client1:hover, .card-client2:hover, .card-client3:hover, .card-client4:hover {
-    transform: scale(1.2);
-    background-color: #f0f0f0;
-    color: black;
-  }
