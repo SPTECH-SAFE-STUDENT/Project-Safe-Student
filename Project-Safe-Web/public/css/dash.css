@@ -93,7 +93,7 @@
   box-shadow: none;
   display: flex;
   flex-direction: column;
-  margin-top: 1vh;
+  margin-top: -1vh;
 }
 
 
@@ -164,7 +164,7 @@
 }
 
 .metricas .campoPesquisa {
-  height: auto;
+  height: 6.5rem;
 }
 
 
@@ -184,7 +184,7 @@
   margin-right: 1rem;
 }
 
-.campoPesquisa button{
+/* .campoPesquisa button{
   padding: 5px 20px;
   margin-top: 1rem;
   font-size: large;
@@ -192,7 +192,7 @@
   background-color: #00164F;
   border-radius: 20px;
   border: none;
-}
+} */
 
 .metricas div{
   margin-bottom: 5vh;
@@ -236,11 +236,13 @@
   width: 350px;
   height: 150px;
   border-radius: 20px;
-  /* display: flex; */
+  display: flex;
   margin-left: 25vh;
   background-color: #00164F;
   margin-top: -5%;
-  margin-left: 27vh;
+  margin-left: 14.2rem;
+  align-items: center;
+  justify-content: center;
 }
 
 textarea#pergunta {
@@ -249,10 +251,20 @@ textarea#pergunta {
   border-radius: 10px;
   border: 1px solid #00164F;
   font-size: 16px;
+  margin-right: 5rem;
+  align-items: center
+  ;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  margin-left: 1.3rem;
 }
 
+.textIa{
+  color:  #FFB800;
+  text-align: center;
+}
 #button2 {
-  margin-right: -380px;
   padding: 10px 20px;
   border-radius: 10px;
   border: none;
@@ -298,6 +310,7 @@ button#closeModalBtn {
   background: none;
   border: none;
   font-size: 70px;
+  outline: none;
 }
 
 button#acess-btn {
@@ -315,4 +328,7 @@ button#acess-btn {
 div#divcenter {
   text-align: center;
   margin-top: -80px;
+  align-items: center;
+  justify-content: center;
 }
+

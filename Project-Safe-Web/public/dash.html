@@ -49,6 +49,9 @@
         <div class="critico">
           <h1 class="text_legenda">Crítico</h1>
         </div>
+        <div class="ideal">
+          <h1 class="text_legenda">Normal</h1>
+        </div>
       </div>
     </div>
     <div class="lista_metrica">
@@ -73,7 +76,6 @@
         <div class="campoPesquisa">
           <span><img src="./img/lupa.png" alt=""><b>Pesquise por uma van</b><br>
           <input type="search" placeholder="Digite a placa">
-          <button>Buscar</button>
         </div>
         <div class="servico">
           <span><b>Vans em serviço: </b><br>
@@ -101,21 +103,24 @@
 
         <h2>Acesse o Portal</h2>
         <button id="acess-btn" onclick="sendToJira()">Portal Suporte</button>
+
         <br><br><br><br><br>
+        
+        <!-- SafeIa -->
         <div id="suporte_modal" style="display: none;">
           <h2>SafeIA para Suporte</h2>
           <button id="acess-btn" onclick="openSafeIA()">SafeIA</button>
         </div>
 
-        <div id="container-safeIA" class="modal-safeIA">
-          <center>
-            <h1 style="margin-right: -46vh; color: #FFB800;">SafeIA</h1>
+        <div id="container-safeIA" class="modal-safeIA" style="display: none;">
+        
+            <h1 class="textIa">SafeIA</h1>
             <textarea id="pergunta" type="text" placeholder="Digite a pergunta..." style=" width: 288px;
             margin-right: -43.5vh;
             height: 65px;"></textarea>
             <br><br>
             <button id="button2" onclick="gerarResposta()">Gerar Resposta</button>
-          </center>
+          
         </div>
       </div>
       <div class="bordaDiv">
@@ -127,22 +132,29 @@
     var modal = document.getElementById("modal");
     var closeBtn = document.getElementById("closeModalBtn");
 
+
+    function sendToJira() {
+    window.location.href = "https://safestudent.atlassian.net/servicedesk/customer/portal/1/group/1/create/4";
+}
+
+
     function openModal() {
       let usuarioNaSessao = sessionStorage.NOME_USUARIO;
       modal.showModal();
-      if (usuarioNaSessao == "Suporte") {
+      if (usuarioNaSessao == "suporte") {
         document.getElementById("suporte_modal").style.display = "block";
       }
     }
 
     function closeModal() {
       modal.close();
+      suporte_modal.style.display="none";
+
     }
 
     function openSafeIA() {
-      document.getElementById("divcenter").innerHTML = `
-        <h2>SafeIA</h2>
-      `;
+      document.getElementById("suporte_modal").style.display = "none";
+      document.getElementById("container-safeIA").style.display = "block"
     }
 
     function limparSessao(){
