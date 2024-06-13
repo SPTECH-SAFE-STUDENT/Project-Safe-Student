@@ -8,10 +8,9 @@ body {
     padding: 0;
     font-family: 'Poppins';
     background-color: #00164F;
-    }
-*{    
     scroll-behavior: smooth;
-} 
+}
+
 
 header,
 nav ul {
@@ -57,6 +56,7 @@ header a:hover {
     box-sizing: border-box;
     position: fixed;
     font-weight: 600;
+    z-index: 100;
 }
 
 
@@ -162,18 +162,32 @@ header a:hover {
 
 }
 
+.logonav {
+    width: 88px;
+    margin-left: 15px;
+}
+
+.logonav img {
+    width: 100%;
+    display: flex;
+    object-fit: cover;
+    position: relative;
+    right: 50px;
+}
+
 .inicio-conteudo {
     width: 100%;
-    height: 60vh;
+    height: 120vh;
 }
 
 .posicionamento-inicio {
     color: #FFFFFF;
-    height: 150%;
+    height: 80%;
     display: flex;
     justify-content: space-around;
     align-items: center;
-
+    position: relative;
+    z-index: -1;
 }
 
 .container {
@@ -200,7 +214,8 @@ St {
     width: 100%;
     height: 300px;
     margin-bottom: -1vh;
-    margin-top: 10vh;
+    margin-top: 112vh;
+    position: absolute;
 }
 
 .background {
@@ -212,6 +227,7 @@ St {
 
 .Sobre .container {
     width: 80%;
+    height: 90vh;
     display: flex;
     align-items: center;
     justify-content: space-around;
@@ -224,9 +240,98 @@ St {
     color: #424242;
 }
 
+.texto h1 {
+    font-size: 35px;
+}
+
+.texto p {
+    text-align: justify;
+    font-size: 20px;
+}
+
+.imagem img {
+    animation: bouge 2s infinite alternate-reverse;
+}
+
+@keyframes bouge {
+    from {
+        transform: translateY(1px);
+    }
+
+    to {
+        transform: translateY(30px);
+    }
+}
+
+/* ESTILO VALORES */
+
+.Valores {
+    height: 98vh;
+}
+
+.texto_valores {
+    flex-direction: column;
+    display: flex;
+    padding: 60px;
+}
+
+.texto_valores h1 {
+    display: flex; 
+    justify-content: center;
+    margin-bottom: -3px;
+}
+
+.icon-valores {
+    width: 53%;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    border-radius: 5rem;
+    background-color: #00164fdd;
+    color: #ffffff;
+    margin-top: 16px;
+    transition: ease-out 0.4s;
+}
+
+.icon-valores p {
+    padding: 16px;
+}
+
+.icon-valores:hover {
+    background-color: #c99616c1;
+    color: #000;
+    transition: ease-in 0.4s;
+}
+
+.icon-valores:hover .imagem-valor {
+    background-color: #00164fbe;
+    transition: ease-in 0.4s;
+}
+
+.icon-valores:hover .imagem-valor img {
+    filter: invert(100%);
+    transition: ease-in 0.4s;
+}
+
+.imagem-valor{
+    background-color: #ffffff8b;
+    height: 8rem;
+    width: 18rem;
+    border-radius: 30rem;
+    transition: ease-out 0.4s;
+}
+
+.imagem-valor img {
+    display: flex;
+    object-fit: fill;
+    
+}
+
 /* ESTILO FUNCIONAMENTO */
-.funcionamento{
-    background-color: white;
+
+.funcionamento {
+    height: 100vh;
+
 }
 
 .funcionamento h1 {
@@ -236,50 +341,77 @@ St {
 }
 
 .cards {
+    margin-top: 2rem;
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
     text-align: center;
-    gap: 10vw;
-    padding: 5%;
+    gap: 5vw;
+    padding: 2%;
 }
-
 
 .cards p {
     line-height: 1.5em;
+    margin-top: 4rem;
+    text-align: center;
 }
 
 .cards .sensor1 {
     border: 2px solid #00164F;
     border-radius: 10px;
     padding: 20px;
-    width: 700px;
-    height: 470px;
+    width: 380px;
+    height: 550px;
     box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.274);
+    transition: ease-out 0.8s;
 }
 
 .cards .sensor2 {
     border: 2px solid #000;
     border-radius: 10px;
     padding: 20px;
-    width: 700px;
-    height: 470px;
+    width: 380px;
+    height: 550px;
     box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.274);
+    transition: ease-out 0.8s;
 }
 
 .cards .combinação {
-    border: 2px solid #FFB800;
+    border: 2px solid #00164F;
     border-radius: 10px;
     padding: 20px;
-    width: 700px;
-    height: 470px;
+    width: 380px;
+    height: 550px;
     box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.274);
+    transition: ease-out 0.8s;
+}
+
+.imagem-card {
+    width: 20rem;
+    height: 18rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    left: 40px;
+    margin-top: 20px;
+}
+
+.sensor1:hover,
+.sensor2:hover,
+.combinação:hover {
+    background-color: #00164fd6;
+    color: #ffffff;
+    border-color: #000;
+    transition: ease-in 0.8s;
+    transform: translateX(80px);
+    transform: translateY(-40px);
 }
 
 .cards .sensor2 img,
 .combinação img,
 .sensor1 img {
-    width: 100%;
-    height: 60%;
+    display: flex;
+    object-fit: cover;
 }
 
 .cards .sensor1 span,
@@ -287,6 +419,21 @@ St {
 .combinação span {
     color: #FFB800;
 }
+
+/* ESTILIZAÇÃO DO CONHEÇA A EQUIPE */
+
+.Equipe {
+    height: 110vh;
+}
+
+.invert-waves {
+    width: 100%;
+    transform: scaleY(-1);
+    position: relative;
+    bottom: 15px;
+}
+
+
 
 /* ESTILIZACAO FALE CONOSCO */
 
