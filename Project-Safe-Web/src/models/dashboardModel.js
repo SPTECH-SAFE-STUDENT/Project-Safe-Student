@@ -60,7 +60,7 @@ JOIN
      FROM 
         LeituraProx
      WHERE
-        fksensorProx BETWEEN ${sensor1} AND ${sensorUltimo}}
+        fksensorProx BETWEEN ${sensor1} AND ${sensorUltimo}
      GROUP BY 
         fksensorProx) latest
 ON
@@ -104,7 +104,7 @@ JOIN
      FROM
         LeituraProx
      WHERE
-        fksensorProx BETWEEN ${sensor1} AND ${sensorUltimo}}
+        fksensorProx BETWEEN ${sensor1} AND ${sensorUltimo}
      GROUP BY
         fksensorProx) latest
 ON
@@ -133,12 +133,22 @@ function iniciarFinalizarServiço(status, placaVeiculo) {
     return database.executar(instrucaoSql);
 }
 
+function temperaturaMaxMin(){
 
+    var instrucaoSQL = `select max(temp.temperatura) as MaxTemp,
+		min(temp.temperatura) as MinTemp 
+    from leituratemp temp,
+    where fkveiculo = 'ABC1111';
+` 
+       console.log("Executando a instrução SQL: \n" + instrucaoSQL);
+       return database.executar(instrucaoSQL);
+    }
 
 
 module.exports = {
     buscarTemperatura,
     buscarProximidade,
     KpiBancosOcupados,
-    iniciarFinalizarServiço
+    iniciarFinalizarServiço,
+    temperaturaMaxMin
 }
