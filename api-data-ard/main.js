@@ -77,9 +77,9 @@ const serial = async (
             // VAN 3  
         // for(let fkTemperatura = 35; fkTemperatura <= 36; fkTemperatura ++){
              if(fkTemperatura == 18 || fkTemperatura == 36 || fkTemperatura == 2){
-                lm35Temperatura = lm35Temperatura*1.05
+                lm35Temperatura = lm35Temperatura*1.31
              }else{
-                lm35Temperatura = lm35Temperatura*1
+                lm35Temperatura = lm35Temperatura*1.30
              }
 
             await poolBancoDados.execute(

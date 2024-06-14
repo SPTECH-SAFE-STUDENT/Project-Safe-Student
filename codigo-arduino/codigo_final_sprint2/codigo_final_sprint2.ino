@@ -1,5 +1,5 @@
 int pinoSensor = 7;
-const int LM35 = A5; // Define o pino que lera a saída do LM35
+const int LM35 = A0; // Define o pino que lera a saída do LM35
 float temperatura; // Variável que armazenará a temperatura medida
 
 void setup() {
@@ -18,7 +18,7 @@ void loop() {
   }
   
   Serial.print(';');
-  temperatura = (float(analogRead(LM35))*5/(1023))/0.01;
+  temperatura = analogRead(LM35);
   Serial.println(temperatura);
   delay(2000);
 }
