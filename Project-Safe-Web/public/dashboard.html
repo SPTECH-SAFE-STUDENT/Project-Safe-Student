@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="./css/dashboard.css">
     <link rel="icon" href="./img/logo_SS.png">
     <title>Dashboard</title>
+    <script src="./js/alerta.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
     <script src="http://www.chartjs.org/dist/2.7.1/Chart.js"></script>
     <!-- <script src="http://www.chartjs.org/samples/latest/utils.js"></script> -->
@@ -174,6 +175,7 @@
                 // console.log(temperaturasA)
                 // console.log(temperaturasB)
                 atualizarGrafico(temperaturasA, temperaturasB, Horario);
+                obterdados(idVan)
             })
             .catch(function (erro) {
                 console.error(`#ERRO: ${erro}`);
@@ -256,7 +258,7 @@
         // console.log(data)
         data.forEach(element => {
             // console.log(element)
-            let sensorIndex = element.fksensorProx; // Supondo que fksensorProx é o índice do gráfico
+            let sensorIndex = element.fkSensorProx; // Supondo que fkSensorProx é o índice do gráfico
             if (chave[`chart${sensorIndex}`]) {
                 chave[`chart${sensorIndex}`].data.datasets[0].data = [element.chave];
                 chave[`chart${sensorIndex}`].update();

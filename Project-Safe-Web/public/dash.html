@@ -67,14 +67,14 @@
         <span id="alertasDia">8</span>
       </div>
       <div id="legenda">
-        <div class="media">
-          <h1 class="text_legenda">Alerta</h1>
-        </div>
-        <div class="critico">
-          <h1 class="text_legenda">Crítico</h1>
-        </div>
         <div class="ideal">
-          <h1 class="text_legenda">Normal</h1>
+          <h1 class="text_legenda">Normal </h1>
+        </div>
+        <div class="media">
+          <h1 class="text_legenda"> Alerta</h1>
+        </div>
+        <div class=" critico">
+          <h1 class="text_legenda">Crítico</h1>
         </div>
       </div>
     </div>
@@ -130,7 +130,9 @@
       <div id="divcenter">
 
         <h2>Acesse o Portal</h2>
-        <button id="acess-btn" onclick="sendToJira()">Portal Suporte</button>
+        <button id="acess-btn"> <a target="_blank" href="https://safestudent.atlassian.net/servicedesk/customer/portal/1/group/1/create/4">Portal Suporte</a></button>
+     
+      
 
         <br><br><br><br><br>
         
@@ -237,10 +239,7 @@
     var closeBtn = document.getElementById("closeModalBtn");
 
 
-    function sendToJira() {
-    window.location.href = "https://safestudent.atlassian.net/servicedesk/customer/portal/1/group/1/create/4";
-}
-
+ 
 
     function openModal() {
       let usuarioNaSessao = sessionStorage.CARGO_USUARIO;

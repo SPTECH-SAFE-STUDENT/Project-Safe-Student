@@ -26,7 +26,7 @@
         <div id="veiculos" class="SelectDiv">
             <div class="selecoes">
                 <h1> CLIQUE PARA INICIAR MONITORAMENTO </h1>
-                <button onclick="BuscarDash()">Começar Viagem</button>
+                <button onclick="iniciarViagem()">Começar Viagem</button>
                 <div id="div_erro" class="mensagemErro">
                     <span id="span_mensagem_erro">
                     </span>
@@ -44,7 +44,7 @@
 
 
     
-    function encerrarViagem() {
+    function iniciarViagem() {
 
 let placa = sessionStorage.PLACA_VAN
 let statusVar = 'rodando'
