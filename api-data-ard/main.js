@@ -83,7 +83,7 @@ const serial = async (
              }
 
             await poolBancoDados.execute(
-                'INSERT INTO leituraTemp (temperatura, fkSensorTemp) VALUES (? , ?)',
+                'INSERT INTO leituraTemp (temperatura, fkSensorTemp, horario) VALUES (? , ? , now())',
                 [lm35Temperatura, fkTemperatura]
                 
             );
