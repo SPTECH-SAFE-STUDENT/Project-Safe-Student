@@ -4,7 +4,7 @@ Claro! Abaixo está o conteúdo atualizado para o seu projeto de monitoramento d
 
 <h1>Projeto-Safe-Student</h1>
 
-<img src="./Project-Safe-Web/public/img/logo_SS.png" width="600px">
+<img src="./Projeto-Safe-student/Project-Safe-Web/public/img/logo_SS.png" width="600px">
 
 ## Monitoramento de Vans - Projeto de Website
 
